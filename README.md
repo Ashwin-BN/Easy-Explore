@@ -1,12 +1,8 @@
 # Easy Explore
 
----
-
 ## Project Status
 
 **Juan** Working on the search bar and backend API integration using OpenTripMap.
-
----
 
 ## Features In Progress
 
