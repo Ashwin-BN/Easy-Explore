@@ -1,21 +1,33 @@
-const attractions = [
-    { id: 1, name: "Museum of Natural History", location: "New York" },
-    { id: 2, name: "Louvre Museum", location: "Paris" },
-    { id: 3, name: "Tokyo Tower", location: "Tokyo" },
-    { id: 4, name: "Eiffel Tower", location: "Paris" }
-  ];
+// pages/api/search.js
+export default async function handler(req, res) {
+    const { query, lat, lon, radius = 5000 } = req.query;
   
-  export default function handler(req, res) {
-    const { query } = req.query;
-  
-    if (!query) {
-      return res.status(400).json({ error: "Missing query parameter" });
+    if (!query || !lat || !lon) {
+      return res.status(400).json({ error: 'Missing query or coordinates' });
     }
   
-    const results = attractions.filter(item =>
-      item.name.toLowerCase().includes(query.toLowerCase()) ||
-      item.location.toLowerCase().includes(query.toLowerCase())
-    );
+    const kinds = 'museums,interesting_places,art_galleries,historic,cultural';
+    const url = `https://api.opentripmap.com/0.1/en/places/radius?lat=${lat}&lon=${lon}&radius=${radius}&name=${encodeURIComponent(query)}&kinds=${kinds}&format=json&apikey=${process.env.OPENTRIPMAP_API_KEY}`;
   
-    return res.status(200).json(results);
+    try {
+      const response = await fetch(url);
+      const rawData = await response.json();
+      const formatted = rawData
+        .filter(item => item.name)
+        .map(item => ({
+          id: item.xid,
+          name: item.name,
+          lat: item.point.lat,
+          lon: item.point.lon,
+          distance: Math.round(item.dist),
+          kinds: item.kinds?.split(',') || [],
+          rating: item.rate || null,
+        }));
+  
+      res.status(200).json(formatted);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Failed to fetch attractions' });
+    }
   }
+  
