@@ -12,6 +12,11 @@ export default async function handler(req, res) {
     try {
       const response = await fetch(url);
       const rawData = await response.json();
+      // ✅ check if the response is an array before using filter
+      if (!Array.isArray(rawData)) {
+        console.error("Unexpected response:", rawData);
+        return res.status(500).json({ error: 'Unexpected data format from API' });
+      }
       const formatted = rawData
         .filter(item => item.name)
         .map(item => ({
