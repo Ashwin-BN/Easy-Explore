@@ -11,9 +11,8 @@ export default async function handler(req, res) {
       const response = await fetch(url);
       const data = await response.json();
   
-      // Check that features exist and are an array
       if (!Array.isArray(data.features)) {
-        return res.status(200).json([]); // no suggestions, return empty array
+        return res.status(200).json([]);
       }
   
       const suggestions = data.features

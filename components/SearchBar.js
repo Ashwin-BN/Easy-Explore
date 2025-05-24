@@ -1,4 +1,6 @@
 import { useState } from "react";
+import styles from '../components/SearchBar.module.css';
+
 
 export default function SearchBar({ onResults }) {
   const [query, setQuery] = useState("");
@@ -48,9 +50,10 @@ export default function SearchBar({ onResults }) {
         value={query}
         onChange={(e) => handleInput(e.target.value)}
         placeholder="Search for attractions"
-        style={{ padding: "10px", width: "300px" }}
+        className={styles.searchInput}
       />
-      <button onClick={handleSearch} style={{ marginLeft: "10px", padding: "10px" }}>
+
+      <button onClick={handleSearch} className={styles.searchButton}>
         Search
       </button>
 

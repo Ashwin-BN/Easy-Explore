@@ -9,6 +9,22 @@ import styles from '../styles/SearchPage.module.css';
 
 export default function SearchPage() {
   const [results, setResults] = useState([]);
+  const [searchPerformed, setSearchPerformed] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const itemsPerPage = 10;
+
+
+
+  const handleResults = (data) => {
+    setResults(data);
+    setSearchPerformed(true);
+    setCurrentPage(1)
+  };
+
+  const totalPages = Math.ceil(results.length / itemsPerPage);
+  const startIdx = (currentPage - 1) * itemsPerPage;
+  const paginatedResults = results.slice(startIdx, startIdx + itemsPerPage);
 
   return (
     <div className={styles.container}>
@@ -18,21 +34,38 @@ export default function SearchPage() {
       </div>
 
       <div className={styles.searchBox}>
-        <SearchBar onResults={setResults} />
+        <SearchBar onResults={handleResults} />
       </div>
 
-      {Array.isArray(results) && results.length > 0 && (
-        <div className={styles.results}>
-          <h3>Search Results:</h3>
-          <ul>
-            {results.map((r) => (
-              <li key={r.id}>
-                <strong>{r.name}</strong> — {r.distance}m away
-              </li>
-            ))}
-          </ul>
+      {searchPerformed && (
+  <div className={styles.results}>
+    {results.length === 0 ? (
+      <p className={styles.noResults}>No results found.</p>
+    ) : (
+      <>
+        <ul>
+          {paginatedResults.map((r) => (
+            <li key={r.id} className={styles.resultItem}>
+              {r.name}
+            </li>
+          ))}
+        </ul>
+
+        <div className={styles.pagination}>
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i}
+              className={`${styles.pageButton} ${currentPage === i + 1 ? styles.activePage : ''}`}
+              onClick={() => setCurrentPage(i + 1)}
+            >
+              {i + 1}
+            </button>
+          ))}
         </div>
-      )}
+      </>
+    )}
+  </div>
+)}
     </div>
   );
 }
