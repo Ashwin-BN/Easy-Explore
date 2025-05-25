@@ -1,0 +1,135 @@
+/* UserAuthentication.module.css */
+
+.formContainer {
+  max-width: 420px;
+  margin: 40px auto;
+  padding: 32px 28px;
+  background: #fff; /* white card */
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #222; /* darker text for white bg */
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  will-change: transform;
+}
+
+.formContainer:hover {
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+  transform: translateY(-6px);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.header h2 {
+  font-size: 2.2rem;
+  color: #0070f3;
+  margin-bottom: 6px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.header p {
+  color: #555;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup label {
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333; /* darker for white background */
+}
+
+.formGroup input[type="email"],
+.formGroup input[type="password"] {
+  padding: 12px 14px;
+  border: 1.8px solid #bbb;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #f9f9f9; /* light input background */
+  color: #222;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.formGroup input[type="email"]:focus,
+.formGroup input[type="password"]:focus {
+  border-color: #0070f3;
+  background: #fff;
+  outline: none;
+  box-shadow: 0 0 8px rgba(0, 112, 243, 0.3);
+}
+
+.submitButton {
+  margin-top: 12px;
+  background-color: #0070f3 !important;
+  border: none !important;
+  padding: 14px 0 !important;
+  border-radius: 10px !important;
+  font-size: 1.1rem !important;
+  font-weight: 700 !important;
+  box-shadow: 0 6px 18px rgba(0, 112, 243, 0.3) !important;
+  transition: background-color 0.3s ease !important;
+  cursor: pointer;
+}
+
+.submitButton:hover,
+.submitButton:focus {
+  background-color: #005bb5 !important;
+  box-shadow: 0 8px 24px rgba(0, 91, 181, 0.5) !important;
+}
+
+.warningCard {
+  background-color: #e53e3e;
+  color: #fff;
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(229, 62, 62, 0.4);
+  user-select: none;
+  border: none;
+}
+.authContainer {
+  max-width: 420px;
+  margin: 40px auto;
+  padding: 0 15px;
+}
+
+.authCard {
+  padding: 28px 24px;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #222;
+}
+
+.authTitle {
+  font-size: 2.2rem;
+  color: #0070f3;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.authSubtitle {
+  color: #555;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 24px;
+  text-align: center;
+}
