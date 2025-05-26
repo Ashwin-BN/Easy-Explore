@@ -23,3 +23,7 @@
 * [x] JWT-based authentication
 
   * Tokens issued on successful login and stored locally.
+     
+Alex
+- [x] Set up MongoDB database and add dummy data.
+- [x] Test back-end connection to database
