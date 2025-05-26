@@ -19,8 +19,7 @@
 * [x] User registration and login (`/api/user`)
 
   * User data stored in MongoDB with bcrypt-hashed passwords.
-  * Validates input, enforces unique emails, and meets password strength requirements.
+  * Validates input, and enforces unique emails.
 * [x] JWT-based authentication
 
   * Tokens issued on successful login and stored locally.
-  * Middleware protects routes to ensure only authenticated users access personalized content.
