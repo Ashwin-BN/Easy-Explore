@@ -6,7 +6,14 @@
 
 **Ashwin** Completed user authentication module with secure login, registration, and protected routes.
 
+**Suraj** Completed 
 ## Features In Progress
+
+### Suraj Sapkota
+- Designed and implemented the **Home Page UI** with responsive layout
+- Created a visually appealing **Navbar** (Home, Search, About Us, Login, Sign Up)
+- Connected navigation buttons to their respective pages
+- Added **page transitions and animations** using Framer Motion
 
 **Juanjo**
 - [x] Live search suggestions (`/api/suggest`)
