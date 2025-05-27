@@ -7,6 +7,8 @@
 **Ashwin** Completed user authentication module with secure login, registration, and protected routes.
 
 **Suraj** Completed 
+
+**Alex** Completed
 ## Features In Progress
 
 ### Suraj Sapkota
@@ -32,6 +34,6 @@
 
   * Tokens issued on successful login and stored locally.
      
-Alex
+**Alex**
 - [x] Set up MongoDB database and add dummy data.
 - [x] Test back-end connection to database
