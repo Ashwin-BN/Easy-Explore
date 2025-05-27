@@ -2,7 +2,7 @@
 
 ## Project Status
 
-**Juan** Working on the search bar and backend API integration using OpenTripMap.
+**Juan** Completed
 
 **Ashwin** Completed user authentication module with secure login, registration, and protected routes.
 
@@ -10,9 +10,10 @@
 
 **Juanjo**
 - [x] Live search suggestions (`/api/suggest`)
-      -API returns 200, however results are not displayed.
+      -API returns 200.
 - [x] Search for nearby attractions (`/api/search`)
-      -Search works but the results could be better, perhaps need a different API.
+      -Added search bar which uses the OpenTripMap API.
+      -Fine tuning required for future features.
 
 **Ashwin**
 
