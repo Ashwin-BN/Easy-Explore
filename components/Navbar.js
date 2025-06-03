@@ -27,13 +27,24 @@ export default function Navbar() {
    * Runs once on component mount to restore user session
    */
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedUser = sessionStorage.getItem("user");
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      }
+  const handleRouteChange = () => {
+    const storedUser = sessionStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    } else {
+      setUser(null);
     }
-  }, []);
+  };
+
+  router.events.on("routeChangeComplete", handleRouteChange);
+
+  // Initial load
+  handleRouteChange();
+
+  return () => {
+    router.events.off("routeChangeComplete", handleRouteChange);
+  };
+}, [router]);
 
   /**
    * Handles user logout functionality
