@@ -1,10 +1,6 @@
-// pages/search.js
-// This is the Search page.
-// It shows the title, a search bar, and search results from OpenTripMap API.
-// The user lands here after clicking "Start Exploring" from the homepage.
-
 import { useState } from 'react';
 import SearchBar from '@/components/SearchBar';
+import SearchResults from '@/components/SearchResults';
 import styles from '../styles/SearchPage.module.css';
 
 export default function SearchPage() {
@@ -14,17 +10,15 @@ export default function SearchPage() {
 
   const itemsPerPage = 10;
 
-
-
   const handleResults = (data) => {
     setResults(data);
     setSearchPerformed(true);
-    setCurrentPage(1)
+    setCurrentPage(1);
   };
 
   const totalPages = Math.ceil(results.length / itemsPerPage);
-  const startIdx = (currentPage - 1) * itemsPerPage;
-  const paginatedResults = results.slice(startIdx, startIdx + itemsPerPage);
+  const startIdx = (currentPage - 1) * itemsPerPage;const safeResults = Array.isArray(results) ? results : [];
+  const paginatedResults = safeResults.slice(startIdx, startIdx + itemsPerPage);  
 
   return (
     <div className={styles.container}>
@@ -38,34 +32,27 @@ export default function SearchPage() {
       </div>
 
       {searchPerformed && (
-  <div className={styles.results}>
-    {results.length === 0 ? (
-      <p className={styles.noResults}>No results found.</p>
-    ) : (
-      <>
-        <ul>
-          {paginatedResults.map((r) => (
-            <li key={r.id} className={styles.resultItem}>
-              {r.name}
-            </li>
-          ))}
-        </ul>
-
-        <div className={styles.pagination}>
-          {Array.from({ length: totalPages }, (_, i) => (
-            <button
-              key={i}
-              className={`${styles.pageButton} ${currentPage === i + 1 ? styles.activePage : ''}`}
-              onClick={() => setCurrentPage(i + 1)}
-            >
-              {i + 1}
-            </button>
-          ))}
+        <div className={styles.results}>
+          {results.length === 0 ? (
+            <p className={styles.noResults}>No results found.</p>
+          ) : (
+            <>
+              <SearchResults results={paginatedResults} />
+              <div className={styles.pagination}>
+                {Array.from({ length: totalPages }, (_, i) => (
+                  <button
+                    key={i}
+                    className={`${styles.pageButton} ${currentPage === i + 1 ? styles.activePage : ''}`}
+                    onClick={() => setCurrentPage(i + 1)}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
         </div>
-      </>
-    )}
-  </div>
-)}
+      )}
     </div>
   );
 }

@@ -7,49 +7,45 @@ import { useRouter } from 'next/router';
 
 /**
  * Main Navbar component that renders the site's navigation menu
- * @returns {JSX.Element} Navigation bar with conditional rendering based on auth status
+ * Handles login state, profile dropdown, and logout functionality.
  */
 export default function Navbar() {
-  /**
-   * State management for authenticated user
-   * @type {[null|Object, Function]} user - Stored user data from session storage
-   */
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null);         // Stores logged-in user info
+  const [showMenu, setShowMenu] = useState(false); // Controls dropdown visibility
 
-  /**
-   * Next.js Router instance for programmatic navigation
-   * @type {NextRouter} router - Used for handling redirects
-   */
   const router = useRouter();
 
-  /**
-   * Effect hook to initialize user state from session storage
-   * Runs once on component mount to restore user session
-   */
+  // Runs when route changes to update user info from sessionStorage
   useEffect(() => {
-  const handleRouteChange = () => {
-    const storedUser = sessionStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    } else {
-      setUser(null);
-    }
-  };
+    const handleRouteChange = () => {
+      const storedUser = sessionStorage.getItem("user");
+      setUser(storedUser ? JSON.parse(storedUser) : null);
+    };
 
-  router.events.on("routeChangeComplete", handleRouteChange);
+    router.events.on("routeChangeComplete", handleRouteChange);
+    handleRouteChange(); // Initial mount
 
-  // Initial load
-  handleRouteChange();
+    return () => {
+      router.events.off("routeChangeComplete", handleRouteChange);
+    };
+  }, [router]);
 
-  return () => {
-    router.events.off("routeChangeComplete", handleRouteChange);
-  };
-}, [router]);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowMenu(false);
+      }
+    };
+  
+    document.addEventListener('mousedown', handleClickOutside);
+  
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+  
 
-  /**
-   * Handles user logout functionality
-   * Removes user from session storage and redirects to login page
-   */
+  // Logs the user out and redirects to login
   const handleLogout = () => {
     sessionStorage.removeItem("user");
     setUser(null);
@@ -58,34 +54,57 @@ export default function Navbar() {
 
   return (
     <nav className={styles.navbar}>
-      {/* Site branding */}
+      {/* App name */}
       <div className={styles.logo}>Easy Explore</div>
 
-      {/* Navigation links container */}
+      {/* Main navigation */}
       <ul className={styles.navLinks}>
-        {/* Core navigation links */}
         <li><Link href="/">Home</Link></li>
         <li><Link href="/search">Search</Link></li>
         <li><Link href="/about">About Us</Link></li>
 
-        {/* Authentication-dependent links */}
+        {/* Auth-based options */}
         {!user ? (
           <>
             <li><Link href="/login">Login</Link></li>
             <li><Link href="/register">Sign Up</Link></li>
           </>
         ) : (
-          <>
-            <li className={styles.username}>{user.user.userName}</li>
-            <li>
-              <button 
-                onClick={handleLogout} 
-                className={styles.logoutBtn}
-              >
-                Logout
-              </button>
-            </li>
-          </>
+          <li className={styles.dropdownContainer}>
+            <button 
+              className={styles.usernameDropdown} 
+              onClick={() => setShowMenu(!showMenu)}
+            >
+              👤 {user.user.userName} ▾
+            </button>
+
+            {/* Dropdown menu */}
+            {showMenu && (
+              <ul className={styles.dropdownMenu}>
+                <li>
+                  <Link href="/profile" onClick={() => setShowMenu(false)}>
+                    <span className={styles.menuItem}>My Profile</span>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link href="#" onClick={() => setShowMenu(false)}>
+                    <span className={styles.menuItem}>Saved Attractions</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#"onClick={() => setShowMenu(false)}>
+                    <span className={styles.menuItem}>My Itineraries</span>
+                  </Link>
+                </li>
+                <li>
+                  <button onClick={handleLogout} className={styles.logoutBtn}>
+                    Logout
+                  </button>
+                </li>
+              </ul>           
+            )}
+          </li>
         )}
       </ul>
     </nav>
