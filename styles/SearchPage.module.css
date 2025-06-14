@@ -132,3 +132,22 @@
     }
   }
   
+  .mapWrapper {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto 40px auto; /* center horizontally and add bottom margin */
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+/* Make map fill the container height */
+.mapWrapper > :global(.leaflet-container) {
+  height: 400px !important;
+  width: 100% !important;
+}
+
+/* Optional: add some margin on top of results so they don’t overlap */
+.results {
+  margin-top: 60px; /* space for floating search bar */
+}
