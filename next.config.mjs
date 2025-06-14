@@ -2,7 +2,20 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['upload.wikimedia.org', 'images.opentripmap.com']
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'www.toronto.ca',
+      },
+      {
+        protocol: 'https',
+        hostname: 'upload.wikimedia.org',
+      },
+      {
+        protocol: 'https',
+        hostname: 'commons.wikimedia.org',
+      },
+    ],
   },
 };
 
