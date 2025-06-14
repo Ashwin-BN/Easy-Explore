@@ -6,6 +6,7 @@
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import SearchBar from '@/components/SearchBar';
+import SearchResults from '@/components/SearchResults';
 import styles from '../styles/SearchPage.module.css';
 
 const AttractionsMap = dynamic(() => import('@/components/AttractionsMap'), { ssr: false });
@@ -37,12 +38,12 @@ export default function SearchPage() {
   const handleResults = (data) => {
     setResults(data);
     setSearchPerformed(true);
-    setCurrentPage(1)
+    setCurrentPage(1);
   };
 
   const totalPages = Math.ceil(results.length / itemsPerPage);
-  const startIdx = (currentPage - 1) * itemsPerPage;
-  const paginatedResults = results.slice(startIdx, startIdx + itemsPerPage);
+  const startIdx = (currentPage - 1) * itemsPerPage;const safeResults = Array.isArray(results) ? results : [];
+  const paginatedResults = safeResults.slice(startIdx, startIdx + itemsPerPage);  
 
   return (
   <div className={styles.container}>
