@@ -1,57 +1,40 @@
 export default async function handler(req, res) {
-  const { query } = req.query;
-  const apiKey = process.env.OPENTRIPMAP_API_KEY;
-
-  if (!query) {
-    return res.status(400).json({ error: 'Missing search query' });
-  }
-
-  try {
-    
-    const geoRes = await fetch(
-      `https://api.opentripmap.com/0.1/en/places/geoname?name=${encodeURIComponent(
-        query
-      )}&apikey=${apiKey}`
-    );
-    const geoData = await geoRes.json();
-
-    const { lat, lon } = geoData;
-    if (!lat || !lon) {
-      return res.status(404).json({ error: 'Location not found' });
+    const { country, state, city, radius = 5000, poiType = 'tourism.attraction' } = req.query;
+    if (!country || !state || !city) {
+        return res.status(400).json({ error: 'Country, state, and city required' });
     }
 
-
-    const radiusUrl = `https://api.opentripmap.com/0.1/en/places/radius?radius=10000&lon=${lon}&lat=${lat}&format=json&limit=50&apikey=${apiKey}`;
-    const listRes = await fetch(radiusUrl);
-    const listData = await listRes.json();
-
-    const attractions = await Promise.all(
-      listData
-        .filter((p) => p.xid)
-        .map(async (item) => {
-          try {
-            const detailRes = await fetch(
-              `https://api.opentripmap.com/0.1/en/places/xid/${item.xid}?apikey=${apiKey}`
-            );
-            const data = await detailRes.json();
-            return {
-              id: item.xid,
-              name: data.name || '',
-              image: data.preview?.source || '',
-              description: data.wikipedia_extracts?.text || '',
-              address: data.address?.road || '',
-              url: data.url || '',
-            };
-          } catch {
-            return null;
-          }
-        })
+    // 1. Geocode the selected location
+    const geoRes = await fetch(
+        `https://api.geoapify.com/v1/geocode/search?` +
+        `city=${encodeURIComponent(city)}&state=${encodeURIComponent(state)}` +
+        `&country=${encodeURIComponent(country)}&limit=1&apiKey=${process.env.GEOAPIFY_KEY}`
     );
+    const geoJson = await geoRes.json();
+    const feat = geoJson.features?.[0];
+    if (!feat) return res.status(404).json({ error: 'Location not found' });
+    const { lat, lon } = feat.properties;
 
-    const filtered = attractions.filter((a) => a && a.name);
-    res.status(200).json(filtered);
-  } catch (err) {
-    console.error('Global search error:', err);
-    res.status(500).json({ error: 'Failed to fetch global attractions' });
-  }
+    // 2. Search for POIs with the requested category
+    const placesRes = await fetch(
+        `https://api.geoapify.com/v2/places?` +
+        `categories=${poiType}&filter=circle:${lon},${lat},${radius}` +
+        `&limit=50&apiKey=${process.env.GEOAPIFY_KEY}`
+    );
+    const placesJson = await placesRes.json();
+
+    const formatted = (placesJson.features || []).map(f => ({
+        id: f.properties.place_id,
+        name: f.properties.name,
+        lat: f.geometry.coordinates[1],
+        lon: f.geometry.coordinates[0],
+        address: f.properties.formatted,
+        kinds: f.properties.categories,
+        rating: f.properties.rate || null,
+        image: f.properties.icon || null,
+    }));
+
+    console.log('Fetched attractions:', formatted);
+
+    res.status(200).json(formatted);
 }

@@ -39,3 +39,23 @@ a {
     color-scheme: dark;
   }
 }
+
+.stdropdown-item {
+  color: #2c3e50;
+  font-size: 1rem;
+  font-family: inherit
+}
+
+.stdropdown-item span {
+  color: #2c3e50
+}
+
+.stdropdown-item:hover {
+  background-color: #f0f4f8;
+  color: #0070f3
+}
+
+.stdropdown-item.selected {
+  background-color: #0070f3;
+  color: #ffffff
+}

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { motion } from "framer-motion";   //for animation
-import SearchBar from "@/components/SearchBar";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {

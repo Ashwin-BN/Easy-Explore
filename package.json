@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.6",
+    "country-state-city": "^3.2.1",
     "framer-motion": "^12.12.1",
     "jwt-decode": "^4.0.0",
     "leaflet": "^1.9.4",
@@ -17,6 +18,8 @@
     "next": "15.3.2",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.10",
+    "react-country-state-city": "^1.1.12",
+    "react-icons": "^5.5.0",
     "react-dom": "^19.0.0",
     "react-leaflet": "^5.0.0"
   },

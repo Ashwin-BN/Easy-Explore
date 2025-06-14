@@ -1,0 +1,52 @@
+.list {
+    width: 100%;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+    padding: 1.2rem 1.5rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    width: 100%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.details {
+    flex-grow: 1;
+}
+
+.details h3 {
+    margin-bottom: 0.5rem;
+    color: #2c3e50;
+}
+
+.details p {
+    margin: 0.2rem 0;
+    color: #444;
+}
+
+.actions {
+    display: flex;
+    gap: 0.8rem;
+}
+
+.actions button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.4rem;
+    color: #2c3e50;
+    transition: color 0.2s ease;
+}
+
+.actions button:hover {
+    color: #0070f3;
+}
