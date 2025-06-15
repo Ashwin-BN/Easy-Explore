@@ -35,6 +35,7 @@ export default function SearchPage() {
 
 
   useEffect(() => {
+    // Try to auto-set user geolocation on load
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
           (pos) => {
