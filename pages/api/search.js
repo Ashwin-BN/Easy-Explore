@@ -24,6 +24,7 @@ export default async function handler(req, res) {
     const radiusUrl = `https://api.opentripmap.com/0.1/en/places/radius?radius=10000&lon=${lon}&lat=${lat}&format=json&limit=50&apikey=${apiKey}`;
     const listRes = await fetch(radiusUrl);
     const listData = await listRes.json();
+    console.log('listData:', listData);
 
     const attractions = await Promise.all(
       listData
@@ -41,6 +42,8 @@ export default async function handler(req, res) {
               description: data.wikipedia_extracts?.text || '',
               address: data.address?.road || '',
               url: data.url || '',
+              lat: item.point.lat,
+              lon: item.point.lon,
             };
           } catch {
             return null;

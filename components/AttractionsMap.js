@@ -3,7 +3,6 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useEffect } from 'react';
 
-// Fix default icon issue in Leaflet (important for Next.js)
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: '/leaflet/images/marker-icon-2x.png',
@@ -21,13 +20,6 @@ const goldIcon = new L.Icon({
   shadowSize: [41, 41],
 });
 
-// function ChangeView({ center, zoom }) {
-//   const map = useMap();
-//   useEffect(() => {
-//     map.setView(center, zoom);
-//   }, [center, zoom, map]);
-//   return null;
-// }
 
 function ChangeView({ center, zoom, bounds }) {
   const map = useMap();
@@ -43,12 +35,18 @@ function ChangeView({ center, zoom, bounds }) {
   return null;
 }
 
-export default function AttractionsMap({ results, userLocation }) {
+export default function AttractionsMap({ results=[], userLocation }) {
   const center = userLocation || [43.65107, -79.347015]; // fallback coords (Toronto)
   const zoom = 13;
 
-  const bounds = results.length
-    ? L.latLngBounds(results.map(r => [r.lat, r.lon]))
+  // Filter only valid coordinates
+  const validResults = Array.isArray(results)
+  ? results.filter((r) => typeof r.lat === 'number' && typeof r.lon === 'number')
+  : [];
+
+
+  const bounds = validResults.length
+    ? L.latLngBounds(validResults.map((r) => [r.lat, r.lon]))
     : null;
 
     return (
@@ -67,12 +65,17 @@ export default function AttractionsMap({ results, userLocation }) {
       )}
 
       {/* Attraction Markers */}
-      {results.map((place) => (
+      {validResults.map((place) => (
         <Marker key={place.id} position={[place.lat, place.lon]}>
           <Popup>
             <strong>{place.name}</strong><br />
-            Distance: {place.distance}m<br />
-            Kinds: {place.kinds.join(', ')}
+            {place.address && <>Address: {place.address}<br /></>}
+            {place.description && <p style={{ margin: 0 }}>{place.description}</p>}
+            {place.url && (
+              <p style={{ marginTop: 5 }}>
+                <a href={place.url} target="_blank" rel="noopener noreferrer">More info</a>
+              </p>
+            )}
           </Popup>
         </Marker>
       ))}
