@@ -105,3 +105,25 @@
   user-select: none;
   border: none;
 }
+/* Add to Register.module.css or relevant CSS file */
+
+.passwordToggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 0.95rem;
+  color: #444;
+  user-select: none;
+}
+
+.passwordChecklist {
+  margin-top: 10px;
+  padding-left: 20px;
+  font-size: 0.9rem;
+}
+
+.passwordChecklist li {
+  margin-bottom: 6px;
+  list-style: disc;
+}
