@@ -2,7 +2,7 @@
 
 import styles from './Navbar.module.css';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 
 /**
@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 export default function Navbar() {
   const [user, setUser] = useState(null);         // Stores logged-in user info
   const [showMenu, setShowMenu] = useState(false); // Controls dropdown visibility
-
+  const dropdownRef = useRef(null);
   const router = useRouter();
 
   // Runs when route changes to update user info from sessionStorage
