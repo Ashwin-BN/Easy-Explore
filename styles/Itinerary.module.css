@@ -1,0 +1,98 @@
+.wrapper {
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, #f0f4f8, #e3f0ff);
+    padding: 60px 20px;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #2c3e50;
+}
+
+.headerRow {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.createButton {
+    background-color: #0070f3;
+    color: #fff;
+    font-size: 1rem;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.createButton:hover {
+    background-color: #005bb5;
+}
+
+.pageContainer {
+    width: 100%;
+    max-width: 1200px; /* Increased width */
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    min-height: 200px;
+}
+
+.listContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.emptyState {
+    color: #2c3e50;
+    font-style: italic;
+    font-size: 1.1rem;
+}
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    z-index: 1001;
+    animation: fadeInUp 0.3s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
