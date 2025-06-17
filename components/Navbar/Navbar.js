@@ -93,7 +93,7 @@ export default function Navbar() {
                         </Link>
                       </li>
                       <li>
-                        <Link href="#"onClick={() => setShowMenu(false)}>
+                        <Link href="/itinerary"onClick={() => setShowMenu(false)}>
                           <span className={styles.menuItem}>My Itineraries</span>
                         </Link>
                       </li>
