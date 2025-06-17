@@ -1,13 +1,12 @@
 import { useState } from "react";
-import { motion } from "framer-motion";   //for animation
-import Image from 'next/image';
+import { motion } from "framer-motion"; //for animation
+import Image from "next/image";
 import styles from "../styles/Home.module.css";
 
-import Link from 'next/link';
-
+import Link from "next/link";
 
 export default function Home() {
-  const [results, setResults] = useState([]);   //State to store search results
+  const [results, setResults] = useState([]); //State to store search results
 
   return (
     // Animate the whole homepage when it loads
@@ -20,33 +19,22 @@ export default function Home() {
       <div className={styles.hero}>
         <div className={styles.content}>
           <h1 className={styles.title}>Easy Explore</h1>
-          <p className={styles.subtitle}>Plan your perfect trip effortlessly.</p>
+          <p className={styles.subtitle}>
+            Plan your perfect trip effortlessly.
+          </p>
           <p className={styles.description}>
-            Discover top attractions, create your own travel itinerary, and explore based on your interests, budget, and location — all in one app.
+            Discover top attractions, create your own travel itinerary, and
+            explore based on your interests, budget, and location — all in one
+            app.
           </p>
           <div className={styles.buttonGroup}>
-            {/* <button
-              className={styles.primaryButton}
-              onClick={() => window.location.href = '/search'}
-            >
-              Start Exploring
-            </button>
-            <button 
-              className={styles.secondaryButton}
-              onClick ={() => window.location.href = './about'}
-            >
-                Learn More
-            </button> */}
-
             <Link href="/search" className={styles.primaryButton}>
-  Start Exploring
-</Link>
+              Start Exploring
+            </Link>
 
-
-<Link href="/about" className={styles.secondaryButton}>
-  Learn More
-</Link>
-
+            <Link href="/about" className={styles.secondaryButton}>
+              Learn More
+            </Link>
           </div>
         </div>
 
@@ -60,10 +48,10 @@ export default function Home() {
           <Image
             src="/travel-hero.svg"
             alt="Traveler illustration"
+            width={400}
+            height={300}
             className={styles.heroImage}
           />
-
-          
         </motion.div>
       </div>
 

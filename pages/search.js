@@ -16,7 +16,7 @@ export default function SearchPage() {
   const [searchPerformed, setSearchPerformed] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [userLocation, setUserLocation] = useState(null);
-
+  
   const itemsPerPage = 10;
 
   useEffect(() => {
@@ -42,7 +42,8 @@ export default function SearchPage() {
   };
 
   const totalPages = Math.ceil(results.length / itemsPerPage);
-  const startIdx = (currentPage - 1) * itemsPerPage;const safeResults = Array.isArray(results) ? results : [];
+  const startIdx = (currentPage - 1) * itemsPerPage;
+  const safeResults = Array.isArray(results) ? results : [];
   const paginatedResults = safeResults.slice(startIdx, startIdx + itemsPerPage);  
 
   return (
@@ -52,13 +53,13 @@ export default function SearchPage() {
       <p className={styles.subtitle}>Search for places of interest around you</p>
     </div>
 
-    <div className={styles.mapWrapper}>
-      <AttractionsMap results={results} userLocation={userLocation} />
-    </div>
-
     {/* Floating Search Bar BELOW the mapWrapper */}
     <div>
       <SearchBar onResults={handleResults} />
+    </div>
+    
+    <div className={styles.mapWrapper}>
+      <AttractionsMap results={results} userLocation={userLocation} />
     </div>
 
     {searchPerformed && (
