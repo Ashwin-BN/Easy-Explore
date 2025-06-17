@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Image from 'next/image';
 import styles from '../styles/SearchPage.module.css';
 
 export default function SearchResults({ results }) {
@@ -54,7 +55,7 @@ export default function SearchResults({ results }) {
           <li key={place.id || Math.random()} className={styles.resultItem}>
             <div className={styles.resultCard}>
               {typeof place.image === 'string' && (
-                <img
+                <Image
                   src={place.image}
                   alt={typeof place.name === 'string' ? place.name : 'Attraction image'}
                   className={styles.cardImage}
@@ -87,7 +88,7 @@ export default function SearchResults({ results }) {
             </button>
             <h2>{typeof expanded.name === 'string' ? expanded.name : 'Details'}</h2>
             {typeof expanded.image === 'string' && (
-              <img
+              <Image
                 src={expanded.image}
                 alt="Preview"
                 className={styles.cardImage}

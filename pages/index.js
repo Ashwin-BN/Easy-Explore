@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { motion } from "framer-motion";   //for animation
+import Image from 'next/image';
 import styles from "../styles/Home.module.css";
+
+import Link from 'next/link';
+
 
 export default function Home() {
   const [results, setResults] = useState([]);   //State to store search results
@@ -21,7 +25,7 @@ export default function Home() {
             Discover top attractions, create your own travel itinerary, and explore based on your interests, budget, and location — all in one app.
           </p>
           <div className={styles.buttonGroup}>
-            <button
+            {/* <button
               className={styles.primaryButton}
               onClick={() => window.location.href = '/search'}
             >
@@ -32,7 +36,17 @@ export default function Home() {
               onClick ={() => window.location.href = './about'}
             >
                 Learn More
-            </button>
+            </button> */}
+
+            <Link href="/search" className={styles.primaryButton}>
+  Start Exploring
+</Link>
+
+
+<Link href="/about" className={styles.secondaryButton}>
+  Learn More
+</Link>
+
           </div>
         </div>
 
@@ -43,7 +57,7 @@ export default function Home() {
           animate={{ scale: 1 }}
           transition={{ duration: 1 }}
         >
-          <img
+          <Image
             src="/travel-hero.svg"
             alt="Traveler illustration"
             className={styles.heroImage}
