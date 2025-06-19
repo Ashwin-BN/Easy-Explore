@@ -2,17 +2,17 @@
 
 import styles from './Navbar.module.css';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 
 /**
  * Main Navbar component that renders the site's navigation menu
- * Handles login state, profile dropdown, and logout functionality.
+ * Handles login state, profile dropdown, and logout functionality
  */
 export default function Navbar() {
   const [user, setUser] = useState(null);         // Stores logged-in user info
   const [showMenu, setShowMenu] = useState(false); // Controls dropdown visibility
-
+  const dropdownRef =useRef(null);
   const router = useRouter();
 
   // Runs when route changes to update user info from sessionStorage
@@ -93,7 +93,7 @@ export default function Navbar() {
                         </Link>
                       </li>
                       <li>
-                        <Link href="#"onClick={() => setShowMenu(false)}>
+                        <Link href="/itinerary"onClick={() => setShowMenu(false)}>
                           <span className={styles.menuItem}>My Itineraries</span>
                         </Link>
                       </li>
