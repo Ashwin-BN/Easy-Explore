@@ -1,4 +1,68 @@
 .mapContainer {
-    height: 100%;
-    width: 100%;
-  }
+  height: 100%;
+  width: 100%;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  border: 1px solid #eaeaea;
+}
+
+/* Custom popup wrapper */
+.customPopup .leaflet-popup-content-wrapper {
+  padding: 16px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12) !important;
+  background: #ffffff !important;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Arrow (tail) */
+.customPopup .leaflet-popup-tip {
+  background: #ffffff !important;
+}
+
+/* Popup content */
+.popupContent {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.locationName {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.distanceInfo {
+  font-size: 14px;
+  color: #444;
+}
+
+.tagsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #eee;
+}
+
+.tagLabel {
+  font-weight: 500;
+  font-size: 13px;
+  color: #888;
+}
+
+.tagsList {
+  font-size: 13px;
+  color: #333;
+}
+
+.userMarkerPopup {
+  font-size: 14px;
+  font-weight: 500;
+  color: #222;
+}
