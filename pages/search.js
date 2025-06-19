@@ -169,7 +169,7 @@ export default function SearchPage() {
 
                   <div className={styles.mapColumn}>
                     <div className={styles.mapWrapper}>
-                      <AttractionsMap results={results} hoveredId={hoveredId} />
+                      <AttractionsMap results={results} hoveredId={hoveredId} userLocation={userLocation}/>
                     </div>
                   </div>
                 </div>
