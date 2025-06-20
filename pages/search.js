@@ -99,13 +99,19 @@ export default function SearchPage() {
   };
 
   const handleItinerarySelect = async (itineraryId, attraction) => {
-    const userId = getUserIdFromSession();
-
+    // const userId = getUserIdFromSession();
+    const storedUser = sessionStorage.getItem('user');
+    const userObj = JSON.parse(storedUser);
+    const token = userObj.token;
+    
     try {
-      const res = await fetch('/api/add-to-itinerary', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/itineraries/${itineraryId}/attractions`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, itineraryId, attraction }),
+        headers: { 
+          'Content-Type': 'application/json',
+          Authorization: `jwt ${token}`,
+        },
+        body: JSON.stringify(attraction),
       });
 
       const data = await res.json();
