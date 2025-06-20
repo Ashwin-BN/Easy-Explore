@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { FaTrash } from 'react-icons/fa';
-import styles from '../styles/Search.module.css';
-import { fetchSavedAttractions, removeSavedAttraction } from '../controllers/attractionController';
+import styles from '../styles/SavedAttractions.module.css';
+import { fetchSavedAttractions, removeSavedAttraction } from '@/controller/attractionController';
 
 export default function SavedAttractions() {
     const [savedAttractions, setSavedAttractions] = useState([]);
@@ -35,7 +35,7 @@ export default function SavedAttractions() {
         <div className={styles.container}>
             <header className={styles.header}>
                 <h1 className={styles.title}>Your Saved Attractions</h1>
-                <p className={styles.subtitle}>Explore what you've bookmarked</p>
+                <p className={styles.subtitle}>Explore what you&apos;ve bookmarked</p>
             </header>
 
             {loading ? (

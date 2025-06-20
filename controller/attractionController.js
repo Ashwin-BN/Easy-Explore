@@ -30,3 +30,22 @@ export async function removeSavedAttraction(attractionId) {
 
     return res.json();
 }
+
+export async function saveAttraction(attractionData) {
+    const token = getToken();
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/saved-attractions`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `jwt ${token}`,
+        },
+        body: JSON.stringify(attractionData),
+    });
+
+    if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.message || 'Failed to save attraction');
+    }
+
+    return res.json();
+}

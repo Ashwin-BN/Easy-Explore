@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import SearchBar from '@/components/SearchBar/SearchBar';
 import AttractionCard from '@/components/AttractionCard/AttractionCard';
 import {addAttractionToItinerary, loadUserItineraries} from '@/controller/itineraryController';
+import { saveAttraction } from '@/controller/attractionController';
 import styles from '../styles/SearchPage.module.css';
 
 const AttractionsMap = dynamic(() => import('@/components/AttractionMap/AttractionMap'), { ssr: false });
@@ -76,17 +77,18 @@ export default function SearchPage() {
     if (!userId) return router.push('/login');
 
     try {
-      const res = await fetch('/api/favorites', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, name: item.name }),
-      });
+    await saveAttraction({
+      name: item.name,
+      address: item.address || '',
+      description: item.description || '',
+      image: item.image || '',
+      url: item.url || '',
+    });
 
-      const data = await res.json();
-      alert(res.ok ? `Saved ${item.name} to your favorites!` : data.message);
-    } catch (err) {
-      console.error("Error saving favorite:", err);
-      alert("An unexpected error occurred.");
+    alert(`Saved "${item.name}" to your favorites!`);
+  } catch (err) {
+    console.error("Error saving attraction:", err.message);
+    alert("An error occurred while saving.");
     }
   };
 
@@ -94,7 +96,7 @@ export default function SearchPage() {
     try {
       if (!expandedAttraction) return;
 
-      await addAttractionToItinerary(itineraryId, expandedAttraction);
+      await addAttractionToItinerary(itineraryId, { id: expandedAttraction.id });
 
       alert(`Added "${expandedAttraction.name}" to itinerary!`);
     } catch (err) {
