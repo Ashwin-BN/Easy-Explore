@@ -1,32 +1,58 @@
-import { useState } from 'react';
-import ItineraryList from '../components/ItineraryList/ItineraryList';
-import ItineraryForm from '../components/ItineraryForm/ItineraryForm';
+import { useEffect, useState } from 'react';
+import ItineraryList from '@/components/ItineraryList/ItineraryList';
+import ItineraryForm from '@/components/ItineraryForm/ItineraryForm';
+import ItineraryModal from "@/components/AttractionModal/ItineraryModal";
 import styles from '../styles/Itinerary.module.css';
+import {
+    loadUserItineraries,
+    saveItinerary,
+    deleteItinerary,
+} from '@/controller/itineraryController';
 
 export default function ItinerariesPage() {
     const [itineraries, setItineraries] = useState([]);
     const [editing, setEditing] = useState(null);
     const [showForm, setShowForm] = useState(false);
+    const [selectedItinerary, setSelectedItinerary] = useState(null);
 
-    const handleSave = (data) => {
-        if (data.id) {
+    useEffect(() => {
+        loadUserItineraries()
+            .then(setItineraries)
+            .catch((err) => console.error("Failed to load itineraries:", err.message));
+    }, []);
+
+    const handleSave = async (data) => {
+        try {
+            const saved = await saveItinerary(data);
             setItineraries((prev) =>
-                prev.map((item) => (item.id === data.id ? data : item))
+                data._id
+                    ? prev.map((item) => (item._id === saved._id ? saved : item))
+                    : [...prev, saved]
             );
-        } else {
-            const newItem = {
-                ...data,
-                id: Date.now().toString(), // Or UUID
-            };
-            setItineraries((prev) => [...prev, newItem]);
+            setShowForm(false);
+            setEditing(null);
+        } catch (err) {
+            console.error("Save failed:", err.message);
         }
-
-        setShowForm(false);
-        setEditing(null);
     };
 
-    const handleDelete = (id) => {
-        setItineraries((prev) => prev.filter((item) => item.id !== id));
+    const handleDelete = async (id) => {
+        try {
+            await deleteItinerary(id);
+            setItineraries((prev) => prev.filter((item) => item._id !== id));
+        } catch (err) {
+            console.error("Delete failed:", err.message);
+        }
+    };
+
+    const handleAttractionRemoved = (itineraryId, attractionId) => {
+        setItineraries(prev =>
+            prev.map(itin =>
+                itin._id === itineraryId
+                    ? { ...itin, attractions: itin.attractions.filter(a => a.id !== attractionId) }
+                    : itin
+            )
+        );
     };
 
     return (
@@ -52,6 +78,7 @@ export default function ItinerariesPage() {
                         setShowForm(true);
                     }}
                     onDelete={handleDelete}
+                    onViewAttractions={setSelectedItinerary}
                 />
             </div>
 
@@ -68,6 +95,14 @@ export default function ItinerariesPage() {
                         />
                     </div>
                 </div>
+            )}
+
+            {selectedItinerary && (
+                <ItineraryModal
+                    itinerary={selectedItinerary}
+                    onClose={() => setSelectedItinerary(null)}
+                    onAttractionRemoved={handleAttractionRemoved}
+                />
             )}
         </div>
     );
