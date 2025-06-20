@@ -89,20 +89,19 @@ export async function addAttractionToItinerary(itineraryId, attraction) {
 }
 
 export async function removeAttractionFromItinerary(itineraryId, attractionId) {
-    const token = getToken();
-    if (!token) throw new Error("User not authenticated");
-
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/itineraries/${itineraryId}/attractions/${attractionId}`, {
-        method: "DELETE",
+    const token = localStorage.getItem('access_token');
+    const res = await fetch(`/api/itineraries/${itineraryId}/remove`, {
+        method: 'POST',
         headers: {
-            Authorization: `jwt ${token}`,
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
         },
+        body: JSON.stringify({ attractionId }),
     });
 
     if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.message || "Failed to remove attraction");
+        throw new Error(await res.text());
     }
 
-    return res.json();
+    return await res.json();
 }

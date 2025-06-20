@@ -78,18 +78,38 @@ export default function SearchPage() {
     }
   };
 
-  const handleSelectItinerary = async (itineraryId) => {
-    try {
-      if (!expandedAttraction) return;
+  async function handleAddToItinerary(itineraryId, attraction) {
+    console.log("[handleAddToItinerary] itineraryId:", itineraryId);
+    console.log("[handleAddToItinerary] attraction received:", attraction);
 
-      await addAttractionToItinerary(itineraryId, { id: expandedAttraction.id });
-
-      alert(`Added "${expandedAttraction.name}" to itinerary!`);
-    } catch (err) {
-      console.error('Failed to add attraction:', err.message);
-      alert('Could not add attraction to itinerary.');
+    if (!attraction || typeof attraction !== 'object') {
+      console.error("🚨 Invalid attraction object:", attraction);
+      alert("Could not add attraction — invalid data.");
+      return;
     }
-  };
+
+    const formatted = {
+      id: attraction.id || attraction.xid || '',
+      name: attraction.name || 'Unnamed Attraction',
+      image: attraction.image || '',
+      description: attraction.description || '',
+      address: attraction.address || '',
+      lat: attraction.lat || (attraction.point?.lat ?? null),
+      lon: attraction.lon || (attraction.point?.lon ?? null),
+      url: attraction.url || '',
+    };
+
+    console.log("[handleAddToItinerary] formatted object to be sent:", formatted);
+
+    try {
+      await addAttractionToItinerary(itineraryId, formatted);
+      alert(`Added "${formatted.name}" to your itinerary.`);
+      setActiveDropdown(null);
+    } catch (err) {
+      console.error('❌ Failed to add attraction:', err);
+      alert('Failed to add attraction to itinerary.');
+    }
+  }
 
   const totalPages = Math.ceil(results.length / itemsPerPage);
   const paginatedResults = results.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
@@ -121,7 +141,10 @@ export default function SearchPage() {
                             attraction={r}
                             onHover={() => setHoveredId(r.id)}
                             onLeave={() => setHoveredId(null)}
-                            onExpand={() => setExpandedAttraction(r)}
+                            onExpand={() => {
+                              console.log("[Card Expand] Expanded attraction:", r);
+                              setExpandedAttraction(r);
+                            }}
                         />
                     ))}
                     <div className={styles.pagination}>
@@ -188,7 +211,9 @@ export default function SearchPage() {
                       <select
                           defaultValue=""
                           onChange={(e) => {
-                            handleSelectItinerary(e.target.value);
+                            console.log("[Dropdown] Selected itinerary ID:", e.target.value);
+                            console.log("[Dropdown] Current expandedAttraction:", expandedAttraction);
+                            handleAddToItinerary(e.target.value, expandedAttraction);
                             setActiveDropdown(null);
                             setExpandedAttraction(null);
                           }}
