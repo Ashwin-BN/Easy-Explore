@@ -105,7 +105,7 @@ export default function SearchPage() {
     const token = userObj.token;
     
     try {
-      const res = await fetch(`https://prj-566-ncc-team3-user-api.vercel.app/api/itineraries/${itineraryId}/attractions`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/itineraries/${itineraryId}/attractions`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
