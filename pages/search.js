@@ -44,12 +44,6 @@ export default function SearchPage() {
         .catch(err => console.error("Could not load itineraries:", err));
   }, []);
 
-  const getUserIdFromSession = () => {
-    const storedUser = sessionStorage.getItem('user');
-    const userObj = storedUser ? JSON.parse(storedUser) : null;
-    return userObj?.user?._id || null;
-  };
-
   const performSearch = () => {
     if (!query.trim() && !location && !userLocation) return;
 
@@ -72,23 +66,15 @@ export default function SearchPage() {
     setCurrentPage(1);
   };
 
+
   const handleSaveToFavorites = async (item) => {
-    const userId = getUserIdFromSession();
-    if (!userId) return router.push('/login');
 
     try {
-    await saveAttraction({
-      name: item.name,
-      address: item.address || '',
-      description: item.description || '',
-      image: item.image || '',
-      url: item.url || '',
-    });
-
-    alert(`Saved "${item.name}" to your favorites!`);
-  } catch (err) {
-    console.error("Error saving attraction:", err.message);
-    alert("An error occurred while saving.");
+      await saveAttraction(item);
+      alert(`Saved ${item.name} to your favorites!`);
+    } catch (err) {
+      console.error("Error saving favorite:", err);
+      alert("An unexpected error occurred.");
     }
   };
 
