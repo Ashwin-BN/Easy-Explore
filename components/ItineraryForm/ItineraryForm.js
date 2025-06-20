@@ -6,10 +6,17 @@ export default function ItineraryForm({ initialData = {}, onSave, onCancel }) {
     const [from, setFrom] = useState('');
     const [to, setTo] = useState('');
 
+    const toDateInputValue = (isoDateString) => {
+        const date = new Date(isoDateString);
+        const userTimezoneOffset = date.getTimezoneOffset() * 60000;
+        const localDate = new Date(date.getTime() - userTimezoneOffset);
+        return localDate.toISOString().split('T')[0];
+    };
+
     useEffect(() => {
         setName(initialData.name || '');
-        setFrom(initialData.from || '');
-        setTo(initialData.to || '');
+        setFrom(initialData.from ? toDateInputValue(initialData.from) : '');
+        setTo(initialData.to ? toDateInputValue(initialData.to) : '');
     }, [initialData]);
 
     const handleSubmit = (e) => {
@@ -43,15 +50,21 @@ export default function ItineraryForm({ initialData = {}, onSave, onCancel }) {
             <div className={styles.dateRange}>
                 <label>
                     From:
-                    <input type="date" value={from} onChange={(e) => setFrom(e.target.value)} />
+                    <input
+                        type="date"
+                        value={from}
+                        onChange={(e) => setFrom(e.target.value)}
+                    />
                 </label>
                 <label>
                     To:
-                    <input type="date" value={to} onChange={(e) => setTo(e.target.value)} />
+                    <input
+                        type="date"
+                        value={to}
+                        onChange={(e) => setTo(e.target.value)}
+                    />
                 </label>
             </div>
-
-            <p>(Attraction selector coming soon...)</p>
 
             <div className={styles.formActions}>
                 <button type="button" onClick={onCancel}>Cancel</button>

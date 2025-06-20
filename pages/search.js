@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import SearchBar from '@/components/SearchBar/SearchBar';
 import AttractionCard from '@/components/AttractionCard/AttractionCard';
+import {addAttractionToItinerary, loadUserItineraries} from '@/controller/itineraryController';
 import styles from '../styles/SearchPage.module.css';
 
 const AttractionsMap = dynamic(() => import('@/components/AttractionMap/AttractionMap'), { ssr: false });
@@ -23,16 +24,6 @@ export default function SearchPage() {
   const itemsPerPage = 10;
 
   useEffect(() => {
-    const storedUser = sessionStorage.getItem('user');
-    const userObj = storedUser ? JSON.parse(storedUser) : null;
-    const userId = userObj?.user?._id;
-    if (userId) {
-      const uItineraries = userObj?.user?.itineraries || [];
-      setUserItineraries(uItineraries);
-    }
-  }, []);
-
-  useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
           (pos) => {
@@ -43,6 +34,13 @@ export default function SearchPage() {
           }
       );
     }
+  }, []);
+
+
+  useEffect(() => {
+    loadUserItineraries()
+        .then(setUserItineraries)
+        .catch(err => console.error("Could not load itineraries:", err));
   }, []);
 
   const getUserIdFromSession = () => {
@@ -92,38 +90,16 @@ export default function SearchPage() {
     }
   };
 
-  const handleAddToItinerary = (item) => {
-    const userId = getUserIdFromSession();
-    if (!userId) return router.push('/login');
-    setActiveDropdown(activeDropdown === item.id ? null : item.id);
-  };
-
-  const handleItinerarySelect = async (itineraryId, attraction) => {
-    // const userId = getUserIdFromSession();
-    const storedUser = sessionStorage.getItem('user');
-    const userObj = JSON.parse(storedUser);
-    const token = userObj.token;
-    
+  const handleSelectItinerary = async (itineraryId) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/itineraries/${itineraryId}/attractions`, {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          Authorization: `jwt ${token}`,
-        },
-        body: JSON.stringify(attraction),
-      });
+      if (!expandedAttraction) return;
 
-      const data = await res.json();
-      if (res.ok) {
-        alert(`Added ${attraction.name} to your itinerary!`);
-        setActiveDropdown(null);
-      } else {
-        alert(data.message);
-      }
+      await addAttractionToItinerary(itineraryId, expandedAttraction);
+
+      alert(`Added "${expandedAttraction.name}" to itinerary!`);
     } catch (err) {
-      console.error("Error adding to itinerary:", err);
-      alert("Unexpected error occurred.");
+      console.error('Failed to add attraction:', err.message);
+      alert('Could not add attraction to itinerary.');
     }
   };
 
@@ -204,20 +180,36 @@ export default function SearchPage() {
                     </div>
                 )}
                 <div className={styles.actions}>
-                  <button className={styles.actionBtn} onClick={() => handleSaveToFavorites(expandedAttraction)}>⭐ Save</button>
-                  <button className={styles.actionBtn} onClick={() => handleAddToItinerary(expandedAttraction)}>📅 Add to Itinerary</button>
+                  <button
+                      className={styles.actionBtn}
+                      onClick={() => handleSaveToFavorites(expandedAttraction)}
+                  >
+                    ⭐ Save
+                  </button>
+
+                  <button
+                      className={styles.actionBtn}
+                      onClick={() => {
+                        setActiveDropdown(expandedAttraction.id);
+                      }}
+                  >
+                    📅 Add to Itinerary
+                  </button>
+
                   {activeDropdown === expandedAttraction.id && (
                       <select
-                          className={styles.selectDropdown}
-                          onChange={(e) => {
-                            const selected = e.target.value;
-                            if (selected) handleItinerarySelect(selected, expandedAttraction);
-                          }}
                           defaultValue=""
+                          onChange={(e) => {
+                            handleSelectItinerary(e.target.value);
+                            setActiveDropdown(null);
+                            setExpandedAttraction(null);
+                          }}
                       >
                         <option value="" disabled>Select an itinerary</option>
-                        {userItineraries.map((itinerary) => (
-                            <option key={itinerary} value={itinerary}>{itinerary}</option>
+                        {userItineraries.map((itin) => (
+                            <option key={itin._id} value={itin._id}>
+                              {itin.name}
+                            </option>
                         ))}
                       </select>
                   )}
