@@ -4,6 +4,8 @@ import dynamic from 'next/dynamic';
 import SearchBar from '@/components/SearchBar/SearchBar';
 import AttractionCard from '@/components/AttractionCard/AttractionCard';
 import {addAttractionToItinerary, loadUserItineraries} from '@/controller/itineraryController';
+import { saveAttraction } from '@/controller/attractionController';
+
 import styles from '../styles/SearchPage.module.css';
 
 const AttractionsMap = dynamic(() => import('@/components/AttractionMap/AttractionMap'), { ssr: false });
@@ -43,12 +45,6 @@ export default function SearchPage() {
         .catch(err => console.error("Could not load itineraries:", err));
   }, []);
 
-  const getUserIdFromSession = () => {
-    const storedUser = sessionStorage.getItem('user');
-    const userObj = storedUser ? JSON.parse(storedUser) : null;
-    return userObj?.user?._id || null;
-  };
-
   const performSearch = () => {
     if (!query.trim() && !location && !userLocation) return;
 
@@ -71,19 +67,12 @@ export default function SearchPage() {
     setCurrentPage(1);
   };
 
+
   const handleSaveToFavorites = async (item) => {
-    const userId = getUserIdFromSession();
-    if (!userId) return router.push('/login');
 
     try {
-      const res = await fetch('/api/favorites', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, name: item.name }),
-      });
-
-      const data = await res.json();
-      alert(res.ok ? `Saved ${item.name} to your favorites!` : data.message);
+      await saveAttraction(item);
+      alert(`Saved ${item.name} to your favorites!`);
     } catch (err) {
       console.error("Error saving favorite:", err);
       alert("An unexpected error occurred.");
