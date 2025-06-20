@@ -55,7 +55,7 @@ export default function SavedAttractions() {
         <div className={styles.container}>
             <header className={styles.header}>
                 <h1 className={styles.title}>Your Saved Attractions</h1>
-                <p className={styles.subtitle}>Explore what you've bookmarked</p>
+                <p className={styles.subtitle}>Explore what you&apos;ve bookmarked</p>
             </header>
 
             {loading ? (

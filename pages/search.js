@@ -5,7 +5,6 @@ import SearchBar from '@/components/SearchBar/SearchBar';
 import AttractionCard from '@/components/AttractionCard/AttractionCard';
 import {addAttractionToItinerary, loadUserItineraries} from '@/controller/itineraryController';
 import { saveAttraction } from '@/controller/attractionController';
-
 import styles from '../styles/SearchPage.module.css';
 
 const AttractionsMap = dynamic(() => import('@/components/AttractionMap/AttractionMap'), { ssr: false });
@@ -83,7 +82,7 @@ export default function SearchPage() {
     try {
       if (!expandedAttraction) return;
 
-      await addAttractionToItinerary(itineraryId, expandedAttraction);
+      await addAttractionToItinerary(itineraryId, { id: expandedAttraction.id });
 
       alert(`Added "${expandedAttraction.name}" to itinerary!`);
     } catch (err) {
