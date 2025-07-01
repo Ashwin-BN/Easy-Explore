@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import {
   CountrySelect,
@@ -12,6 +13,8 @@ export default function SearchBar({
   onChange,
   onSearch,
   onLocationChange,
+  onCategoryChange,
+  onRadiusChange,
 }) {
   const [country, setCountry] = useState(null);
   const [state, setState] = useState(null);
@@ -37,6 +40,24 @@ export default function SearchBar({
         className={styles.searchInput}
         onKeyDown={(e) => e.key === "Enter" && onSearch()}
       />
+
+      <select className={styles.selectField} onChange={(e) => onCategoryChange(e.target.value)}>
+        <option value="">All Categories</option>
+        <option value="entertainment.park">Parks</option>
+        <option value="cultural.museum">Museums</option>
+        <option value="entertainment.zoo">Zoos</option>
+        <option value="entertainment.aquarium">Aquariums</option>
+        <option value="historic.monument">Monuments</option>
+        <option value="religion.place_of_worship">Religious Sites</option>
+        <option value="tourism.sights">Tourist Sights</option>
+      </select>
+
+      <select className={styles.selectField} onChange={(e) => onRadiusChange(e.target.value)}>
+        <option value="5000">5 km</option>
+        <option value="10000">10 km</option>
+        <option value="20000">20 km</option>
+        <option value="30000">30 km</option>
+      </select>
 
       <CountrySelect
         className={styles.selectField}
