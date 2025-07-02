@@ -16,6 +16,7 @@ export default function Login(props) {
   const [email, setEmail] = useState(""); // Email input field state
   const [password, setPassword] = useState(""); // Password input field state
   const [warning, setWarning] = useState(""); // Error message display state
+  const [showPassword, setShowPassword] = useState(false);
 
   const router = useRouter();
 
@@ -72,11 +73,19 @@ export default function Login(props) {
         <Form.Group className={styles.formGroup}>
           <Form.Label>Password:</Form.Label>
           <Form.Control
-            type="password"
+            type={showPassword ? "text" : "password"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          <div className={styles.passwordToggle}>
+            <Form.Check
+              type="checkbox"
+              checked={showPassword}
+              onChange={() => setShowPassword(!showPassword)}
+              label="Show Password"
+            />
+          </div>
         </Form.Group>
 
         {/* Submit button for form */}

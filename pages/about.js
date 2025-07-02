@@ -1,51 +1,77 @@
 // pages/about.js
 
-import { motion } from "framer-motion"; // Import motion for animation
+import { motion } from "framer-motion";
 import styles from "../styles/About.module.css";
+import { FaLinkedin } from "react-icons/fa";
+
+const teamMembers = [
+  {
+    name: "Suraj Sapkota",
+    role: "Full-Stack Developer",
+    image: "/team/suraj.jpeg",
+    linkedin: "https://www.linkedin.com/in/suraj-sapkota/",
+  },
+  {
+    name: "Juan Moncayo",
+    role: "Backend Developer",
+    image: "/team/Juan.jpeg",
+    linkedin: "https://www.linkedin.com/in/juan-moncayo-379a6820b/",
+  },
+
+  {
+    name: "Ashwin",
+    role: "Backend Developer",
+    image: "/team/Ashwin.jpeg",
+    linkedin: "https://www.linkedin.com/in/ashwin-b-n/",
+  },
+  
+  {
+    name: "Alex",
+    role: "MongoDB & Data Integration",
+    image: "/team/Alex.jpeg",
+    linkedin: "https://www.linkedin.com/in/ruslan-profile",
+  },
+  {
+    name: "JeelKumar Patel",
+    role: "Backend Developer",
+    image: "/team/Jeelkumar Patel.jpeg",
+    linkedin: "https://www.linkedin.com/in/jeelkumar-patel-8bb3b9259/",
+  },
+];
 
 export default function About() {
   return (
     <motion.div
       className={styles.container}
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
     >
       <h1 className={styles.title}>About Easy Explore</h1>
-
       <p className={styles.description}>
-      Easy Explore is a travel planning app/website for tourists and locals. It consolidates key details like pricing, reviews, and proximity, offering personalized recommendations based on user preferences such as budget, interests, and transportation. Key features include filters and an optimized schedule planner to streamline trip planning.
+        Easy Explore is a smart travel planning app built by students at Seneca College to help tourists and locals explore attractions effortlessly with recommendations based on interests, budget, and location.
       </p>
-
-      <p className={styles.description}>
-        With Easy Explore, users can search for nearby attractions like museums, parks, or landmarks, view detailed information, and plan where to go. This app is built as a final-semester project by a group of students at Seneca College. Our goal is to make trip planning easy, interactive, and fun.
-      </p>
-
-      
 
       <h2 className={styles.subtitle}>Meet the Team</h2>
-      {/* <div className={styles.teamGrid}>
-        <div className={styles.teamCard}>
-          <h3>Suraj Sapkota</h3>
-          <p>🎨 UI/UX Designer & Frontend Developer</p>
-        </div>
-        <div className={styles.teamCard}>
-          <h3>Harsh</h3>
-          <p>🧠 Backend Developer (API, Search)</p>
-        </div>
-        <div className={styles.teamCard}>
-          <h3>Ruslan</h3>
-          <p>💾 MongoDB & Data Integration</p>
-        </div>
-        <div className={styles.teamCard}>
-          <h3>Alex</h3>
-          <p>🧩 Frontend Setup & Route Management</p>
-        </div>
-        <div className={styles.teamCard}>
-          <h3>Ashwin</h3>
-          <p>🗂️ Project Repo Setup & Folder Structure</p>
-        </div>
-      </div> */}
+
+      <div className={styles.teamGrid}>
+        {teamMembers.map((member, index) => (
+          <motion.div key={index} className={styles.card} whileHover={{ scale: 1.03 }}>
+            <img src={member.image} alt={member.name} className={styles.squareImage} />
+            <h3 className={styles.name}>{member.name}</h3>
+            <p className={styles.role}>{member.role}</p>
+            <a
+              href={member.linkedin}
+              className={styles.linkedinButton}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaLinkedin className={styles.icon} />
+              LinkedIn
+            </a>
+          </motion.div>
+        ))}
+      </div>
     </motion.div>
   );
 }

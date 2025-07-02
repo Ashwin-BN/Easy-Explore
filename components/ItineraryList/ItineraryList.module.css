@@ -50,3 +50,15 @@
 .actions button:hover {
     color: #0070f3;
 }
+
+.clickableCard {
+    flex: 1;
+    cursor: pointer;
+    padding: 16px;
+    border-radius: 10px;
+    transition: background-color 0.2s ease;
+}
+
+.clickableCard:hover {
+    background-color: #f0f4f8;
+}

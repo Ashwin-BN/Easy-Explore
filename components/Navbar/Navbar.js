@@ -75,7 +75,7 @@ export default function Navbar() {
                     className={styles.usernameDropdown}
                     onClick={() => setShowMenu(!showMenu)}
                 >
-                  👤 {user.user.userName} ▾
+                  👤 {user.userName} ▾
                 </button>
 
                 {/* Dropdown menu */}
@@ -88,7 +88,7 @@ export default function Navbar() {
                       </li>
 
                       <li>
-                        <Link href="#" onClick={() => setShowMenu(false)}>
+                        <Link href="/savedAttractions" onClick={() => setShowMenu(false)}>
                           <span className={styles.menuItem}>Saved Attractions</span>
                         </Link>
                       </li>

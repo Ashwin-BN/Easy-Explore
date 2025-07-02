@@ -3,9 +3,11 @@ import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import SearchBar from '@/components/SearchBar/SearchBar';
 import AttractionCard from '@/components/AttractionCard/AttractionCard';
+import { addAttractionToItinerary, loadUserItineraries } from '@/controller/itineraryController';
+import { saveAttraction } from '@/controller/attractionController';
 import styles from '../styles/SearchPage.module.css';
 
-const AttractionsMap = dynamic(() => import('@/components/AttractionMap/AttractionMap'), { ssr: false });
+const AttractionsMap = dynamic(() => import('@/components/AttractionMap/AttractionsMap'), { ssr: false });
 
 export default function SearchPage() {
   const [results, setResults] = useState({ match: [], nearby: [] });
@@ -25,16 +27,6 @@ export default function SearchPage() {
   const itemsPerPage = 10;
 
   useEffect(() => {
-    const storedUser = sessionStorage.getItem('user');
-    const userObj = storedUser ? JSON.parse(storedUser) : null;
-    const userId = userObj?.user?._id;
-    if (userId) {
-      const uItineraries = userObj?.user?.itineraries || [];
-      setUserItineraries(uItineraries);
-    }
-  }, []);
-
-  useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (pos) => setUserLocation({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
@@ -43,11 +35,11 @@ export default function SearchPage() {
     }
   }, []);
 
-  const getUserIdFromSession = () => {
-    const storedUser = sessionStorage.getItem('user');
-    const userObj = storedUser ? JSON.parse(storedUser) : null;
-    return userObj?.user?._id || null;
-  };
+  useEffect(() => {
+    loadUserItineraries()
+      .then(setUserItineraries)
+      .catch(err => console.error("Could not load itineraries:", err));
+  }, []);
 
   const performSearch = () => {
     if (!query.trim() && !location && !userLocation) return;
@@ -73,52 +65,42 @@ export default function SearchPage() {
   };
 
   const handleSaveToFavorites = async (item) => {
-    const userId = getUserIdFromSession();
-    if (!userId) return router.push('/login');
-
     try {
-      const res = await fetch('/api/favorites', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, name: item.name }),
-      });
-
-      const data = await res.json();
-      alert(res.ok ? `Saved ${item.name} to your favorites!` : data.message);
+      await saveAttraction(item);
+      alert(`Saved ${item.name} to your favorites!`);
     } catch (err) {
       console.error("Error saving favorite:", err);
       alert("An unexpected error occurred.");
     }
   };
 
-  const handleAddToItinerary = (item) => {
-    const userId = getUserIdFromSession();
-    if (!userId) return router.push('/login');
-    setActiveDropdown(activeDropdown === item.id ? null : item.id);
-  };
+  async function handleAddToItinerary(itineraryId, attraction) {
+    if (!attraction || typeof attraction !== 'object') {
+      console.error("🚨 Invalid attraction object:", attraction);
+      alert("Could not add attraction — invalid data.");
+      return;
+    }
 
-  const handleItinerarySelect = async (itineraryId, attraction) => {
-    const userId = getUserIdFromSession();
+    const formatted = {
+      id: attraction.id || attraction.xid || '',
+      name: attraction.name || 'Unnamed Attraction',
+      image: attraction.image || '',
+      description: attraction.description || '',
+      address: attraction.address || '',
+      lat: attraction.lat || (attraction.point?.lat ?? null),
+      lon: attraction.lon || (attraction.point?.lon ?? null),
+      url: attraction.url || '',
+    };
 
     try {
-      const res = await fetch('/api/add-to-itinerary', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, itineraryId, attraction }),
-      });
-
-      const data = await res.json();
-      if (res.ok) {
-        alert(`Added ${attraction.name} to your itinerary!`);
-        setActiveDropdown(null);
-      } else {
-        alert(data.message);
-      }
+      await addAttractionToItinerary(itineraryId, formatted);
+      alert(`Added "${formatted.name}" to your itinerary.`);
+      setActiveDropdown(null);
     } catch (err) {
-      console.error("Error adding to itinerary:", err);
-      alert("Unexpected error occurred.");
+      console.error('❌ Failed to add attraction:', err);
+      alert('Failed to add attraction to itinerary.');
     }
-  };
+  }
 
   const totalPages = Math.ceil(results.nearby.length / itemsPerPage);
   const paginatedResults = results.nearby.slice(
@@ -240,6 +222,41 @@ export default function SearchPage() {
                 </a>
               </div>
             )}
+            <div className={styles.actions}>
+              <button
+                className={styles.actionBtn}
+                onClick={() => handleSaveToFavorites(expandedAttraction)}
+              >
+                ⭐ Save
+              </button>
+
+              <button
+                className={styles.actionBtn}
+                onClick={() => {
+                  setActiveDropdown(expandedAttraction.id);
+                }}
+              >
+                📅 Add to Itinerary
+              </button>
+
+              {activeDropdown === expandedAttraction.id && (
+                <select
+                  defaultValue=""
+                  onChange={(e) => {
+                    handleAddToItinerary(e.target.value, expandedAttraction);
+                    setActiveDropdown(null);
+                    setExpandedAttraction(null);
+                  }}
+                >
+                  <option value="" disabled>Select an itinerary</option>
+                  {userItineraries.map((itin) => (
+                    <option key={itin._id} value={itin._id}>
+                      {itin.name}
+                    </option>
+                  ))}
+                </select>
+              )}
+            </div>
           </div>
         </div>
       )}
