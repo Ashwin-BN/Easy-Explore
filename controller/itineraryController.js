@@ -69,6 +69,34 @@ export async function deleteItinerary(id) {
 
 export async function addAttractionToItinerary(itineraryId, attraction) {
     const token = getToken();
+    const user = readToken();
+    const userId = user?.user?._id || user?._id;
+
+    if (!token || !userId) throw new Error("User not authenticated");
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/itineraries/${itineraryId}/attractions`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `jwt ${token}`,
+        },
+        body: JSON.stringify({
+            ...attraction,
+            userId // Send this if your backend expects it
+        }),
+    });
+
+    if (!res.ok) {
+        const text = await res.text(); // ← log raw text instead of json in case it's HTML or empty
+        console.error("❌ Backend error response:", text);
+        throw new Error("Failed to add attraction");
+    }
+
+    return res.json();
+}
+
+/*export async function addAttractionToItinerary(itineraryId, attraction) {
+    const token = getToken();
     if (!token) throw new Error("User not authenticated");
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/itineraries/${itineraryId}/attractions`, {
@@ -86,22 +114,23 @@ export async function addAttractionToItinerary(itineraryId, attraction) {
     }
 
     return res.json();
-}
+}*/
 
 export async function removeAttractionFromItinerary(itineraryId, attractionId) {
-    const token = localStorage.getItem('access_token');
-    const res = await fetch(`/api/itineraries/${itineraryId}/remove`, {
-        method: 'POST',
+    const token = getToken(); // DO NOT use localStorage manually
+    if (!token) throw new Error("User not authenticated");
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/itineraries/${itineraryId}/attractions/${attractionId}`, {
+        method: 'DELETE',
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
+            Authorization: `jwt ${token}`,
         },
-        body: JSON.stringify({ attractionId }),
     });
 
     if (!res.ok) {
-        throw new Error(await res.text());
+        const error = await res.json();
+        throw new Error(error.message || "Failed to remove attraction");
     }
 
-    return await res.json();
+    return res.json();
 }

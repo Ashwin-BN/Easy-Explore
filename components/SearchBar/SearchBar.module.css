@@ -1,3 +1,4 @@
+
 /* --- Layout --- */
 .flexRow {
     display: flex;
@@ -68,7 +69,6 @@
     background-color: #005ec2;
 }
 
-
 /* --Dropdown Globals-- */
 .stdropdown-menu {
     background-color: hotpink !important;
@@ -78,3 +78,28 @@
     color: #000 !important;
 }
 
+/* --- Pagination buttons --- */
+.pageButton {
+    margin: 0 4px;
+    padding: 6px 12px;
+    font-size: 0.95rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.pageButton:hover {
+    background-color: #f0f0f0;
+    border-color: #0070f3;
+    color: #0070f3;
+}
+
+.activePage {
+    font-weight: bold;
+    background-color: #0070f3;
+    color: white;
+    border-color: #0070f3;
+}

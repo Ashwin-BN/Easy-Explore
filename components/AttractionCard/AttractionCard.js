@@ -7,7 +7,8 @@ export default function AttractionCard({ attraction, onHover, onLeave, onExpand 
             className={styles.card}
             onMouseEnter={onHover}
             onMouseLeave={onLeave}
-            onClick={() => onExpand(attraction)}
+            onClick={() => onExpand?.(attraction)}
+
         >
             {attraction.image && (
                 <div className={styles.imageWrapper}>
