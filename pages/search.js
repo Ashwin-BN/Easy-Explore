@@ -7,7 +7,8 @@ import { addAttractionToItinerary, loadUserItineraries } from '@/controller/itin
 import { saveAttraction } from '@/controller/attractionController';
 import styles from '../styles/SearchPage.module.css';
 
-const AttractionsMap = dynamic(() => import('@/components/AttractionMap/AttractionsMap'), { ssr: false });
+const AttractionsMap = dynamic(() => import('@/components/AttractionMap/AttractionMap'), { ssr: false });
+
 
 export default function SearchPage() {
   const [results, setResults] = useState({ match: [], nearby: [] });
