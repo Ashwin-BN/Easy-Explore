@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import ItineraryList from '@/components/ItineraryList/ItineraryList';
 import ItineraryForm from '@/components/ItineraryForm/ItineraryForm';
-import ItineraryModal from "@/components/AttractionModal/ItineraryModal";
+import ItineraryModal from "@/components/ItineraryModal/ItineraryModal";
 import styles from '../styles/Itinerary.module.css';
 import {
     loadUserItineraries,

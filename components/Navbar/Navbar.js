@@ -75,7 +75,7 @@ export default function Navbar() {
                     className={styles.usernameDropdown}
                     onClick={() => setShowMenu(!showMenu)}
                 >
-                  👤 {user.user.userName} ▾
+                  👤 {user.userName} ▾
                 </button>
 
                 {/* Dropdown menu */}

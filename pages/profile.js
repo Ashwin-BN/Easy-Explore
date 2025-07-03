@@ -20,8 +20,8 @@ export default function Profile() {
       const parsedUser = JSON.parse(storedUser);
       setUser(parsedUser);
       setFormData({
-        userName: parsedUser.user.userName,
-        email: parsedUser.user.email,
+        userName: parsedUser.userName,
+        email: parsedUser.email,
       });
     } else {
       router.push('/login');
@@ -55,8 +55,8 @@ export default function Profile() {
   // Cancel edit and reset form
   const handleCancel = () => {
     setFormData({
-      userName: user.user.userName,
-      email: user.user.email,
+      userName: user.userName,
+      email: user.email,
     });
     setEditMode(false);
   };
@@ -96,8 +96,8 @@ export default function Profile() {
           </>
         ) : (
           <>
-            <p><strong>Username:</strong> {user.user.userName}</p>
-            <p><strong>Email:</strong> {user.user.email}</p>
+            <p><strong>Username:</strong> {user.userName}</p>
+            <p><strong>Email:</strong> {user.email}</p>
             <p><strong>Role:</strong> Traveler</p>
             <button style={styles.editBtn} onClick={() => setEditMode(true)}>Edit Profile</button>
           </>
