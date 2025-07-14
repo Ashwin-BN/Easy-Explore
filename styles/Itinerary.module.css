@@ -23,6 +23,11 @@
     font-weight: 600;
 }
 
+.subheading {
+    font-size: 1.5rem;
+    margin-bottom: 1.2rem;
+}
+
 .createButton {
     background-color: #0070f3;
     color: #fff;
@@ -85,6 +90,15 @@
     z-index: 1001;
     animation: fadeInUp 0.3s ease;
 }
+
+.sectionDivider {
+    border: none;
+    height: 1px;
+    background-color: #ccc;
+    margin: 2rem 0;
+}
+
+
 
 @keyframes fadeInUp {
     from {

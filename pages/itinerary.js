@@ -55,6 +55,9 @@ export default function ItinerariesPage() {
         );
     };
 
+    const upcoming = itineraries.filter(it => new Date(it.to) >= new Date());
+    const past = itineraries.filter(it => new Date(it.to) < new Date());
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.headerRow}>
@@ -71,8 +74,22 @@ export default function ItinerariesPage() {
             </div>
 
             <div className={styles.pageContainer}>
+                <h2 className={styles.subheading}>Upcoming Trips</h2>
                 <ItineraryList
-                    items={itineraries}
+                    items={upcoming}
+                    onEdit={(item) => {
+                        setEditing(item);
+                        setShowForm(true);
+                    }}
+                    onDelete={handleDelete}
+                    onViewAttractions={setSelectedItinerary}
+                />
+
+                <hr className={styles.sectionDivider} />
+
+                <h2 className={styles.subheading}>Previous Trips</h2>
+                <ItineraryList
+                    items={past}
                     onEdit={(item) => {
                         setEditing(item);
                         setShowForm(true);

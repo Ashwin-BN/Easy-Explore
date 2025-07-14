@@ -1,177 +1,121 @@
-// pages/profile.js
-
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
-import { color } from 'framer-motion';
+import styles from '../styles/Profile.module.css';
+import VisitedPlaces from "@/components/VisitedPlacesPicker/VisitedPlaces";
 
 export default function Profile() {
-  const [user, setUser] = useState(null);           // User from session
-  const [editMode, setEditMode] = useState(false);  // Toggle edit mode
-  const [formData, setFormData] = useState({        // Form state
+  const [user, setUser] = useState(null);
+  const [formData, setFormData] = useState({
     userName: '',
     email: '',
+    profilePicture: '',
+    currentLocation: {
+      city: '',
+      country: '',
+    },
+    visitedCities: [],
   });
 
   const router = useRouter();
 
+  const fileInputRef = useRef(null);
+
+  const handleProfilePictureUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result;
+        setFormData(prev => ({ ...prev, profilePicture: base64String }));
+
+        const updatedUser = {
+          ...user,
+          profilePicture: base64String,
+        };
+        sessionStorage.setItem('user', JSON.stringify(updatedUser));
+        setUser(updatedUser);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   useEffect(() => {
     const storedUser = sessionStorage.getItem('user');
     if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      setUser(parsedUser);
+      const parsed = JSON.parse(storedUser);
+      setUser(parsed);
       setFormData({
-        userName: parsedUser.userName,
-        email: parsedUser.email,
+        userName: parsed.userName || '',
+        email: parsed.email || '',
+        profilePicture: parsed.profilePicture || '',
+        currentLocation: parsed.currentLocation || { city: '', country: '' },
+        visitedCities: parsed.visitedCities || [],
       });
     } else {
       router.push('/login');
     }
   }, [router]);
 
-  // Handle changes in form inputs
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  // Save changes (updates sessionStorage only for now)
-  const handleSave = () => {
-    const updatedUser = {
-      ...user,
-      user: {
-        ...user.user,
-        userName: formData.userName,
-        email: formData.email,
-      },
-    };
-    sessionStorage.setItem('user', JSON.stringify(updatedUser));
-    setUser(updatedUser);
-    setEditMode(false);
-  };
-
-  // Cancel edit and reset form
-  const handleCancel = () => {
-    setFormData({
-      userName: user.userName,
-      email: user.email,
-    });
-    setEditMode(false);
-  };
-
   if (!user) return null;
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.heading}>👤 My Profile</h1>
-      <div style={styles.card}>
-        {editMode ? (
-          <>
-            <div style={styles.inputGroup}>
-              <label>Username:</label>
-              <input
-                type="text"
-                name="userName"
-                value={formData.userName}
-                onChange={handleChange}
-                style={styles.input}
-              />
+      <div className={styles.container}>
+        <h1 className={styles.heading}>My Profile</h1>
+        <hr className={styles.divider} />
+
+        <div className={styles.profileHeader}>
+          <div className={styles.pfpWrapper}>
+            <img
+                src={formData.profilePicture || '/easy_explore/public/default-pfp.jpg'}
+                alt="Profile"
+                className={styles.profileImage}
+            />
+            <div className={styles.overlay} onClick={() => fileInputRef.current.click()}>
+              <span className={styles.editIcon}>✎</span>
             </div>
-            <div style={styles.inputGroup}>
-              <label>Email:</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                style={styles.input}
-              />
-            </div>
-            <div style={styles.buttonGroup}>
-              <button style={styles.saveBtn} onClick={handleSave}>Save</button>
-              <button style={styles.cancelBtn} onClick={handleCancel}>Cancel</button>
-            </div>
-          </>
-        ) : (
-          <>
-            <p><strong>Username:</strong> {user.userName}</p>
-            <p><strong>Email:</strong> {user.email}</p>
-            <p><strong>Role:</strong> Traveler</p>
-            <button style={styles.editBtn} onClick={() => setEditMode(true)}>Edit Profile</button>
-          </>
-        )}
+            <input
+                type="file"
+                accept="image/*"
+                ref={fileInputRef}
+                style={{ display: 'none' }}
+                onChange={handleProfilePictureUpload}
+            />
+          </div>
+
+          <div className={styles.userHeader}>
+            <h2 className={styles.displayName}>{user.email.split('@')[0]}</h2>
+            <p className={styles.username}>
+              @{formData.userName}
+              {" | "}
+              <span className={styles.locationText}>
+                {formData.currentLocation?.city && formData.currentLocation?.country
+                    ? `${formData.currentLocation.city}, ${formData.currentLocation.country}`
+                    : 'Location not set'}
+              </span>
+            </p>
+          </div>
+        </div>
+
+        <div className={styles.infoSection}>
+
+          <h3 className={styles.infoTitle}>Visited Places</h3>
+          <VisitedPlaces
+              visited={formData.visitedCities}
+              onUpdate={(newVisited) =>
+                  setFormData((prev) => ({ ...prev, visitedCities: newVisited }))
+              }
+          />
+
+          {/* Public Itineraries */}
+          <h3 className={styles.infoTitle}>Public Itineraries</h3>
+          <div className={styles.itineraryGrid}>
+            {/* Replace this with dynamic data later */}
+            <div className={styles.itineraryCard}>Tokyo Adventure 🇯🇵</div>
+            <div className={styles.itineraryCard}>Roadtrip USA 🇺🇸</div>
+            {/* if empty, render this instead: */}
+            {/* <p className={styles.placeholderText}>No public itineraries yet.</p> */}
+          </div>
+        </div>
       </div>
-    </div>
   );
 }
-
-// Inline styles
-const styles = {
-  container: {
-    position: 'center' ,
-    maxWidth: '600px',
-    margin: '2rem auto',
-    padding: '1.5rem',
-    backgroundColor: '#f4f4f4',
-    color: '#222', 
-    borderRadius: '10px',
-    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-    fontFamily: 'Arial, sans-serif',
-  },
-  heading: {
-    marginBottom: '1rem',
-    color: '#0070f3',
-    textAlign: 'center',
-  },
-  card: {
-    backgroundColor: 'white',
-    color: '#111',
-    padding: '1.5rem',
-    borderRadius: '8px',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
-    lineHeight: '1.8',
-  },
-  inputGroup: {
-    marginBottom: '1rem',
-  },
-  input: {
-    width: '100%',
-    padding: '0.6rem',
-    fontSize: '1rem',
-    borderRadius: '4px',
-    border: '1px solid #ccc',
-  },
-  buttonGroup: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    gap: '1rem',
-    marginTop: '1rem',
-  },
-  editBtn: {
-    marginTop: '1rem',
-    padding: '0.6rem 1.2rem',
-    backgroundColor: '#0070f3',
-    color: 'white',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-  },
-  saveBtn: {
-    backgroundColor: '#28a745',
-    color: 'white',
-    padding: '0.6rem 1.2rem',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-  },
-  cancelBtn: {
-    backgroundColor: '#ccc',
-    color: '#333',
-    padding: '0.6rem 1.2rem',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-  },
-};

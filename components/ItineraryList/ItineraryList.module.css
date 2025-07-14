@@ -32,6 +32,15 @@
     color: #444;
 }
 
+.details p.meta {
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .actions {
     display: flex;
     gap: 0.8rem;

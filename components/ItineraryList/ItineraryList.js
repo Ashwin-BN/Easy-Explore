@@ -11,6 +11,8 @@ export default function ItineraryList({ items, onEdit, onDelete, onViewAttractio
         return `${month} ${day}, ${year}`;
     };
 
+    const sharedText = "Placeholder"
+
     if (items.length === 0) {
         return <p className={styles.empty}>No itineraries yet...</p>;
     }
@@ -18,6 +20,7 @@ export default function ItineraryList({ items, onEdit, onDelete, onViewAttractio
     return (
         <ul className={styles.list}>
             {items.map((item) => (
+
                 <li key={item._id} className={styles.item}>
                     <div
                         className={styles.clickableCard}
@@ -25,8 +28,9 @@ export default function ItineraryList({ items, onEdit, onDelete, onViewAttractio
                     >
                         <div className={styles.details}>
                             <h3>{item.name}</h3>
-                            <p><strong>From:</strong> {formatDate(item.from)}</p>
-                            <p><strong>To:</strong> {formatDate(item.to)}</p>
+                            <p className={styles.meta}>
+                                {`${formatDate(item.from)} - ${formatDate(item.to)} | ${item.attractions?.length || 0} attraction${item.attractions?.length === 1 ? '' : 's'} | ${sharedText}`}
+                            </p>
                         </div>
                     </div>
                     <div className={styles.actions}>
