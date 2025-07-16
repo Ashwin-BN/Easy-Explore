@@ -1,62 +1,78 @@
 import { useEffect, useState, useRef } from 'react';
-import { useRouter } from 'next/router';
 import styles from '../styles/Profile.module.css';
-import VisitedPlaces from "@/components/VisitedPlacesPicker/VisitedPlaces";
+import VisitedPlaces from '@/components/VisitedPlacesPicker/VisitedPlaces';
+import { loadUserItineraries } from '@/controller/itineraryController';
+import { loadUserProfile, updateUserField } from '@/controller/profileController';
+import ProfileEditModal from "@/components/ProfileEditModal/ProfileEditModal";
 
 export default function Profile() {
   const [user, setUser] = useState(null);
+  const [itineraries, setItineraries] = useState([]);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [formData, setFormData] = useState({
     userName: '',
-    email: '',
     profilePicture: '',
-    currentLocation: {
-      city: '',
-      country: '',
-    },
+    currentLocation: { city: '', country: '' },
     visitedCities: [],
   });
 
-  const router = useRouter();
-
   const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const profile = await loadUserProfile();
+        if (!profile) {
+          console.warn("No profile returned. Skipping...");
+          return;
+        }
+
+        setUser(profile);
+        setFormData({
+          userName: profile.userName || '',
+          profilePicture: profile.profilePicture || '',
+          currentLocation: profile.currentLocation || { city: '', country: '' },
+          visitedCities: profile.visitedCities || [],
+        });
+
+        const itinerariesData = await loadUserItineraries();
+        setItineraries(itinerariesData);
+      } catch (err) {
+        console.error("⚠️ Failed to load profile:", err.message);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleProfilePictureUpload = (e) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onloadend = () => {
+      reader.onloadend = async () => {
         const base64String = reader.result;
-        setFormData(prev => ({ ...prev, profilePicture: base64String }));
-
-        const updatedUser = {
-          ...user,
-          profilePicture: base64String,
-        };
-        sessionStorage.setItem('user', JSON.stringify(updatedUser));
-        setUser(updatedUser);
+        await updateField('profilePicture', base64String);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  useEffect(() => {
-    const storedUser = sessionStorage.getItem('user');
-    if (storedUser) {
-      const parsed = JSON.parse(storedUser);
-      setUser(parsed);
-      setFormData({
-        userName: parsed.userName || '',
-        email: parsed.email || '',
-        profilePicture: parsed.profilePicture || '',
-        currentLocation: parsed.currentLocation || { city: '', country: '' },
-        visitedCities: parsed.visitedCities || [],
-      });
-    } else {
-      router.push('/login');
+  const updateField = async (key, value) => {
+    try {
+      await updateUserField(key, value);
+      setFormData((prev) => ({ ...prev, [key]: value }));
+    } catch (err) {
+      console.error("Failed to update field:", err);
     }
-  }, [router]);
+  };
 
-  if (!user) return null;
+  if (!user) {
+    return (
+        <div className={styles.container}>
+          <h1 className={styles.heading}>Loading profile...</h1>
+        </div>
+    );
+  }
 
   return (
       <div className={styles.container}>
@@ -66,7 +82,7 @@ export default function Profile() {
         <div className={styles.profileHeader}>
           <div className={styles.pfpWrapper}>
             <img
-                src={formData.profilePicture || '/easy_explore/public/default-pfp.jpg'}
+                src={formData.profilePicture || '/default-pfp.jpg'}
                 alt="Profile"
                 className={styles.profileImage}
             />
@@ -85,37 +101,52 @@ export default function Profile() {
           <div className={styles.userHeader}>
             <h2 className={styles.displayName}>{user.email.split('@')[0]}</h2>
             <p className={styles.username}>
-              @{formData.userName}
-              {" | "}
+              @{formData.userName} {" | "}
               <span className={styles.locationText}>
-                {formData.currentLocation?.city && formData.currentLocation?.country
-                    ? `${formData.currentLocation.city}, ${formData.currentLocation.country}`
-                    : 'Location not set'}
-              </span>
+              {formData.currentLocation.city && formData.currentLocation.country
+                  ? `${formData.currentLocation.city}, ${formData.currentLocation.country}`
+                  : 'Location not set'}
+            </span>
             </p>
           </div>
         </div>
 
         <div className={styles.infoSection}>
+            <button
+                className={styles.editProfileButton}
+                onClick={() => setShowEditModal(true)}
+            >
+              Edit Profile
+            </button>
 
-          <h3 className={styles.infoTitle}>Visited Places</h3>
-          <VisitedPlaces
-              visited={formData.visitedCities}
-              onUpdate={(newVisited) =>
-                  setFormData((prev) => ({ ...prev, visitedCities: newVisited }))
-              }
-          />
-
-          {/* Public Itineraries */}
           <h3 className={styles.infoTitle}>Public Itineraries</h3>
           <div className={styles.itineraryGrid}>
-            {/* Replace this with dynamic data later */}
-            <div className={styles.itineraryCard}>Tokyo Adventure 🇯🇵</div>
-            <div className={styles.itineraryCard}>Roadtrip USA 🇺🇸</div>
-            {/* if empty, render this instead: */}
-            {/* <p className={styles.placeholderText}>No public itineraries yet.</p> */}
+            {itineraries.length > 0 ? (
+                itineraries.map((itin) => (
+                    <div key={itin._id} className={styles.itineraryCard}>
+                      {itin.name}
+                    </div>
+                ))
+            ) : (
+                <p className={styles.placeholderText}>No itineraries yet.</p>
+            )}
           </div>
         </div>
+
+          <VisitedPlaces
+              visited={formData.visitedCities}
+              onUpdate={(newVisited) => updateField('visitedCities', newVisited)}
+          />
+
+        {showEditModal && (
+            <ProfileEditModal
+                initialData={formData}
+                onClose={() => setShowEditModal(false)}
+                onSuccess={(updatedFields) => {
+                  setFormData((prev) => ({ ...prev, ...updatedFields }));
+                }}
+            />
+        )}
       </div>
   );
 }
