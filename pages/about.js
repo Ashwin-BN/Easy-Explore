@@ -1,6 +1,7 @@
 // pages/about.js
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import styles from "../styles/About.module.css";
 import { FaLinkedin } from "react-icons/fa";
 
@@ -57,7 +58,7 @@ export default function About() {
       <div className={styles.teamGrid}>
         {teamMembers.map((member, index) => (
           <motion.div key={index} className={styles.card} whileHover={{ scale: 1.03 }}>
-            <img src={member.image} alt={member.name} className={styles.squareImage} />
+            <Image src={member.image} alt={member.name} className={styles.squareImage} />
             <h3 className={styles.name}>{member.name}</h3>
             <p className={styles.role}>{member.role}</p>
             <a

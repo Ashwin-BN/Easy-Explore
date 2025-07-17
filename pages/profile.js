@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import Image from "next/image";
 import styles from '../styles/Profile.module.css';
 import VisitedPlaces from '@/components/VisitedPlacesPicker/VisitedPlaces';
 import { loadUserItineraries } from '@/controller/itineraryController';
@@ -93,7 +94,7 @@ export default function Profile() {
 
         <div className={styles.profileHeader}>
           <div className={styles.pfpWrapper}>
-            <img
+            <Image
                 src={formData.profilePicture || '/default-pfp.jpg'}
                 alt="Profile"
                 className={styles.profileImage}

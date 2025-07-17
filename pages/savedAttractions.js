@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Image from "next/image";
 import { FaTrash, FaPlus } from 'react-icons/fa';
 import styles from '../styles/SavedAttractions.module.css';
 import {
@@ -68,7 +69,7 @@ export default function SavedAttractions() {
                         {savedAttractions.map((attraction) => (
                             <div key={attraction.id} className={styles.card}>
                                 {attraction.image && (
-                                    <img
+                                    <Image
                                         src={attraction.image}
                                         alt={attraction.name}
                                         className={styles.cardImage}
