@@ -162,5 +162,13 @@ export async function shareItinerary(itineraryId) {
   }
 
   const data = await res.json();
-  return `${window.location.origin}/shared-itinerary/${data.itineraryId}`;
+  const shareUrl = `${window.location.origin}/shared-itinerary/${data.itineraryId}`;
+  
+  try {
+    await navigator.clipboard.writeText(shareUrl);
+  } catch (err) {
+    console.error('Failed to copy share URL to clipboard:', err);
+  }
+
+  return shareUrl;
 }
