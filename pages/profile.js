@@ -4,11 +4,13 @@ import VisitedPlaces from '@/components/VisitedPlacesPicker/VisitedPlaces';
 import { loadUserItineraries } from '@/controller/itineraryController';
 import { loadUserProfile, updateUserField } from '@/controller/profileController';
 import ProfileEditModal from "@/components/ProfileEditModal/ProfileEditModal";
+import ItineraryModal from "@/components/ItineraryModal/ItineraryModal";
 
 export default function Profile() {
   const [user, setUser] = useState(null);
   const [itineraries, setItineraries] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedItinerary, setSelectedItinerary] = useState(null);
   const [formData, setFormData] = useState({
     userName: '',
     profilePicture: '',
@@ -36,7 +38,7 @@ export default function Profile() {
         });
 
         const itinerariesData = await loadUserItineraries();
-        setItineraries(itinerariesData);
+        setItineraries(itinerariesData.filter(it => it.public));
       } catch (err) {
         console.error("⚠️ Failed to load profile:", err.message);
       }
@@ -64,6 +66,16 @@ export default function Profile() {
     } catch (err) {
       console.error("Failed to update field:", err);
     }
+  };
+
+  const handleAttractionRemoved = (itineraryId, attractionId) => {
+    setItineraries(prev =>
+        prev.map(itin =>
+            itin._id === itineraryId
+                ? { ...itin, attractions: itin.attractions.filter(a => a.id !== attractionId) }
+                : itin
+        )
+    );
   };
 
   if (!user) {
@@ -123,7 +135,11 @@ export default function Profile() {
           <div className={styles.itineraryGrid}>
             {itineraries.length > 0 ? (
                 itineraries.map((itin) => (
-                    <div key={itin._id} className={styles.itineraryCard}>
+                    <div
+                        key={itin._id}
+                        className={styles.itineraryCard}
+                        onClick={() => setSelectedItinerary(itin)}
+                    >
                       {itin.name}
                     </div>
                 ))
@@ -145,6 +161,14 @@ export default function Profile() {
                 onSuccess={(updatedFields) => {
                   setFormData((prev) => ({ ...prev, ...updatedFields }));
                 }}
+            />
+        )}
+
+        {selectedItinerary && (
+            <ItineraryModal
+                itinerary={selectedItinerary}
+                onClose={() => setSelectedItinerary(null)}
+                onAttractionRemoved={handleAttractionRemoved}
             />
         )}
       </div>
