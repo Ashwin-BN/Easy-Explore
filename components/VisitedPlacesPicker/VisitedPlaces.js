@@ -1,67 +1,99 @@
-import { useState } from 'react';
-import { Country, City } from 'country-state-city';
+import { useState, useEffect } from "react";
+import iso2to3 from "@/components/VisitedPlacesPicker/iso2to3";
+import { Country, City } from "country-state-city";
 import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
-import styles from './VisitedPlaces.module.css';
+import styles from "./VisitedPlaces.module.css";
 
-const geoUrl = "https://raw.githubusercontent.com/deldersveld/topojson/master/world-countries.json";
+const iso2ToIso3Map = new Map(
+    Country.getAllCountries().map(c => [c.isoCode.toUpperCase(), c.iso3])
+);
 
 export default function VisitedPlaces({ visited = [], onUpdate = () => {} }) {
-    const [selectedCountry, setSelectedCountry] = useState('');
-    const [selectedCity, setSelectedCity] = useState('');
+    const [selectedCountry, setSelectedCountry] = useState("");
+    const [selectedCity, setSelectedCity] = useState("");
     const [showModal, setShowModal] = useState(false);
-    const [localVisited, setLocalVisited] = useState(visited);
+    const [localVisited, setLocalVisited] = useState([]);
+    const geoUrl = "https://raw.githubusercontent.com/subyfly/topojson/master/world-countries.json";
+
+    // Deduplicate visited cities
+    useEffect(() => {
+        const seen = new Set();
+        const deduped = visited.filter(entry => {
+            const key = `${entry.countryCode}:${entry.city}`;
+            if (seen.has(key)) return false;
+            seen.add(key);
+            return true;
+        });
+        setLocalVisited(deduped);
+    }, [visited]);
 
     const handleAddPlace = () => {
         if (!selectedCountry || !selectedCity) return;
-        const place = {
+
+        const country = Country.getCountryByCode(selectedCountry);
+        if (!country) return;
+
+        const newPlace = {
             countryCode: selectedCountry,
-            countryName: Country.getCountryByCode(selectedCountry)?.name,
-            city: selectedCity
+            countryName: country.name,
+            city: selectedCity,
         };
-        const exists = localVisited.some(
-            (p) => p.city === place.city && p.countryCode === place.countryCode
+
+        const duplicate = localVisited.some(
+            (p) => p.city === newPlace.city && p.countryCode === newPlace.countryCode
         );
-        if (!exists) {
-            const updated = [...localVisited, place];
-            setLocalVisited(updated);
-            onUpdate(updated);
-        }
-        setSelectedCity('');
+        if (duplicate) return;
+
+        const updated = [...localVisited, newPlace];
+        setLocalVisited(updated);
+        onUpdate(updated);
+
+        setSelectedCity("");
+        setSelectedCountry("");
+        setShowModal(false);
     };
 
-    const highlightedCountries = [...new Set(
+    const highlightedCountries = new Set(
         localVisited
-            .map(p => Country.getCountryByCode(p.countryCode)?.iso3)
+            .map(p => iso2to3[p.countryCode?.toUpperCase()])
             .filter(Boolean)
-    )];
+    );
 
-    const handleCountryClick = (isoCode) => {
-        const cities = localVisited.filter(p => p.countryCode === isoCode);
-        if (cities.length > 0) {
-            alert(`Visited cities in ${Country.getCountryByCode(isoCode)?.name}:\n\n` + cities.map(c => `- ${c.city}`).join('\n'));
-        }
-    };
+    console.log("🌍 Highlighted ISO3s:", highlightedCountries);
 
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
                 <h3>Visited Places</h3>
-                <button className={styles.editBtn} onClick={() => setShowModal(true)}>Edit</button>
+                <button className={styles.editBtn} onClick={() => setShowModal(true)}>
+                    + Add
+                </button>
             </div>
-            <p className={styles.stats}>{
-                `${highlightedCountries.length} countries | ${localVisited.length} cities visited`
-            }</p>
+
+            <p className={styles.stats}>
+                {`${new Set(localVisited.map((p) => p.countryCode)).size} countries | ${localVisited.length} cities visited`}
+            </p>
+
             <ComposableMap className={styles.map} projectionConfig={{ scale: 140 }}>
                 <Geographies geography={geoUrl}>
                     {({ geographies }) =>
                         geographies.map((geo) => {
-                            const isVisited = highlightedCountries.includes(geo.id);
+                            const isVisited = highlightedCountries.has(geo.id);
                             return (
                                 <Geography
                                     key={geo.rsmKey}
                                     geography={geo}
-                                    onClick={() => handleCountryClick(geo.id)}
-                                    className={styles.geography}
+                                    onClick={() => {
+                                        const match = Country.getAllCountries().find(c => c.iso3 === geo.id);
+                                        if (!match) return;
+
+                                        const iso2 = match.isoCode; // ISO2 code for matching cities
+                                        const cities = localVisited.filter(p => p.countryCode === iso2);
+
+                                        if (cities.length > 0) {
+                                            alert(`Visited cities in ${match.name}:\n\n` + cities.map(c => `- ${c.city}`).join('\n'));
+                                        }
+                                    }}
                                     style={{
                                         default: {
                                             fill: isVisited ? '#0070f3' : '#EAEAEC',
@@ -87,17 +119,20 @@ export default function VisitedPlaces({ visited = [], onUpdate = () => {} }) {
             {showModal && (
                 <div className={styles.modalBackdrop}>
                     <div className={styles.modal}>
-                        <h4>Add Visited City</h4>
+                        <h4>Add a Visited City</h4>
+
                         <select
                             value={selectedCountry}
                             onChange={(e) => {
                                 setSelectedCountry(e.target.value);
-                                setSelectedCity('');
+                                setSelectedCity("");
                             }}
                         >
-                            <option value=''>Select Country</option>
+                            <option value="">Select Country</option>
                             {Country.getAllCountries().map((c) => (
-                                <option key={c.isoCode} value={c.isoCode}>{c.name}</option>
+                                <option key={c.isoCode} value={c.isoCode}>
+                                    {c.name}
+                                </option>
                             ))}
                         </select>
 
@@ -106,15 +141,26 @@ export default function VisitedPlaces({ visited = [], onUpdate = () => {} }) {
                             onChange={(e) => setSelectedCity(e.target.value)}
                             disabled={!selectedCountry}
                         >
-                            <option value=''>Select City</option>
+                            <option value="">Select City</option>
                             {selectedCountry &&
                                 City.getCitiesOfCountry(selectedCountry).map((c) => (
-                                    <option key={c.name} value={c.name}>{c.name}</option>
+                                    <option key={c.name} value={c.name}>
+                                        {c.name}
+                                    </option>
                                 ))}
                         </select>
 
-                        <button onClick={handleAddPlace} className={styles.addBtn}>+ Add</button>
-                        <button onClick={() => setShowModal(false)} className={styles.cancelBtn}>Close</button>
+                        <div className={styles.modalButtons}>
+                            <button className={styles.addBtn} onClick={handleAddPlace}>
+                                Add
+                            </button>
+                            <button
+                                className={styles.cancelBtn}
+                                onClick={() => setShowModal(false)}
+                            >
+                                Cancel
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
