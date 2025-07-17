@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import styles from '@/styles/SharedItineraryPage.module.css';
 
 export default function SharedItineraryPage() {
   const router = useRouter();
@@ -27,28 +28,41 @@ export default function SharedItineraryPage() {
     fetchItinerary();
   }, [itineraryId]);
 
+  function formatLocalDate(dateString) {
+  if (!dateString) return '';
+  const [year, month, day] = dateString.split('T')[0].split('-');
+  return `${month}/${day}/${year}`;
+}
+
+
   if (loading) return <p>Loading itinerary...</p>;
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
   if (!itinerary) return <p>Itinerary not found.</p>;
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h1>{itinerary.name}</h1>
-      <p><strong>From:</strong> {new Date(itinerary.from).toLocaleDateString()}</p>
-      <p><strong>To:</strong> {new Date(itinerary.to).toLocaleDateString()}</p>
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <h1 className={styles.header}>{itinerary.name}</h1>
+        <p><strong>From:</strong> {formatLocalDate(itinerary.from)}</p>
+        <p><strong>To:</strong> {formatLocalDate(itinerary.to)}</p>
+      </div>
 
-      <h2>Attractions:</h2>
-      {itinerary.attractions?.length > 0 ? (
-        <ul>
-          {itinerary.attractions.map((attr, i) => (
-            <li key={i}>
-              <strong>{attr.name}</strong> — {attr.address || attr.description}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No attractions in this itinerary.</p>
-      )}
+      <div className={styles.card}>
+        <h2 className={`${styles.header} ${styles.headerNoMarginTop}`}>Attractions</h2>
+        {itinerary.attractions?.length > 0 ? (
+          <ul className={styles.list}>
+            {itinerary.attractions.map((attr, i) => (
+              <li key={i} className={styles.listItem}>
+                <strong>{attr.name}</strong>
+                <br />
+                <small>{attr.address || attr.description}</small>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No attractions in this itinerary.</p>
+        )}
+      </div>
     </div>
   );
 }
