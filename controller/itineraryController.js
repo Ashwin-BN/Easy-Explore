@@ -134,3 +134,33 @@ export async function removeAttractionFromItinerary(itineraryId, attractionId) {
 
     return res.json();
 }
+
+export async function addCollaborator(itineraryId, email) {
+    const token = getToken();
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/itineraries/${itineraryId}/collaborators`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `jwt ${token}`,
+        },
+        body: JSON.stringify({ collaboratorEmail: email }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    return data;
+}
+
+export async function removeCollaborator(itineraryId, userId) {
+    const token = getToken();
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/itineraries/${itineraryId}/collaborators/${userId}`, {
+        method: 'DELETE',
+        headers: {
+            Authorization: `jwt ${token}`,
+        },
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    return data;
+}

@@ -1,6 +1,8 @@
 import styles from './ItineraryModal.module.css';
 import { FaTrash } from 'react-icons/fa';
 import { removeAttractionFromItinerary } from '@/controller/itineraryController';
+import CollaboratorManager from '@/components/CollaboratorManager/CollaboratorManager';
+import { getToken } from '@/lib/authentication';
 import {useEffect, useState} from 'react';
 
 export default function ItineraryModal({ itinerary, onClose, onAttractionRemoved }) {
@@ -59,6 +61,20 @@ export default function ItineraryModal({ itinerary, onClose, onAttractionRemoved
                 ) : (
                     <p>No attractions saved to this itinerary.</p>
                 )}
+                <CollaboratorManager
+    itinerary={localItinerary}
+    onCollaboratorsUpdated={async () => {
+        const token = getToken();
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/itineraries/${localItinerary._id}`, {
+            headers: {
+                Authorization: `jwt ${token}`
+            }
+        });
+        const data = await res.json();
+        setLocalItinerary(data);
+    }}
+/>
+
             </div>
         </div>
     );
