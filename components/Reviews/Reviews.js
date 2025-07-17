@@ -16,9 +16,11 @@ export default function Reviews({ attractionId, token }) {
   const currentUser = readToken(); // get logged-in user
 
   // Fetch reviews from backend
+  console.log("API URL is:", process.env.NEXT_PUBLIC_API_URL);
+
   const fetchReviews = () => {
     setLoading(true);
-    fetch(`http://localhost:8080/api/reviews/${attractionId}`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/reviews/${attractionId}`)
       .then((res) => res.json())
       .then((data) => {
         // Sort so current user's review is on top
@@ -62,7 +64,7 @@ export default function Reviews({ attractionId, token }) {
   const handleDelete = async (reviewId) => {
     if (!confirm("Are you sure you want to delete this review?")) return;
     try {
-      const res = await fetch(`http://localhost:8080/api/reviews/${reviewId}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/reviews/${reviewId}`, {
         method: "DELETE",
         headers: { Authorization: `jwt ${token}` },
       });
@@ -87,7 +89,7 @@ export default function Reviews({ attractionId, token }) {
 
   const submitEdit = async () => {
     try {
-      const res = await fetch(`http://localhost:8080/api/reviews/${editingReviewId}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/reviews/${editingReviewId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
