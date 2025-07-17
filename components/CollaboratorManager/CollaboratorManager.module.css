@@ -1,0 +1,28 @@
+.manager {
+    margin-top: 2rem;
+    border-top: 1px solid #ccc;
+    padding-top: 1rem;
+}
+
+.collabList {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1rem;
+}
+
+.collabList li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.25rem 0;
+}
+
+.addForm {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.error {
+    color: red;
+    font-size: 0.9rem;
+}
