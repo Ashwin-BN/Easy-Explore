@@ -15,9 +15,6 @@ export default function Reviews({ attractionId, token }) {
 
   const currentUser = readToken(); // get logged-in user
 
-  // Fetch reviews from backend
-  console.log("API URL is:", process.env.NEXT_PUBLIC_API_URL);
-
   const fetchReviews = () => {
     setLoading(true);
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/reviews/${attractionId}`)

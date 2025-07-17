@@ -32,7 +32,7 @@ export default function ReviewForm({ attractionId, token, onReviewAdded }) {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:8080/api/reviews", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/reviews`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
