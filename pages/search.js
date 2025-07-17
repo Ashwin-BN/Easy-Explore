@@ -6,6 +6,11 @@ import AttractionCard from '@/components/AttractionCard/AttractionCard';
 import { addAttractionToItinerary, loadUserItineraries } from '@/controller/itineraryController';
 import { saveAttraction } from '@/controller/attractionController';
 import styles from '../styles/SearchPage.module.css';
+import Reviews from '@/components/Reviews/Reviews';
+import ReviewForm from '@/components/Reviews/ReviewForm';
+import { getToken } from "@/lib/authentication";
+
+
 
 const AttractionsMap = dynamic(() => import('@/components/AttractionMap/AttractionMap'), { ssr: false });
 
@@ -258,6 +263,12 @@ export default function SearchPage() {
                 </select>
               )}
             </div>
+            <hr style={{ margin: '1rem 0' }} />
+            <h3>Reviews</h3>
+            <Reviews
+              attractionId={expandedAttraction.id}
+              token={getToken()}
+            />
           </div>
         </div>
       )}
