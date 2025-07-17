@@ -67,10 +67,9 @@ export default function ItinerariesPage() {
         }
     };
 
-
     const handleShare = async (itinerary) => {
         try {
-        const shareUrl = await shareItinerary(itinerary._id);
+        await shareItinerary(itinerary._id);
         alert(`Link Copied to Clipboard`);
         
         } catch (err) {

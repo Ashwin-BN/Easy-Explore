@@ -169,6 +169,4 @@ export async function shareItinerary(itineraryId) {
   } catch (err) {
     console.error('Failed to copy share URL to clipboard:', err);
   }
-
-  return shareUrl;
 }
