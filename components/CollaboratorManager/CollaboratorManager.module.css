@@ -1,28 +1,113 @@
 .manager {
-    margin-top: 2rem;
-    border-top: 1px solid #ccc;
-    padding-top: 1rem;
+  margin-top: 2.5rem;
+  border-top: 1px solid #e1e4e8;
+  padding-top: 1.5rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: auto;
 }
 
-.collabList {
-    list-style: none;
-    padding: 0;
-    margin-bottom: 1rem;
-}
-
-.collabList li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.25rem 0;
-}
-
-.addForm {
-    display: flex;
-    gap: 0.5rem;
+.title {
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: #24292e;
+  margin-bottom: 1rem;
 }
 
 .error {
-    color: red;
-    font-size: 0.9rem;
+  color: #d93025; /* Google red */
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  background: #fdecea;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: 1px solid #d93025;
+}
+
+.collabList {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 1.5rem;
+}
+
+.collabItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s ease;
+}
+
+.collabItem:hover {
+  background-color: #f6f8fa;
+  border-radius: 4px;
+}
+
+.collabName {
+  font-weight: 500;
+  color: #0366d6;
+  font-size: 1rem;
+  word-break: break-word;
+}
+
+.removeBtn {
+  background-color: #d73a49;
+  border: none;
+  color: white;
+  padding: 6px 14px;
+  font-size: 0.875rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.removeBtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.removeBtn:hover:not(:disabled) {
+  background-color: #b92c3e;
+}
+
+.addForm {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.input {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #d1d5da;
+  border-radius: 6px;
+  transition: border-color 0.3s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #0366d6;
+  box-shadow: 0 0 5px rgba(3, 102, 214, 0.5);
+}
+
+.addBtn {
+  background-color: #2ea44f;
+  border: none;
+  color: white;
+  padding: 8px 18px;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.addBtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.addBtn:hover:not(:disabled) {
+  background-color: #22863a;
 }

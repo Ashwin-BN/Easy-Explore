@@ -10,19 +10,17 @@ export default function CollaboratorManager({ itinerary, onCollaboratorsUpdated 
 
   const currentUser = getCurrentUser();
 
-  // Safely compare as strings since IDs could be strings or ObjectIds
   const isOwner = currentUser && itinerary?.userId && String(itinerary.userId) === String(currentUser._id);
 
-  // Debug logs - you can remove these after confirming behavior
-  console.log('Owner ID:', itinerary?.userId, typeof itinerary?.userId);
-  console.log('Current user ID:', currentUser?._id, typeof currentUser?._id);
-
   const handleAdd = async () => {
-    if (!email) return;
+    if (!email.trim()) {
+      setError('Please enter a valid email address.');
+      return;
+    }
 
     const token = getToken();
     if (!token) {
-      setError('User not authenticated');
+      setError('User not authenticated.');
       return;
     }
 
@@ -35,14 +33,14 @@ export default function CollaboratorManager({ itinerary, onCollaboratorsUpdated 
           'Content-Type': 'application/json',
           Authorization: `jwt ${token}`,
         },
-        body: JSON.stringify({ collaboratorEmail: email }),
+        body: JSON.stringify({ collaboratorEmail: email.trim() }),
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Failed to add collaborator');
+      if (!res.ok) throw new Error(data.message || 'Failed to add collaborator.');
 
-      onCollaboratorsUpdated();
       setEmail('');
+      onCollaboratorsUpdated();
     } catch (err) {
       setError(err.message);
     } finally {
@@ -53,7 +51,7 @@ export default function CollaboratorManager({ itinerary, onCollaboratorsUpdated 
   const handleRemove = async (userId) => {
     const token = getToken();
     if (!token) {
-      setError('User not authenticated');
+      setError('User not authenticated.');
       return;
     }
 
@@ -63,14 +61,12 @@ export default function CollaboratorManager({ itinerary, onCollaboratorsUpdated 
         `${process.env.NEXT_PUBLIC_API_URL}/itineraries/${itinerary._id}/collaborators/${userId}`,
         {
           method: 'DELETE',
-          headers: {
-            Authorization: `jwt ${token}`,
-          },
+          headers: { Authorization: `jwt ${token}` },
         }
       );
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Failed to remove collaborator');
+      if (!res.ok) throw new Error(data.message || 'Failed to remove collaborator.');
 
       onCollaboratorsUpdated();
     } catch (err) {
@@ -81,17 +77,26 @@ export default function CollaboratorManager({ itinerary, onCollaboratorsUpdated 
   };
 
   return (
-    <div className={styles.manager}>
-      <h3>Collaborators</h3>
-      {error && <p className={styles.error}>{error}</p>}
+    <section className={styles.manager} aria-label="Collaborator Manager">
+      <h3 className={styles.title}>Collaborators</h3>
+
+      {error && <p role="alert" className={styles.error}>{error}</p>}
 
       <ul className={styles.collabList}>
         {itinerary.collaborators?.map((user) => (
-          <li key={user._id}>
-            <span>{user.userName || user.email || 'Unknown user'}</span>
+          <li key={user._id} className={styles.collabItem}>
+            <span className={styles.collabName}>
+              {user.userName || user.email || 'Unknown User'}
+            </span>
             {isOwner && (
-              <button onClick={() => handleRemove(user._id)} disabled={removingId === user._id}>
-                Remove
+              <button
+                type="button"
+                className={styles.removeBtn}
+                onClick={() => handleRemove(user._id)}
+                disabled={removingId === user._id}
+                aria-label={`Remove collaborator ${user.userName || user.email}`}
+              >
+                {removingId === user._id ? 'Removing...' : 'Remove'}
               </button>
             )}
           </li>
@@ -99,18 +104,29 @@ export default function CollaboratorManager({ itinerary, onCollaboratorsUpdated 
       </ul>
 
       {isOwner && (
-        <div className={styles.addForm}>
+        <form
+          className={styles.addForm}
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleAdd();
+          }}
+          noValidate
+        >
           <input
             type="email"
             value={email}
-            placeholder="Enter email"
+            placeholder="Add collaborator by email"
             onChange={(e) => setEmail(e.target.value)}
+            className={styles.input}
+            aria-label="Collaborator email"
+            required
+            disabled={loading}
           />
-          <button onClick={handleAdd} disabled={loading}>
-            Add
+          <button type="submit" className={styles.addBtn} disabled={loading}>
+            {loading ? 'Adding...' : 'Add'}
           </button>
-        </div>
+        </form>
       )}
-    </div>
+    </section>
   );
 }
