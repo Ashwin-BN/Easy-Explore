@@ -55,6 +55,17 @@ export default function ItinerariesPage() {
         );
     };
 
+    const handleToggleVisibility = async (id, makePublic) => {
+        try {
+            const updated = await saveItinerary({ _id: id, public: makePublic });
+            setItineraries((prev) =>
+                prev.map((item) => item._id === id ? updated : item)
+            );
+        } catch (err) {
+            console.error("Visibility toggle failed:", err.message);
+        }
+    };
+
     const upcoming = itineraries.filter(it => new Date(it.to) >= new Date());
     const past = itineraries.filter(it => new Date(it.to) < new Date());
 
@@ -83,6 +94,7 @@ export default function ItinerariesPage() {
                     }}
                     onDelete={handleDelete}
                     onViewAttractions={setSelectedItinerary}
+                    onToggleVisibility={handleToggleVisibility}
                 />
 
                 <hr className={styles.sectionDivider} />
@@ -96,6 +108,7 @@ export default function ItinerariesPage() {
                     }}
                     onDelete={handleDelete}
                     onViewAttractions={setSelectedItinerary}
+                    onToggleVisibility={handleToggleVisibility}
                 />
             </div>
 

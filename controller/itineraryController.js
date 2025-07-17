@@ -82,12 +82,12 @@ export async function addAttractionToItinerary(itineraryId, attraction) {
         },
         body: JSON.stringify({
             ...attraction,
-            userId // Send this if your backend expects it
+            userId
         }),
     });
 
     if (!res.ok) {
-        const text = await res.text(); // ← log raw text instead of json in case it's HTML or empty
+        const text = await res.text();
         console.error("❌ Backend error response:", text);
         throw new Error("Failed to add attraction");
     }
@@ -95,29 +95,8 @@ export async function addAttractionToItinerary(itineraryId, attraction) {
     return res.json();
 }
 
-/*export async function addAttractionToItinerary(itineraryId, attraction) {
-    const token = getToken();
-    if (!token) throw new Error("User not authenticated");
-
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/itineraries/${itineraryId}/attractions`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `jwt ${token}`,
-        },
-        body: JSON.stringify(attraction),
-    });
-
-    if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.message || "Failed to add attraction");
-    }
-
-    return res.json();
-}*/
-
 export async function removeAttractionFromItinerary(itineraryId, attractionId) {
-    const token = getToken(); // DO NOT use localStorage manually
+    const token = getToken();
     if (!token) throw new Error("User not authenticated");
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/itineraries/${itineraryId}/attractions/${attractionId}`, {
