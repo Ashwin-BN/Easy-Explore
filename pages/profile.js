@@ -98,6 +98,8 @@ export default function Profile() {
                 src={formData.profilePicture || '/default-pfp.jpg'}
                 alt="Profile"
                 className={styles.profileImage}
+                width={120}
+                height={120}
             />
             <div className={styles.overlay} onClick={() => fileInputRef.current.click()}>
               <span className={styles.editIcon}>✎</span>
