@@ -7,6 +7,7 @@ import {
     loadUserItineraries,
     saveItinerary,
     deleteItinerary,
+    shareItinerary
 } from '@/controller/itineraryController';
 
 export default function ItinerariesPage() {
@@ -66,6 +67,18 @@ export default function ItinerariesPage() {
         }
     };
 
+
+    const handleShare = async (itinerary) => {
+        try {
+        const shareUrl = await shareItinerary(itinerary._id);
+        alert(`Shareable link:\n${shareUrl}`);
+        
+        } catch (err) {
+        console.error("Failed to share itinerary:", err.message);
+        alert("Failed to generate shareable link.");
+        }
+    };
+
     const upcoming = itineraries.filter(it => new Date(it.to) >= new Date());
     const past = itineraries.filter(it => new Date(it.to) < new Date());
 
@@ -95,6 +108,7 @@ export default function ItinerariesPage() {
                     onDelete={handleDelete}
                     onViewAttractions={setSelectedItinerary}
                     onToggleVisibility={handleToggleVisibility}
+                    onShare={handleShare}
                 />
 
                 <hr className={styles.sectionDivider} />
@@ -109,6 +123,7 @@ export default function ItinerariesPage() {
                     onDelete={handleDelete}
                     onViewAttractions={setSelectedItinerary}
                     onToggleVisibility={handleToggleVisibility}
+                    onShare={handleShare}
                 />
             </div>
 

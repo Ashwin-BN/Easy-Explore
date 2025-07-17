@@ -143,3 +143,24 @@ export async function removeCollaborator(itineraryId, userId) {
     if (!res.ok) throw new Error(data.message);
     return data;
 }
+
+export async function shareItinerary(itineraryId) {
+  const token = getToken();
+  if (!token) throw new Error("User not authenticated");
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/itineraries/${itineraryId}/share`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `jwt ${token}`,
+        },
+    });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Failed to share itinerary");
+  }
+
+  const data = await res.json();
+  return `${window.location.origin}/shared-itinerary/${data.itineraryId}`;
+}

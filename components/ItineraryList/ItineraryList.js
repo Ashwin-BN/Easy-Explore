@@ -1,8 +1,8 @@
-import { FaEdit, FaTrash, FaEllipsisV } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaEllipsisV, FaShareAlt } from 'react-icons/fa';
 import { useState } from 'react';
 import styles from './ItineraryList.module.css';
 
-export default function ItineraryList({ items, onEdit, onDelete, onViewAttractions, onToggleVisibility }) {
+export default function ItineraryList({ items, onEdit, onDelete, onViewAttractions, onToggleVisibility, onShare }) {
     const [openMenuId, setOpenMenuId] = useState(null);
 
     const formatDate = (dateStr) => {
@@ -50,6 +50,15 @@ export default function ItineraryList({ items, onEdit, onDelete, onViewAttractio
                             title="Delete"
                         >
                             <FaTrash />
+                        </button>
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onShare(item);
+                            }}
+                            title="Share"
+                        >
+                            <FaShareAlt />
                         </button>
 
                         <div className={styles.menuWrapper}>
