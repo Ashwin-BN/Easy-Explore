@@ -4,6 +4,7 @@ import styles from './Navbar.module.css';
 import Link from 'next/link';
 import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
+import { loadUserProfile } from '@/controller/profileController';
 
 /**
  * Main Navbar component that renders the site's navigation menu
@@ -17,17 +18,17 @@ export default function Navbar() {
 
   // Runs when route changes to update user info from sessionStorage
   useEffect(() => {
-    const handleRouteChange = () => {
-      const storedUser = sessionStorage.getItem("user");
-      setUser(storedUser ? JSON.parse(storedUser) : null);
+    const handleRouteChange = async () => {
+      try {
+        const profile = await loadUserProfile();
+        setUser(profile);
+      } catch (err) {
+        setUser(null);
+      }
     };
 
     router.events.on("routeChangeComplete", handleRouteChange);
-    handleRouteChange(); // Initial mount
-
-    return () => {
-      router.events.off("routeChangeComplete", handleRouteChange);
-    };
+    return () => router.events.off("routeChangeComplete", handleRouteChange);
   }, [router]);
 
   useEffect(() => {
