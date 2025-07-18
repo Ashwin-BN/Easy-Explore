@@ -59,8 +59,6 @@ export default function VisitedPlaces({ visited = [], onUpdate = () => {} }) {
             .filter(Boolean)
     );
 
-    console.log("🌍 Highlighted ISO3s:", highlightedCountries);
-
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
