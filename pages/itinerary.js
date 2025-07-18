@@ -7,7 +7,8 @@ import {
     loadUserItineraries,
     saveItinerary,
     deleteItinerary,
-    syncItineraryToCalendar
+    syncItineraryToCalendar,
+    shareItinerary
 } from '@/controller/itineraryController';
 
 export default function ItinerariesPage() {
@@ -84,6 +85,16 @@ export default function ItinerariesPage() {
         }
     };
 
+    const handleShare = async (itinerary) => {
+        try{
+            await shareItinerary(itinerary._id);
+            alert('Link Copied to Clipboard');
+        } catch(err){
+            console.error('Failed to share itinerary: ', err.message)
+            alert('Failed to generate shareable link.')
+        }
+    }
+
     const upcoming = itineraries.filter(it => new Date(it.to) >= new Date());
     const past = itineraries.filter(it => new Date(it.to) < new Date());
 
@@ -113,6 +124,7 @@ export default function ItinerariesPage() {
                     onDelete={handleDelete}
                     onViewAttractions={setSelectedItinerary}
                     onToggleVisibility={handleToggleVisibility}
+                    onShare={handleShare}
                     renderExtra={(item) => (
                         <button
                             className={styles.syncButton}
@@ -136,6 +148,7 @@ export default function ItinerariesPage() {
                     onDelete={handleDelete}
                     onViewAttractions={setSelectedItinerary}
                     onToggleVisibility={handleToggleVisibility}
+                    onShare={handleShare}
                     renderExtra={(item) => (
                         <button
                             className={styles.syncButton}
