@@ -116,3 +116,22 @@
 .clickableCard:hover {
     background-color: #f0f4f8;
 }
+.syncButton {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    margin-left: 10px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.syncButton:hover {
+    background-color: #218838;
+    transform: scale(1.03);
+}

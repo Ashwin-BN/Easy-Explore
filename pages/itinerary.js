@@ -7,7 +7,7 @@ import {
     loadUserItineraries,
     saveItinerary,
     deleteItinerary,
-    shareItinerary
+    syncItineraryToCalendar
 } from '@/controller/itineraryController';
 
 export default function ItinerariesPage() {
@@ -15,6 +15,7 @@ export default function ItinerariesPage() {
     const [editing, setEditing] = useState(null);
     const [showForm, setShowForm] = useState(false);
     const [selectedItinerary, setSelectedItinerary] = useState(null);
+    const [syncing, setSyncing] = useState(null);
 
     useEffect(() => {
         loadUserItineraries()
@@ -67,14 +68,19 @@ export default function ItinerariesPage() {
         }
     };
 
-    const handleShare = async (itinerary) => {
+    const handleSync = async (id) => {
+        setSyncing(id);
         try {
-        await shareItinerary(itinerary._id);
-        alert(`Link Copied to Clipboard`);
-        
+            const updated = await syncItineraryToCalendar(id);
+            setItineraries((prev) =>
+                prev.map((item) => item._id === id ? updated : item)
+            );
+            alert("Successfully synced to calendar");
         } catch (err) {
-        console.error("Failed to share itinerary:", err.message);
-        alert("Failed to generate shareable link.");
+            console.error("Calendar sync failed:", err);
+            alert("Sync failed: " + err.message);
+        } finally {
+            setSyncing(null);
         }
     };
 
@@ -107,7 +113,15 @@ export default function ItinerariesPage() {
                     onDelete={handleDelete}
                     onViewAttractions={setSelectedItinerary}
                     onToggleVisibility={handleToggleVisibility}
-                    onShare={handleShare}
+                    renderExtra={(item) => (
+                        <button
+                            className={styles.syncButton}
+                            onClick={() => handleSync(item._id)}
+                            disabled={syncing === item._id}
+                        >
+                            {item.isSynced ? 'Synced' : syncing === item._id ? 'Syncing...' : 'Sync with Calendar'}
+                        </button>
+                    )}
                 />
 
                 <hr className={styles.sectionDivider} />
@@ -122,7 +136,15 @@ export default function ItinerariesPage() {
                     onDelete={handleDelete}
                     onViewAttractions={setSelectedItinerary}
                     onToggleVisibility={handleToggleVisibility}
-                    onShare={handleShare}
+                    renderExtra={(item) => (
+                        <button
+                            className={styles.syncButton}
+                            onClick={() => handleSync(item._id)}
+                            disabled={syncing === item._id}
+                        >
+                            {item.isSynced ? 'Synced' : syncing === item._id ? 'Syncing...' : 'Sync with Calendar'}
+                        </button>
+                    )}
                 />
             </div>
 
