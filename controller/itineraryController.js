@@ -153,28 +153,56 @@ export async function removeCollaborator(itineraryId, userId) {
 
 // Sync itinerary to Google Calendar or iCal
 export async function syncItineraryToCalendar(itineraryId, calendarType) {
-    const token = getToken();
-    if (!token) throw new Error("User not authenticated");
+  const token = getToken();
+  if (!token) throw new Error("User not authenticated");
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/itineraries/${itineraryId}/sync`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `jwt ${token}`,
-        },
-        body: JSON.stringify({ calendarType }),
-    });
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/itineraries/${itineraryId}/sync`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `jwt ${token}`,
+    },
+    body: JSON.stringify({ calendarType }),
+  });
 
-    if (!res.ok) {
-        const error = await res.json().catch(() => ({}));
-        throw new Error(error.message || "Failed to sync itinerary");
-    }
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({}));
+    throw new Error(error.message || "Failed to sync itinerary");
+  }
 
-    // Return raw response (for .ics or authUrl handling)
-    const contentType = res.headers.get("content-type");
-    if (contentType && contentType.includes("text/calendar")) {
-        return await res.text(); // iCal file
-    }
+  // Return raw response (for .ics or authUrl handling)
+  const contentType = res.headers.get("content-type");
+  if (contentType && contentType.includes("text/calendar")) {
+    return await res.text(); // iCal file
+  }
 
-    return res.json(); // JSON for Google Calendar authUrl
+  return res.json(); // JSON for Google Calendar authUrl
+}
+
+// Share itinerary by generating a sharable link
+export async function shareItinerary(itineraryId) {
+  const token = getToken();
+  if (!token) throw new Error("User not authenticated");
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/itineraries/${itineraryId}/share`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `jwt ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Failed to share itinerary");
+  }
+
+  const data = await res.json();
+  const shareUrl = `${window.location.origin}/shared-itinerary/${data.itineraryId}`;
+
+  try {
+    await navigator.clipboard.writeText(shareUrl);
+  } catch (err) {
+    console.error('Failed to copy share URL to clipboard:', err);
+  }
 }
