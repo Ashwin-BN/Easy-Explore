@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { loadUserProfile } from '@/controller/profileController';
+import { removeToken } from '@/lib/authentication';
 
 /**
  * Main Navbar component that renders the site's navigation menu
@@ -15,6 +16,20 @@ export default function Navbar() {
   const [showMenu, setShowMenu] = useState(false); // Controls dropdown visibility
   const dropdownRef =useRef(null);
   const router = useRouter();
+
+  useEffect(() => {
+  // On initial mount, check if user is already logged in
+  const fetchUser = async () => {
+    try {
+      const profile = await loadUserProfile();
+      setUser(profile);
+    } catch (err) {
+      setUser(null);
+    }
+  };
+
+  fetchUser();
+}, []);
 
   // Runs when route changes to update user info from sessionStorage
   useEffect(() => {
@@ -49,6 +64,7 @@ export default function Navbar() {
   // Logs the user out and redirects to login
   const handleLogout = () => {
     sessionStorage.removeItem("user");
+    removeToken();
     setUser(null);
     router.push("/login");
   };
