@@ -58,7 +58,7 @@ export default function About() {
       <div className={styles.teamGrid}>
         {teamMembers.map((member, index) => (
           <motion.div key={index} className={styles.card} whileHover={{ scale: 1.03 }}>
-            <Image src={member.image} alt={member.name} className={styles.squareImage} />
+            <Image src={member.image} alt={member.name} width={200} height={200} className={styles.squareImage} />
             <h3 className={styles.name}>{member.name}</h3>
             <p className={styles.role}>{member.role}</p>
             <a
