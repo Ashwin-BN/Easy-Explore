@@ -1,5 +1,6 @@
 import { getToken, readToken } from "@/lib/authentication";
 
+// Load user's itineraries
 export async function loadUserItineraries() {
     const token = getToken();
     if (!token) throw new Error("User not authenticated");
@@ -18,6 +19,7 @@ export async function loadUserItineraries() {
     return res.json();
 }
 
+// Save new or updated itinerary
 export async function saveItinerary(data) {
     const token = getToken();
     const user = readToken();
@@ -48,6 +50,7 @@ export async function saveItinerary(data) {
     return res.json();
 }
 
+// Delete itinerary
 export async function deleteItinerary(id) {
     const token = getToken();
     if (!token) throw new Error("User not authenticated");
@@ -67,6 +70,7 @@ export async function deleteItinerary(id) {
     return true;
 }
 
+// Add attraction to itinerary
 export async function addAttractionToItinerary(itineraryId, attraction) {
     const token = getToken();
     const user = readToken();
@@ -95,6 +99,7 @@ export async function addAttractionToItinerary(itineraryId, attraction) {
     return res.json();
 }
 
+// Remove attraction from itinerary
 export async function removeAttractionFromItinerary(itineraryId, attractionId) {
     const token = getToken();
     if (!token) throw new Error("User not authenticated");
@@ -114,6 +119,7 @@ export async function removeAttractionFromItinerary(itineraryId, attractionId) {
     return res.json();
 }
 
+// Add collaborator to itinerary
 export async function addCollaborator(itineraryId, email) {
     const token = getToken();
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/itineraries/${itineraryId}/collaborators`, {
@@ -130,6 +136,7 @@ export async function addCollaborator(itineraryId, email) {
     return data;
 }
 
+// Remove collaborator from itinerary
 export async function removeCollaborator(itineraryId, userId) {
     const token = getToken();
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/itineraries/${itineraryId}/collaborators/${userId}`, {
@@ -142,4 +149,32 @@ export async function removeCollaborator(itineraryId, userId) {
     const data = await res.json();
     if (!res.ok) throw new Error(data.message);
     return data;
+}
+
+// Sync itinerary to Google Calendar or iCal
+export async function syncItineraryToCalendar(itineraryId, calendarType) {
+    const token = getToken();
+    if (!token) throw new Error("User not authenticated");
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/itineraries/${itineraryId}/sync`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `jwt ${token}`,
+        },
+        body: JSON.stringify({ calendarType }),
+    });
+
+    if (!res.ok) {
+        const error = await res.json().catch(() => ({}));
+        throw new Error(error.message || "Failed to sync itinerary");
+    }
+
+    // Return raw response (for .ics or authUrl handling)
+    const contentType = res.headers.get("content-type");
+    if (contentType && contentType.includes("text/calendar")) {
+        return await res.text(); // iCal file
+    }
+
+    return res.json(); // JSON for Google Calendar authUrl
 }

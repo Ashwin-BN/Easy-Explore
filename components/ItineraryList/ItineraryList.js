@@ -1,6 +1,7 @@
-import { FaEdit, FaTrash, FaEllipsisV } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaEllipsisV, FaCalendarCheck } from 'react-icons/fa';
 import { useState } from 'react';
 import styles from './ItineraryList.module.css';
+import { syncItineraryToCalendar } from '@/controller/itineraryController';
 
 export default function ItineraryList({ items, onEdit, onDelete, onViewAttractions, onToggleVisibility }) {
     const [openMenuId, setOpenMenuId] = useState(null);
@@ -14,7 +15,27 @@ export default function ItineraryList({ items, onEdit, onDelete, onViewAttractio
         return `${month} ${day}, ${year}`;
     };
 
-    const sharedText = "Placeholder";
+    const handleSync = async (id, type) => {
+        try {
+            const result = await syncItineraryToCalendar(id, type);
+
+            if (type === 'google' && result.authUrl) {
+                window.open(result.authUrl, '_blank');
+            } else if (type === 'ical') {
+                const blob = new Blob([result], { type: 'text/calendar' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'itinerary.ics';
+                a.click();
+                URL.revokeObjectURL(url);
+            } else {
+                alert("Itinerary synced!");
+            }
+        } catch (error) {
+            alert("❌ Failed to sync itinerary: " + (error.message || error));
+        }
+    };
 
     if (items.length === 0) {
         return <p className={styles.empty}>No itineraries yet...</p>;
@@ -24,14 +45,11 @@ export default function ItineraryList({ items, onEdit, onDelete, onViewAttractio
         <ul className={styles.list}>
             {items.map((item) => (
                 <li key={item._id} className={styles.item}>
-                    <div
-                        className={styles.clickableCard}
-                        onClick={() => onViewAttractions(item)}
-                    >
+                    <div className={styles.clickableCard} onClick={() => onViewAttractions(item)}>
                         <div className={styles.details}>
                             <h3>{item.name}</h3>
                             <p className={styles.meta}>
-                                {`${formatDate(item.from)} - ${formatDate(item.to)} | ${item.attractions?.length || 0} attraction${item.attractions?.length === 1 ? '' : 's'} | ${sharedText}`}
+                                {`${formatDate(item.from)} - ${formatDate(item.to)} | ${item.attractions?.length || 0} attraction${item.attractions?.length === 1 ? '' : 's'}`}
                             </p>
                         </div>
                     </div>
@@ -52,6 +70,28 @@ export default function ItineraryList({ items, onEdit, onDelete, onViewAttractio
                             <FaTrash />
                         </button>
 
+                        <button
+                            className={styles.syncButton}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleSync(item._id, 'google');
+                            }}
+                            title="Sync to Google Calendar"
+                        >
+                            <FaCalendarCheck /> Google
+                        </button>
+
+                        <button
+                            className={styles.syncButton}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleSync(item._id, 'ical');
+                            }}
+                            title="Download iCal"
+                        >
+                            <FaCalendarCheck /> iCal
+                        </button>
+
                         <div className={styles.menuWrapper}>
                             <FaEllipsisV
                                 className={styles.menuIcon}
@@ -61,10 +101,7 @@ export default function ItineraryList({ items, onEdit, onDelete, onViewAttractio
                                 }}
                             />
                             {openMenuId === item._id && (
-                                <div
-                                    className={styles.dropdownMenu}
-                                    onClick={(e) => e.stopPropagation()}
-                                >
+                                <div className={styles.dropdownMenu} onClick={(e) => e.stopPropagation()}>
                                     <button onClick={() => {
                                         onToggleVisibility(item._id, !item.public);
                                         setOpenMenuId(null);

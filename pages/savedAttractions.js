@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Image from "next/image";
-import { FaTrash, FaPlus } from 'react-icons/fa';
+import { FaTrash } from 'react-icons/fa';
 import styles from '../styles/SavedAttractions.module.css';
 import {
     fetchSavedAttractions,
@@ -73,6 +73,8 @@ export default function SavedAttractions() {
                                         src={attraction.image}
                                         alt={attraction.name}
                                         className={styles.cardImage}
+                                        width={600} // ✅ Required for Next.js
+                                        height={400}
                                     />
                                 )}
                                 <h2>{attraction.name}</h2>
