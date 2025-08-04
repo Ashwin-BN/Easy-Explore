@@ -88,6 +88,7 @@ export default function SearchPage() {
 
   const handleSaveToFavorites = async (item) => {
     const token = getToken();
+    console.log(token);
     if (!token) {
       alert("Please log in to save attractions.");
       router.push("/login");
