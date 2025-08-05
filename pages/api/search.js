@@ -1,3 +1,5 @@
+// pages/api/search.js
+
 export default async function handler(req, res) {
   const {
     country,
@@ -7,22 +9,37 @@ export default async function handler(req, res) {
     poiType = 'tourism.attraction',
     category,
     query,
+    lat: queryLat,
+    lon: queryLon,
   } = req.query;
 
-  // 1. Get geolocation based on query (like "CN Tower") or city fallback
   let lat, lon;
-  let geoLocationName = query || `${city}, ${state}, ${country}`;
-  const geoRes = await fetch(
-    `https://api.geoapify.com/v1/geocode/search?` +
-      `text=${encodeURIComponent(geoLocationName)}` +
-      `&limit=1&apiKey=${process.env.GEOAPIFY_KEY}`
-  );
-  const geoJson = await geoRes.json();
-  const feat = geoJson.features?.[0];
-  if (!feat) return res.status(404).json({ error: 'Location not found' });
 
-  lat = feat.properties.lat;
-  lon = feat.properties.lon;
+  if (queryLat && queryLon) {
+    // Use lat/lon from query if provided (e.g. from userLocation)
+    lat = parseFloat(queryLat);
+    lon = parseFloat(queryLon);
+  } else {
+    // 1. Get geolocation based on query (like "CN Tower") or city fallback
+    const geoLocationName =
+      query || (city && state && country ? `${city}, ${state}, ${country}` : null);
+
+    if (!geoLocationName) {
+      return res.status(400).json({ error: 'No valid location provided' });
+    }
+
+    const geoRes = await fetch(
+      `https://api.geoapify.com/v1/geocode/search?` +
+        `text=${encodeURIComponent(geoLocationName)}` +
+        `&limit=1&apiKey=${process.env.GEOAPIFY_KEY}`
+    );
+    const geoJson = await geoRes.json();
+    const feat = geoJson.features?.[0];
+    if (!feat) return res.status(404).json({ error: 'Location not found' });
+
+    lat = feat.properties.lat;
+    lon = feat.properties.lon;
+  }
 
   // 2. Get base POIs
   const placesRes = await fetch(
