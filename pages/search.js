@@ -11,6 +11,7 @@ import { saveAttraction } from "@/controller/attractionController";
 import styles from "../styles/SearchPage.module.css";
 import Reviews from "@/components/Reviews/Reviews";
 import ReviewForm from "@/components/Reviews/ReviewForm";
+import Suggestions from "@/components/Suggestion/Suggestions";
 import { getToken } from "@/lib/authentication";
 
 const AttractionsMap = dynamic(
@@ -88,7 +89,7 @@ export default function SearchPage() {
 
   const handleSaveToFavorites = async (item) => {
     const token = getToken();
-    console.log(token);
+
     if (!token) {
       alert("Please log in to save attractions.");
       router.push("/login");
@@ -163,6 +164,13 @@ export default function SearchPage() {
           onRadiusChange={setRadius}
         />
       </div>
+
+      {!searchPerformed && userLocation && (
+  <Suggestions
+    userLocation={userLocation}
+    onSelect={(attraction) => setExpandedAttraction(attraction)}
+  />
+)}
 
       {searchPerformed &&
         (results.match.length > 0 || results.nearby.length > 0 ? (
