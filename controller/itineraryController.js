@@ -2,153 +2,180 @@ import { getToken, readToken } from "@/lib/authentication";
 
 // Load user's itineraries
 export async function loadUserItineraries() {
-    const token = getToken();
-    if (!token) throw new Error("User not authenticated");
+  const token = getToken();
+  if (!token) throw new Error("User not authenticated");
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/itineraries`, {
-        headers: {
-            Authorization: `jwt ${token}`,
-        },
-    });
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/itineraries`, {
+    headers: {
+      Authorization: `jwt ${token}`,
+    },
+  });
 
-    if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.message || "Failed to fetch itineraries");
+  if (res.status === 401) {
+    console.warn("User unauthorized — skipping itinerary load.");
+    return []; // Return empty itineraries for unauthenticated users
+  }
+
+  if (!res.ok) {
+    let message = "Failed to fetch itineraries";
+    try {
+      const error = await res.json();
+      message = error.message || message;
+    } catch (err) {
+      const text = await res.text();
+      message = text || message;
     }
+    throw new Error(message);
+  }
 
-    return res.json();
+  return res.json();
 }
 
 // Save new or updated itinerary
 export async function saveItinerary(data) {
-    const token = getToken();
-    const user = readToken();
-    const userId = user?.user?._id || user?._id;
-    if (!token || !userId) throw new Error("User not authenticated");
+  const token = getToken();
+  const user = readToken();
+  const userId = user?.user?._id || user?._id;
+  if (!token || !userId) throw new Error("User not authenticated");
 
-    const isEditing = !!data._id;
-    const url = isEditing
-        ? `${process.env.NEXT_PUBLIC_API_URL}/itineraries/${data._id}`
-        : `${process.env.NEXT_PUBLIC_API_URL}/itineraries`;
+  const isEditing = !!data._id;
+  const url = isEditing
+    ? `${process.env.NEXT_PUBLIC_API_URL}/itineraries/${data._id}`
+    : `${process.env.NEXT_PUBLIC_API_URL}/itineraries`;
 
-    const method = isEditing ? "PUT" : "POST";
+  const method = isEditing ? "PUT" : "POST";
 
-    const res = await fetch(url, {
-        method,
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `jwt ${token}`,
-        },
-        body: JSON.stringify({ ...data, userId }),
-    });
+  const res = await fetch(url, {
+    method,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `jwt ${token}`,
+    },
+    body: JSON.stringify({ ...data, userId }),
+  });
 
-    if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.message || "Failed to save itinerary");
-    }
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Failed to save itinerary");
+  }
 
-    return res.json();
+  return res.json();
 }
 
 // Delete itinerary
 export async function deleteItinerary(id) {
-    const token = getToken();
-    if (!token) throw new Error("User not authenticated");
+  const token = getToken();
+  if (!token) throw new Error("User not authenticated");
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/itineraries/${id}`, {
-        method: "DELETE",
-        headers: {
-            Authorization: `jwt ${token}`,
-        },
-    });
-
-    if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.message || "Failed to delete itinerary");
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/itineraries/${id}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `jwt ${token}`,
+      },
     }
+  );
 
-    return true;
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Failed to delete itinerary");
+  }
+
+  return true;
 }
 
 // Add attraction to itinerary
 export async function addAttractionToItinerary(itineraryId, attraction) {
-    const token = getToken();
-    const user = readToken();
-    const userId = user?.user?._id || user?._id;
+  const token = getToken();
+  const user = readToken();
+  const userId = user?.user?._id || user?._id;
 
-    if (!token || !userId) throw new Error("User not authenticated");
+  if (!token || !userId) throw new Error("User not authenticated");
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/itineraries/${itineraryId}/attractions`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `jwt ${token}`,
-        },
-        body: JSON.stringify({
-            ...attraction,
-            userId
-        }),
-    });
-
-    if (!res.ok) {
-        const text = await res.text();
-        console.error("❌ Backend error response:", text);
-        throw new Error("Failed to add attraction");
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/itineraries/${itineraryId}/attractions`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `jwt ${token}`,
+      },
+      body: JSON.stringify({
+        ...attraction,
+        userId,
+      }),
     }
+  );
 
-    return res.json();
+  if (!res.ok) {
+    const text = await res.text();
+    console.error("❌ Backend error response:", text);
+    throw new Error("Failed to add attraction");
+  }
+
+  return res.json();
 }
 
 // Remove attraction from itinerary
 export async function removeAttractionFromItinerary(itineraryId, attractionId) {
-    const token = getToken();
-    if (!token) throw new Error("User not authenticated");
+  const token = getToken();
+  if (!token) throw new Error("User not authenticated");
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/itineraries/${itineraryId}/attractions/${attractionId}`, {
-        method: 'DELETE',
-        headers: {
-            Authorization: `jwt ${token}`,
-        },
-    });
-
-    if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.message || "Failed to remove attraction");
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/itineraries/${itineraryId}/attractions/${attractionId}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `jwt ${token}`,
+      },
     }
+  );
 
-    return res.json();
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Failed to remove attraction");
+  }
+
+  return res.json();
 }
 
 // Add collaborator to itinerary
 export async function addCollaborator(itineraryId, email) {
-    const token = getToken();
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/itineraries/${itineraryId}/collaborators`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `jwt ${token}`,
-        },
-        body: JSON.stringify({ collaboratorEmail: email }),
-    });
+  const token = getToken();
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/itineraries/${itineraryId}/collaborators`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `jwt ${token}`,
+      },
+      body: JSON.stringify({ collaboratorEmail: email }),
+    }
+  );
 
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message);
-    return data;
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message);
+  return data;
 }
 
 // Remove collaborator from itinerary
 export async function removeCollaborator(itineraryId, userId) {
-    const token = getToken();
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/itineraries/${itineraryId}/collaborators/${userId}`, {
-        method: 'DELETE',
-        headers: {
-            Authorization: `jwt ${token}`,
-        },
-    });
+  const token = getToken();
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/itineraries/${itineraryId}/collaborators/${userId}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `jwt ${token}`,
+      },
+    }
+  );
 
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message);
-    return data;
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message);
+  return data;
 }
 
 // Sync itinerary to Google Calendar or iCal
@@ -156,14 +183,17 @@ export async function syncItineraryToCalendar(itineraryId, calendarType) {
   const token = getToken();
   if (!token) throw new Error("User not authenticated");
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/itineraries/${itineraryId}/sync`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `jwt ${token}`,
-    },
-    body: JSON.stringify({ calendarType }),
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/itineraries/${itineraryId}/sync`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `jwt ${token}`,
+      },
+      body: JSON.stringify({ calendarType }),
+    }
+  );
 
   if (!res.ok) {
     const error = await res.json().catch(() => ({}));
@@ -184,13 +214,16 @@ export async function shareItinerary(itineraryId) {
   const token = getToken();
   if (!token) throw new Error("User not authenticated");
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/itineraries/${itineraryId}/share`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `jwt ${token}`,
-    },
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/itineraries/${itineraryId}/share`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `jwt ${token}`,
+      },
+    }
+  );
 
   if (!res.ok) {
     const error = await res.json();
@@ -203,6 +236,6 @@ export async function shareItinerary(itineraryId) {
   try {
     await navigator.clipboard.writeText(shareUrl);
   } catch (err) {
-    console.error('Failed to copy share URL to clipboard:', err);
+    console.error("Failed to copy share URL to clipboard:", err);
   }
 }

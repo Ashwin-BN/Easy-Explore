@@ -7,6 +7,7 @@ import {
     removeSavedAttraction,
 } from '@/controller/attractionController';
 import { addAttractionToItinerary, loadUserItineraries } from '@/controller/itineraryController';
+import AttractionCard from '@/components/AttractionCard/AttractionCard';
 
 export default function SavedAttractions() {
     const [savedAttractions, setSavedAttractions] = useState([]);
@@ -67,21 +68,11 @@ export default function SavedAttractions() {
                 <div className={styles.resultsContainer}>
                     <div className={styles.cardsColumn}>
                         {savedAttractions.map((attraction) => (
-                            <div key={attraction.id} className={styles.card}>
-                                {attraction.image && (
-                                    <Image
-                                        src={attraction.image}
-                                        alt={attraction.name}
-                                        className={styles.cardImage}
-                                        width={600} // ✅ Required for Next.js
-                                        height={400}
-                                    />
-                                )}
-                                <h2>{attraction.name}</h2>
-                                <p>{attraction.address}</p>
-                                <p>{attraction.description}</p>
-                                <div className={styles.actions}>
-                                    <div className={styles.actions}>
+                            <AttractionCard
+                                key={attraction.id}
+                                attraction={attraction}
+                                actions={
+                                    <>
                                         <button
                                             className={`${styles.actionBtn} ${styles.addBtn}`}
                                             onClick={() =>
@@ -97,28 +88,27 @@ export default function SavedAttractions() {
                                         >
                                             <FaTrash /> Remove
                                         </button>
-                                    </div>
-
-                                    {activeDropdown === attraction.id && (
-                                        <select
-                                            className={styles.selectDropdown}
-                                            defaultValue=""
-                                            onChange={(e) => {
-                                                handleAddToItinerary(e.target.value, attraction);
-                                            }}
-                                        >
-                                            <option value="" disabled>
-                                                Select an itinerary
-                                            </option>
-                                            {userItineraries.map((itin) => (
-                                                <option key={itin._id} value={itin._id}>
-                                                    {itin.name}
+                                        {activeDropdown === attraction.id && (
+                                            <select
+                                                className={styles.selectDropdown}
+                                                defaultValue=""
+                                                onChange={(e) =>
+                                                    handleAddToItinerary(e.target.value, attraction)
+                                                }
+                                            >
+                                                <option value="" disabled>
+                                                    Select an itinerary
                                                 </option>
-                                            ))}
-                                        </select>
-                                    )}
-                                </div>
-                            </div>
+                                                {userItineraries.map((itin) => (
+                                                    <option key={itin._id} value={itin._id}>
+                                                        {itin.name}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        )}
+                                    </>
+                                }
+                            />
                         ))}
                     </div>
                 </div>

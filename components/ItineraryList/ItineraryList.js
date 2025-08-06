@@ -1,4 +1,4 @@
-import { FaEdit, FaTrash, FaEllipsisV, FaCalendarCheck, FaShareAlt } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaEllipsisV, FaShareAlt, FaCalendarCheck } from 'react-icons/fa';
 import { useState } from 'react';
 import styles from './ItineraryList.module.css';
 import { syncItineraryToCalendar } from '@/controller/itineraryController';

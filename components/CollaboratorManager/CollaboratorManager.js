@@ -9,7 +9,6 @@ export default function CollaboratorManager({ itinerary, onCollaboratorsUpdated 
   const [removingId, setRemovingId] = useState(null);
 
   const currentUser = getCurrentUser();
-
   const isOwner = currentUser && itinerary?.userId && String(itinerary.userId) === String(currentUser._id);
 
   const handleAdd = async () => {

@@ -1,7 +1,7 @@
 import styles from './AttractionCard.module.css';
 import Image from 'next/image';
 
-export default function AttractionCard({ attraction, onHover, onLeave, onExpand }) {
+export default function AttractionCard({ attraction, onHover, onLeave, onExpand, actions }) {
     return (
         <div
             className={styles.card}
@@ -33,6 +33,7 @@ export default function AttractionCard({ attraction, onHover, onLeave, onExpand 
                     </p>
                 )}
                 {attraction.rating != null && <p>Rating: {attraction.rating}</p>}
+                {actions && <div className={styles.actions}>{actions}</div>}
             </div>
         </div>
     );
