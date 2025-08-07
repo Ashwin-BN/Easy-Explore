@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
-import ItineraryList from '@/components/ItineraryList/ItineraryList';
+import { useState, useEffect } from 'react';
 import ItineraryForm from '@/components/ItineraryForm/ItineraryForm';
-import ItineraryModal from "@/components/ItineraryModal/ItineraryModal";
+import ItineraryList from '@/components/ItineraryList/ItineraryList';
+import ItineraryModal from '@/components/ItineraryModal/ItineraryModal';
 import styles from '../styles/Itinerary.module.css';
 import {
     loadUserItineraries,
     saveItinerary,
     deleteItinerary,
     syncItineraryToCalendar,
-    shareItinerary
+    shareItinerary,
 } from '@/controller/itineraryController';
 
 export default function ItinerariesPage() {
@@ -86,14 +86,14 @@ export default function ItinerariesPage() {
     };
 
     const handleShare = async (itinerary) => {
-        try{
+        try {
             await shareItinerary(itinerary._id);
             alert('Link Copied to Clipboard');
-        } catch(err){
-            console.error('Failed to share itinerary: ', err.message)
-            alert('Failed to generate shareable link.')
+        } catch (err) {
+            console.error('Failed to share itinerary: ', err.message);
+            alert('Failed to generate shareable link.');
         }
-    }
+    };
 
     const upcoming = itineraries.filter(it => new Date(it.to) >= new Date());
     const past = itineraries.filter(it => new Date(it.to) < new Date());
