@@ -91,32 +91,32 @@ export default function SearchPage() {
   const handleSaveToFavorites = async (item) => {
     const token = getToken();
 
-    if (!token) {
-      alert("Please log in to save attractions.");
-      router.push("/login");
-      return;
+        if (!token) {
+        showError("Please log in to save attractions.");
+        router.push("/login");
+        return;
     }
-    try {
-      await saveAttraction(item);
-      alert(`Saved ${item.name} to your favorites!`);
+        try {
+        await saveAttraction(item);
+        showSuccess(`Saved ${item.name} to your favorites!`);
     } catch (err) {
-      console.error("Error saving favorite:", err);
-      alert("An unexpected error occurred.");
+        console.error("Error saving favorite:", err);
+        showError("An unexpected error occurred.");
     }
   };
 
   async function handleAddToItinerary(itineraryId, attraction) {
     const token = getToken();
-    if (!token) {
-      alert("Please log in to add to itinerary.");
-      router.push("/login");
-      return;
+        if (!token) {
+        showError("Please log in to add to itinerary.");
+        router.push("/login");
+        return;
     }
 
-    if (!attraction || typeof attraction !== "object") {
-      console.error("🚨 Invalid attraction object:", attraction);
-      alert("Could not add attraction — invalid data.");
-      return;
+        if (!attraction || typeof attraction !== "object") {
+        console.error("🚨 Invalid attraction object:", attraction);
+        showError("Could not add attraction — invalid data.");
+        return;
     }
 
     const formatted = {
@@ -130,13 +130,13 @@ export default function SearchPage() {
       url: attraction.url || "",
     };
 
-    try {
-      await addAttractionToItinerary(itineraryId, formatted);
-      alert(`Added "${formatted.name}" to your itinerary.`);
-      setActiveDropdown(null);
+        try {
+        await addAttractionToItinerary(itineraryId, formatted);
+        showSuccess(`Added "${formatted.name}" to your itinerary.`);
+        setActiveDropdown(null);
     } catch (err) {
-      console.error("❌ Failed to add attraction:", err);
-      alert("Failed to add attraction to itinerary.");
+        console.error("❌ Failed to add attraction:", err);
+        showError("Failed to add attraction to itinerary.");
     }
   }
 

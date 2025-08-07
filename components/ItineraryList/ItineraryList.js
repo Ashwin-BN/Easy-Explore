@@ -22,6 +22,7 @@ export default function ItineraryList({ items, onEdit, onDelete, onViewAttractio
 
             if (type === 'google' && result.authUrl) {
                 window.open(result.authUrl, '_blank');
+                showSuccess('Redirecting to Google Calendar authorization...');
             } else if (type === 'ical') {
                 const blob = new Blob([result], { type: 'text/calendar' });
                 const url = URL.createObjectURL(blob);
@@ -30,11 +31,13 @@ export default function ItineraryList({ items, onEdit, onDelete, onViewAttractio
                 a.download = 'itinerary.ics';
                 a.click();
                 URL.revokeObjectURL(url);
+                showSuccess('iCal file downloaded successfully!');
             } else {
-                alert("Itinerary synced!");
+                showSuccess('Itinerary synced successfully!');
             }
         } catch (error) {
-            alert("❌ Failed to sync itinerary: " + (error.message || error));
+            console.error('Failed to sync itinerary:', error);
+            showError(error.message || 'Failed to sync itinerary');
         }
     };
 

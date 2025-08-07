@@ -33,10 +33,12 @@ export default function ItinerariesPage() {
                     ? prev.map((item) => (item._id === saved._id ? saved : item))
                     : [...prev, saved]
             );
+            showSuccess(data._id ? "Itinerary updated successfully!" : "Itinerary created successfully!");
             setShowForm(false);
             setEditing(null);
         } catch (err) {
             console.error("Save failed:", err.message);
+            handleApiError(err, "Failed to save itinerary");
         }
     };
 
@@ -44,8 +46,10 @@ export default function ItinerariesPage() {
         try {
             await deleteItinerary(id);
             setItineraries((prev) => prev.filter((item) => item._id !== id));
+            showSuccess("Itinerary deleted successfully!");
         } catch (err) {
             console.error("Delete failed:", err.message);
+            handleApiError(err, "Failed to delete itinerary");
         }
     };
 
@@ -65,8 +69,10 @@ export default function ItinerariesPage() {
             setItineraries((prev) =>
                 prev.map((item) => item._id === id ? updated : item)
             );
+            showSuccess(`Itinerary ${makePublic ? 'made public' : 'made private'} successfully!`);
         } catch (err) {
             console.error("Visibility toggle failed:", err.message);
+            handleApiError(err, "Failed to update itinerary visibility");
         }
     };
 
@@ -89,10 +95,10 @@ export default function ItinerariesPage() {
     const handleShare = async (itinerary) => {
         try {
             await shareItinerary(itinerary._id);
-            alert('Link Copied to Clipboard');
+            showSuccess('Link Copied to Clipboard');
         } catch (err) {
             console.error('Failed to share itinerary: ', err.message);
-            alert('Failed to generate shareable link.');
+            showError('Failed to generate shareable link.');
         }
     };
 

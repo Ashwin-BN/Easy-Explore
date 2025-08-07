@@ -19,8 +19,11 @@ export default function ProfileEditModal({ initialData, onClose, onSuccess }) {
                 userName,
                 currentLocation: { city, country },
             });
+            showSuccess('Profile updated successfully!');
             onClose();
         } catch (err) {
+            console.error('Failed to update profile:', err);
+            showError(err.message || 'Failed to update profile');
             setError(err.message);
         }
     };
