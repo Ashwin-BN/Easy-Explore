@@ -6,6 +6,7 @@ import { loadUserItineraries } from '@/controller/itineraryController';
 import { loadUserProfile, updateUserField } from '@/controller/profileController';
 import ProfileEditModal from "@/components/ProfileEditModal/ProfileEditModal";
 import ItineraryModal from "@/components/ItineraryModal/ItineraryModal";
+import { showSuccess, showError } from '@/lib/toast';
 
 export default function Profile() {
   const [user, setUser] = useState(null);

@@ -2,6 +2,7 @@ import { FaEdit, FaTrash, FaEllipsisV, FaShareAlt, FaCalendarCheck } from 'react
 import { useState } from 'react';
 import styles from './ItineraryList.module.css';
 import { syncItineraryToCalendar } from '@/controller/itineraryController';
+import { showSuccess, showError } from '@/lib/toast';
 
 export default function ItineraryList({ items, onEdit, onDelete, onViewAttractions, onToggleVisibility, onShare }) {
     const [openMenuId, setOpenMenuId] = useState(null);

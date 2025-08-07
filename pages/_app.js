@@ -1,4 +1,6 @@
 import Navbar from '../components/Navbar/Navbar';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../styles/globals.css';
 
 export default function App({ Component, pageProps }) {
@@ -6,6 +8,7 @@ export default function App({ Component, pageProps }) {
     <>
       <Navbar />
       <Component {...pageProps} />
+      <ToastContainer />
     </>
   );
 }

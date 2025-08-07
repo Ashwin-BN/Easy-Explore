@@ -8,6 +8,7 @@ import {
 } from '@/controller/attractionController';
 import { addAttractionToItinerary, loadUserItineraries } from '@/controller/itineraryController';
 import AttractionCard from '@/components/AttractionCard/AttractionCard';
+import { showSuccess, showError } from "@/lib/toast";
 
 export default function SavedAttractions() {
     const [savedAttractions, setSavedAttractions] = useState([]);
