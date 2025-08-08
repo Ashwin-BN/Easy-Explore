@@ -62,9 +62,12 @@ export default function Navbar() {
   return (
     <nav className={styles.navbar}>
       {/* Left side: Logo */}
-      <div className={styles.logo}>Easy Explore</div>
+      <div className={styles.left}>
+        <div className={styles.logo}>Easy Explore</div>
+      </div>
 
       {/* Center: Navigation links */}
+      <div className={styles.right}>
       <ul className={styles.navLinks}>
         <li><Link href="/">Home</Link></li>
         <li><Link href="/search">Search</Link></li>
@@ -110,6 +113,7 @@ export default function Navbar() {
           </li>
         )}
       </ul>
+      </div>
 
       {/* Right side: Dark mode toggle */}
       <div className={styles.themeToggleWrapper}>
