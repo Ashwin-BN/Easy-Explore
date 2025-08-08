@@ -66,3 +66,43 @@
   font-weight: 500;
   color: #222;
 }
+
+@media (prefers-color-scheme: dark) {
+  .mapContainer {
+    border: 1px solid #444;
+    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.06);
+  }
+
+  .customPopup .leaflet-popup-content-wrapper {
+    background: #2a2a2a !important;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .customPopup .leaflet-popup-tip {
+    background: #2a2a2a !important;
+  }
+
+  .locationName {
+    color: #f0f0f0;
+  }
+
+  .distanceInfo {
+    color: #ccc;
+  }
+
+  .tagLabel {
+    color: #aaa;
+  }
+
+  .tagsList {
+    color: #ddd;
+  }
+
+  .tagsContainer {
+    border-top: 1px solid #555;
+  }
+
+  .userMarkerPopup {
+    color: #ddd;
+  }
+}

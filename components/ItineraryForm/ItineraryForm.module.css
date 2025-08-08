@@ -19,6 +19,8 @@
     margin-top: 0.3rem;
     border: 1px solid #ccc;
     border-radius: 6px;
+    background-color: white;
+    color: #000;
 }
 
 .dateRange {
@@ -62,4 +64,35 @@
 
 .formActions button[type="button"]:hover {
     background-color: #e0e0e0;
+}
+
+
+@media (prefers-color-scheme: dark) {
+    .itineraryForm {
+        color: #e0e0e0;
+    }
+
+    .itineraryForm input[type="text"],
+    .itineraryForm input[type="date"] {
+        background-color: #1e1e1e;
+        color: #f0f0f0;
+        border: 1px solid #555;
+    }
+
+    .formActions button[type="button"] {
+        background-color: #333;
+        color: #f0f0f0;
+    }
+
+    .formActions button[type="button"]:hover {
+        background-color: #444;
+    }
+
+    .formActions button[type="submit"] {
+        background-color: #0a84ff;
+    }
+
+    .formActions button[type="submit"]:hover {
+        background-color: #0066cc;
+    }
 }

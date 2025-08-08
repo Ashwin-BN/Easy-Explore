@@ -1,3 +1,4 @@
+/* LIGHT MODE (default styles) */
 .container {
     max-width: 1000px;
     margin: 2rem auto;
@@ -6,29 +7,29 @@
     border-radius: 12px;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
     font-family: 'Segoe UI', sans-serif;
-}
-
-.heading {
+  }
+  
+  .heading {
     font-size: 2rem;
     font-weight: 600;
     text-align: center;
     color: #111;
     margin-bottom: 0.5rem;
-}
-
-.profileHeader {
+  }
+  
+  .profileHeader {
     text-align: center;
     margin-bottom: 2rem;
-}
-
-.divider {
+  }
+  
+  .divider {
     border: none;
     border-top: 1px solid #ccc;
     margin: 1rem auto 2rem;
     width: 80%;
-}
-
-.pfpWrapper {
+  }
+  
+  .pfpWrapper {
     position: relative;
     width: 160px;
     height: 160px;
@@ -36,16 +37,16 @@
     border-radius: 50%;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.profileImage {
+  }
+  
+  .profileImage {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 50%;
-}
-
-.overlay {
+  }
+  
+  .overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -58,77 +59,77 @@
     opacity: 0;
     transition: opacity 0.2s ease-in-out;
     cursor: pointer;
-}
-
-.pfpWrapper:hover .overlay {
+  }
+  
+  .pfpWrapper:hover .overlay {
     opacity: 1;
-}
-
-.editIcon {
+  }
+  
+  .editIcon {
     font-size: 1.5rem;
     color: white;
-}
-
-.userHeader {
+  }
+  
+  .userHeader {
     text-align: center;
     margin-top: 1rem;
-}
-
-.displayName {
+  }
+  
+  .displayName {
     color: #0070f3;
     margin: 0.25rem 0;
     font-size: 1.5rem;
-}
-
-.username, .locationText {
+  }
+  
+  .username, .locationText {
     color: #666;
     font-size: 1rem;
-}
-
-.infoSection {
+  }
+  
+  .infoSection {
     padding: 1.5rem 0;
     border-top: 1px solid #ddd;
     margin-top: 2rem;
-}
-
-.infoTitle {
+  }
+  
+  .infoTitle {
     font-size: 1.2rem;
     font-weight: 600;
     color: #333;
     margin-bottom: 0.5rem;
     margin-top: 1.5rem;
-}
-
-.infoText {
+  }
+  
+  .infoText {
     color: #444;
     margin-bottom: 1rem;
-}
-
-.placeholderText {
+  }
+  
+  .placeholderText {
     font-style: italic;
     color: #888;
     margin-bottom: 1rem;
-}
-
-.visitedList {
+  }
+  
+  .visitedList {
     list-style: none;
     padding-left: 0;
     margin-bottom: 1rem;
-}
-
-.visitedItem {
+  }
+  
+  .visitedItem {
     margin-bottom: 0.3rem;
     color: #444;
-}
-
-.itineraryGrid {
+  }
+  
+  .itineraryGrid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 1rem;
     margin-top: 1rem;
-}
-
-.itineraryCard {
+  }
+  
+  .itineraryCard {
     padding: 1rem;
     background-color: #fff;
     border: 1px solid #eee;
@@ -138,14 +139,14 @@
     font-weight: 500;
     transition: 0.2s ease-in-out;
     cursor: pointer;
-}
-
-.itineraryCard:hover {
+  }
+  
+  .itineraryCard:hover {
     box-shadow: 0 4px 10px rgba(0,0,0,0.06);
     background-color: #f9f9f9;
-}
-
-.editProfileButton {
+  }
+  
+  .editProfileButton {
     margin-left: 1rem;
     font-size: 0.85rem;
     padding: 0.3rem 0.75rem;
@@ -155,8 +156,77 @@
     color: white;
     cursor: pointer;
     transition: background 0.2s;
-}
-
-.editProfileButton:hover {
+  }
+  
+  .editProfileButton:hover {
     background-color: #005dc1;
-}
+  }
+  
+  
+  /* DARK MODE OVERRIDES */
+  @media (prefers-color-scheme: dark) {
+    .container {
+      background-color: #1e1e2a;
+      box-shadow: 0 2px 12px rgba(255, 255, 255, 0.05);
+    }
+  
+    .heading {
+      color: #f2f2f2;
+    }
+  
+    .divider {
+      border-top: 1px solid #444;
+    }
+  
+    .pfpWrapper {
+      box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
+    }
+  
+    .userHeader .displayName {
+      color: #66ccff;
+    }
+  
+    .username,
+    .locationText {
+      color: #aaa;
+    }
+  
+    .infoSection {
+      border-top: 1px solid #444;
+    }
+  
+    .infoTitle {
+      color: #ddd;
+    }
+  
+    .infoText,
+    .visitedItem {
+      color: #ccc;
+    }
+  
+    .placeholderText {
+      color: #888;
+    }
+  
+    .itineraryCard {
+      background-color: #2a2a3a;
+      border-color: #444;
+      color: #ddd;
+      box-shadow: 0 2px 4px rgba(255,255,255,0.05);
+    }
+  
+    .itineraryCard:hover {
+      background-color: #333;
+      box-shadow: 0 4px 10px rgba(255,255,255,0.08);
+    }
+  
+    .editProfileButton {
+      background-color: #3399ff;
+      color: white;
+    }
+  
+    .editProfileButton:hover {
+      background-color: #1a75d1;
+    }
+  }
+  

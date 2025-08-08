@@ -104,3 +104,58 @@
 .cancelBtn:hover {
     background-color: #bbb;
 }
+
+/* DARK MODE OVERRIDES */
+body.dark .wrapper {
+    background-color: #2c2f36;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    color: #f1f5f9;
+  }
+  
+  body.dark .header {
+    color: #e2e8f0;
+  }
+  
+  body.dark .editBtn {
+    background-color: #3b82f6;
+    color: white;
+  }
+  
+  body.dark .editBtn:hover {
+    background-color: #2563eb;
+  }
+  
+  body.dark .stats {
+    color: #a1a1aa;
+  }
+  
+  body.dark .modal {
+    background-color: #1f1f2e;
+    color: #f1f5f9;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  }
+  
+  body.dark .modal select {
+    background-color: #2c2f36;
+    color: #f1f5f9;
+    border: 1px solid #555;
+  }
+  
+  body.dark .addBtn {
+    background-color: #3ba55d;
+    color: white;
+  }
+  
+  body.dark .addBtn:hover {
+    background-color: #2f855a;
+  }
+  
+  body.dark .cancelBtn {
+    background-color: #555;
+    color: #eee;
+  }
+  
+  body.dark .cancelBtn:hover {
+    background-color: #444;
+  }
+  

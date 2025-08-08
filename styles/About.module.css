@@ -7,10 +7,11 @@
   padding: 60px 20px;
   font-family: 'Segoe UI', sans-serif;
   text-align: center;
-  background: linear-gradient(135deg, #e0f2ff, #f7faff);
+  background: var(--bg-color);
   border-radius: 20px;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.05);
   min-height: 100vh;
+  transition: background-color 0.3s ease;
 }
 
 .container::before {
@@ -36,35 +37,31 @@
   }
 }
 
-/* Title */
 .title {
   font-size: 3rem;
-  color: #0070f3;
+  color: var(--primary-button);
   margin-bottom: 20px;
   position: relative;
   z-index: 2;
 }
 
-/* Subtitle */
 .subtitle {
   font-size: 1.8rem;
   margin: 40px 0 20px;
-  color: #333;
+  color: var(--text-color);
   position: relative;
   z-index: 2;
 }
 
-/* Description paragraph */
 .description {
   font-size: 1.1rem;
-  color: #444;
+  color: var(--muted-text);
   margin-bottom: 20px;
   line-height: 1.6;
   position: relative;
   z-index: 2;
 }
 
-/* Team Grid Layout */
 .teamGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -75,9 +72,8 @@
   z-index: 2;
 }
 
-/* Team Member Card */
 .card {
-  background-color: #ffffff;
+  background-color: var(--card-bg);
   width: 100%;
   max-width: 250px;
   padding: 20px;
@@ -86,7 +82,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
   z-index: 1;
 }
 
@@ -95,44 +91,39 @@
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
 }
 
-/* Square Image */
 .squareImage {
   width: 100%;
   height: 230px;
   object-fit: cover;
   border-radius: 10px;
   margin-bottom: 15px;
-  border: 2px solid #0070f3;
+  border: 2px solid var(--primary-button);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-/* Member Name */
 .name {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #0070f3;
+  color: var(--primary-button);
   margin-bottom: 5px;
   text-align: center;
 }
 
-/* Member Role */
 .role {
   font-size: 0.95rem;
-  color: #444;
+  color: var(--muted-text);
   margin-bottom: 8px;
   text-align: center;
 }
 
-/* Optional Quote/Bio */
 .quote {
   font-size: 0.85rem;
   font-style: italic;
-  color: #666;
+  color: var(--muted-text);
   margin-top: 6px;
   text-align: center;
 }
 
-/* LinkedIn Button */
 .linkedinButton {
   background-color: #0077b5;
   color: white;
@@ -156,7 +147,7 @@
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease;
-  background: white;
+  background: var(--card-bg);
 }
 
 .teamCard:hover {
