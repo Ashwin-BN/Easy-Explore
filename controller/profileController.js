@@ -17,6 +17,28 @@ export async function loadUserProfile() {
     return res.json();
 }
 
+export async function getPublicProfileBundle(username) {
+    const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/user/profile/username/${encodeURIComponent(username)}`
+    );
+    if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || "Failed to fetch public profile");
+    }
+    // -> { user, itineraries }
+    return res.json();
+}
+
+export async function getUserProfileByUsername(username) {
+    const { user } = await getPublicProfileBundle(username);
+    return user;
+}
+
+export async function loadPublicItinerariesByUsername(username) {
+    const { itineraries } = await getPublicProfileBundle(username);
+    return itineraries || [];
+}
+
 export async function updateUserField(key, value) {
     const token = getToken();
     if (!token) throw new Error("User not authenticated");

@@ -4,10 +4,13 @@ import { removeAttractionFromItinerary } from '@/controller/itineraryController'
 import CollaboratorManager from '@/components/CollaboratorManager/CollaboratorManager';
 import { getToken } from '@/lib/authentication';
 import {useEffect, useState} from 'react';
+import { useRouter } from 'next/router';
+import {loadProfileByUsername} from "@/controller/profileController";
 
 export default function ItineraryModal({ itinerary, onClose, onAttractionRemoved }) {
     const [localItinerary, setLocalItinerary] = useState(itinerary);
     const [loadingId, setLoadingId] = useState(null);
+    const router = useRouter();
 
     useEffect(() => {
         setLocalItinerary(itinerary);
@@ -26,6 +29,17 @@ export default function ItineraryModal({ itinerary, onClose, onAttractionRemoved
             console.error("Failed to remove attraction:", err.message);
         } finally {
             setLoadingId(null);
+        }
+    };
+
+    const handleCollaboratorClick = async (username) => {
+        try {
+            const user = await loadProfileByUsername(username);
+            if (user) {
+                router.push(`/profile/${username}`);
+            }
+        } catch (err) {
+            console.error("Could not load collaborator profile:", err.message);
         }
     };
 
