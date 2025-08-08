@@ -111,3 +111,55 @@
 .card:hover {
     transform: scale(1.02);
 }
+
+/* DARK MODE SUPPORT */
+.dark-mode {
+  background: #1a1c22;
+  color: #e5e7eb;
+}
+
+/* All cards in dark mode */
+.dark-mode .card {
+  background-color: #2c2f36;
+  color: #f1f5f9;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.dark-mode .info h3 {
+  color: #f9fafb;
+}
+
+.dark-mode .info p {
+  color: #cbd5e1;
+}
+
+.dark-mode .tags {
+  color: #94a3b8;
+}
+
+.dark-mode .modalContent {
+  background-color: #1f2937;
+  color: #f1f5f9;
+}
+
+.dark-mode .closeModal {
+  color: #d1d5db;
+}
+
+.dark-mode .closeModal:hover {
+  color: #ffffff;
+}
+
+.dark-mode .actionBtn {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.dark-mode .actionBtn:hover {
+  background-color: #2563eb;
+}
+
+.dark-mode .card:hover {
+  background: #1e293b;
+  box-shadow: 0 6px 18px rgba(255, 255, 255, 0.1);
+}

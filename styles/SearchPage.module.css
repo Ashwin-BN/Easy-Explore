@@ -264,3 +264,92 @@
   color: #0051a8;
   text-decoration: none;
 }
+
+/* 🌙 DARK MODE STYLES (Activated when <body class="dark">) */
+
+body.dark {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+body.dark .container {
+  background: linear-gradient(to bottom right, #1e1e1e, #2c2c2c);
+}
+
+body.dark .header,
+body.dark .topLeftHeader,
+body.dark .title,
+body.dark .subtitle {
+  color: #f0f0f0;
+}
+
+body.dark .searchBox,
+body.dark .inputGroup {
+  background-color: transparent;
+}
+
+body.dark .primaryButton {
+  background-color: #1e88e5;
+  color: white;
+}
+
+body.dark .primaryButton:hover:not(:disabled) {
+  background-color: #1565c0;
+}
+
+body.dark .resultsContainer {
+  background: transparent;
+}
+
+body.dark .cardsColumn,
+body.dark .mapColumn {
+  background: transparent;
+}
+
+body.dark .mapWrapper {
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.08);
+}
+
+body.dark .pageButton {
+  background-color: #2c2c2c;
+  color: #90caf9;
+  border-color: #444;
+}
+
+body.dark .pageButton:hover {
+  background-color: #3949ab;
+  color: #fff;
+}
+
+body.dark .activePage {
+  background-color: #1e88e5;
+  color: white;
+  border-color: #1e88e5;
+}
+
+body.dark .modalContent {
+  background: #2a2a2a;
+  color: #e0e0e0;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+body.dark .closeModal {
+  color: #f0f0f0;
+}
+
+body.dark .actionBtn {
+  background-color: #1976d2;
+  color: white;
+}
+
+body.dark .actionBtn:hover {
+  background-color: #0d47a1;
+}
+
+body.dark .moreInfoLink {
+  color: #90caf9;
+}
+
+body.dark .moreInfoLink:hover {
+  color: #64b5f6;
+}

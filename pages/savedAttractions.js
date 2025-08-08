@@ -8,6 +8,7 @@ import {
 } from '@/controller/attractionController';
 import { addAttractionToItinerary, loadUserItineraries } from '@/controller/itineraryController';
 import AttractionCard from '@/components/AttractionCard/AttractionCard';
+import { showSuccess, showError } from "@/lib/toast";
 
 export default function SavedAttractions() {
     const [savedAttractions, setSavedAttractions] = useState([]);
@@ -37,19 +38,21 @@ export default function SavedAttractions() {
         try {
             await removeSavedAttraction(attractionId);
             setSavedAttractions((prev) => prev.filter((a) => a.id !== attractionId));
+            showSuccess('Attraction removed from favorites!');
         } catch (err) {
             console.error(err.message);
+            showError(err.message || 'Failed to remove attraction');
         }
     }
 
     async function handleAddToItinerary(itineraryId, attraction) {
         try {
             await addAttractionToItinerary(itineraryId, attraction);
-            alert(`Added "${attraction.name}" to your itinerary.`);
+            showSuccess(`Added "${attraction.name}" to your itinerary.`);
             setActiveDropdown(null);
         } catch (err) {
             console.error('Failed to add attraction:', err);
-            alert('Failed to add attraction to itinerary.');
+            showError('Failed to add attraction to itinerary.');
         }
     }
 

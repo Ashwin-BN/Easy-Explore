@@ -54,6 +54,8 @@
     border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 1rem;
+    background-color: white;
+    color: #000;
 }
 
 .actions {
@@ -91,4 +93,43 @@
     margin-top: 1rem;
     font-size: 0.9rem;
     text-align: center;
+}
+
+
+@media (prefers-color-scheme: dark) {
+    .modal {
+        background: #1e1e1e;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .modal h2 {
+        color: #f0f0f0;
+    }
+
+    .modal label {
+        color: #ddd;
+    }
+
+    .modal input {
+        background-color: #2a2a2a;
+        color: #f0f0f0;
+        border: 1px solid #555;
+    }
+
+    .actions button:first-child {
+        background-color: #333;
+        color: #eee;
+    }
+
+    .actions button:last-child {
+        background-color: #0a84ff;
+    }
+
+    .actions button:last-child:hover {
+        background-color: #0066cc;
+    }
+
+    .error {
+        color: #ff6b6b;
+    }
 }

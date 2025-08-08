@@ -1,9 +1,10 @@
 // pages/login.js
 
-import { Form, Card, Alert, Button } from "react-bootstrap";
+import { Form, Card, Button } from "react-bootstrap";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { authenticateUser } from "@/lib/authentication";
+import { showError, showSuccess } from "@/lib/toast";
 import styles from "../styles/Login.module.css";
 
 /**
@@ -33,11 +34,14 @@ export default function Login(props) {
       // Attempt user authentication with provided credentials
       await authenticateUser(email, password);
 
+      // Show success message before redirecting
+      showSuccess("Login successful! Redirecting...");
+
       // On successful authentication, redirect to search page
       router.push("/search");
     } catch (err) {
-      // Display authentication error message
-      setWarning(err.message);
+      // Display authentication error message using toast
+      showError(err.message);
     }
   }
 

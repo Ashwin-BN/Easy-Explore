@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion"; //for animation
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
+import DarkModeToggle from "@/components/DarkModeToggle";
 
 import Link from "next/link";
 

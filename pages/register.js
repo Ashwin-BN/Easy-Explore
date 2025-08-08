@@ -4,6 +4,7 @@ import { Form, Card, Button } from "react-bootstrap";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { registerUser } from "@/lib/authentication";
+import { showError, showSuccess } from "@/lib/toast";
 import styles from "../styles/Register.module.css";
 
 // Helper functions for individual checks (for live feedback)

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styles from './ProfileEditModal.module.css';
 import { updateUserField } from '@/controller/profileController';
+import { showSuccess, showError } from '@/lib/toast';
 
 export default function ProfileEditModal({ initialData, onClose, onSuccess }) {
     const [userName, setUserName] = useState(initialData.userName || '');
@@ -18,8 +19,11 @@ export default function ProfileEditModal({ initialData, onClose, onSuccess }) {
                 userName,
                 currentLocation: { city, country },
             });
+            showSuccess('Profile updated successfully!');
             onClose();
         } catch (err) {
+            console.error('Failed to update profile:', err);
+            showError(err.message || 'Failed to update profile');
             setError(err.message);
         }
     };

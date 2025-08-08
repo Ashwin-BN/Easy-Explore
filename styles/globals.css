@@ -59,3 +59,77 @@ a {
   background-color: #0070f3;
   color: #ffffff
 }
+
+/* DARK MODE STYLES */
+
+body.dark-mode {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+
+/* Navbar dark text and background */
+body.dark-mode nav,
+body.dark-mode .navbar {
+  background-color: #1a1a1a;
+  color: #f0f0f0;
+}
+
+/* Make the modal background and text dark */
+body.dark-mode .modal {
+  background-color: #1e1e1e !important;
+  color: #f0f0f0 !important;
+  border: 1px solid #444;
+}
+
+/* Button styling for dark mode */
+body.dark-mode button {
+  background-color: #333;
+  color: #f0f0f0;
+  border: 1px solid #555;
+}
+
+/* Input, select, and textarea fields */
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+  background-color: #2a2a2a;
+  color: #f0f0f0;
+  border: 1px solid #444;
+}
+
+/* Rating stars (optional highlight) */
+body.dark-mode .star {
+  color: #ffc107;
+}
+
+/* Drop-downs */
+body.dark-mode option {
+  background-color: #1e1e1e;
+}
+
+/* Default Light Mode */
+body {
+  background-color: #f5f9ff;
+  color: #000;
+}
+
+/* When dark mode is ON */
+body.dark-mode {
+  background-color: #121212;
+  color: #fff;
+}
+
+/* Optional: Dark styles for cards, navbar, etc. */
+body.dark-mode .card {
+  background-color: #1f1f1f;
+  color: #fff;
+}
+
+body.dark-mode nav {
+  background-color: #000;
+}
+
+body.dark-mode .modal {
+  background-color: #1e1e1e;
+}
+

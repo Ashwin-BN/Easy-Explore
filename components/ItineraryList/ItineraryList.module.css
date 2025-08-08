@@ -3,120 +3,128 @@
     list-style: none;
     padding: 0;
     margin: 0;
-}
-
-.item {
+  }
+  
+  .item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #ffffff;
+    background: var(--card-bg);
     padding: 1.2rem 1.5rem;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 10px;
     margin-bottom: 1rem;
     width: 100%;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.menuWrapper {
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .menuWrapper {
     position: relative;
     display: flex;
     align-items: center;
-}
-
-.menuIcon {
+  }
+  
+  .menuIcon {
     font-size: 1.2rem;
     cursor: pointer;
     transition: color 0.2s ease;
-}
-
-.menuIcon:hover {
-    color: #0070f3;
-}
-
-.dropdownMenu {
+    color: var(--text-color);
+  }
+  
+  .menuIcon:hover {
+    color: var(--primary-button);
+  }
+  
+  .dropdownMenu {
     position: absolute;
-    top: 2.2rem; /* aligns menu below the icon */
+    top: 2.2rem;
     right: 0;
-    background-color: white;
-    border: 1px solid #ccc;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 0.5rem 0;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     z-index: 100;
     min-width: 150px;
-}
-
-.dropdownMenu button {
+    color: var(--text-color);
+    transition: background-color 0.3s ease;
+  }
+  
+  .dropdownMenu button {
     width: 100%;
     background: none;
     border: none;
     text-align: left;
     padding: 0.5rem 1rem;
     font-size: 0.9rem;
-    color: #2c3e50;
+    color: var(--text-color);
     cursor: pointer;
     transition: background-color 0.2s ease;
-}
-
-.dropdownMenu button:hover {
-    background-color: #f0f0f0;
-}
-
-.details {
+  }
+  
+  .dropdownMenu button:hover {
+    background-color: var(--secondary-hover);
+  }
+  
+  .details {
     flex-grow: 1;
-}
-
-.details h3 {
+  }
+  
+  .details h3 {
     margin-bottom: 0.5rem;
-    color: #2c3e50;
-}
-
-.details p {
+    color: var(--text-color);
+  }
+  
+  .details p {
     margin: 0.2rem 0;
-    color: #444;
-}
-
-.details p.meta {
-    color: #666;
+    color: var(--muted-text);
+  }
+  
+  .details p.meta {
+    color: var(--muted-text);
     font-size: 0.9rem;
     margin-top: 4px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-.actions {
+  }
+  
+  .actions {
     display: flex;
     gap: 0.8rem;
-}
-
-.actions button {
+  }
+  
+  .actions button {
     background: none;
     border: none;
     font-size: 1.2rem;
     cursor: pointer;
     padding: 0.4rem;
-    color: #2c3e50;
+    color: var(--text-color);
     transition: color 0.2s ease;
-}
-
-.actions button:hover {
-    color: #0070f3;
-}
-
-.clickableCard {
+  }
+  
+  .actions button:hover {
+    color: var(--primary-button);
+  }
+  
+  .clickableCard {
     flex: 1;
     cursor: pointer;
     padding: 16px;
     border-radius: 10px;
     transition: background-color 0.2s ease;
-}
-
-.clickableCard:hover {
-    background-color: #f0f4f8;
-}
-.syncButton {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+  }
+  
+  .clickableCard:hover {
+    background-color: var(--secondary-hover);
+  }
+  
+  .syncButton {
     background-color: #28a745;
     color: white;
     border: none;
@@ -129,9 +137,10 @@
     align-items: center;
     gap: 6px;
     transition: background-color 0.2s ease, transform 0.2s ease;
-}
-
-.syncButton:hover {
+  }
+  
+  .syncButton:hover {
     background-color: #218838;
     transform: scale(1.03);
-}
+  }
+  

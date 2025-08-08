@@ -1,3 +1,4 @@
+// components/Suggestion/Suggestions.js
 import { useState, useEffect } from "react";
 import AttractionCard from "@/components/AttractionCard/AttractionCard";
 import { loadUserItineraries } from "@/controller/itineraryController";

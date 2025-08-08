@@ -1,3 +1,4 @@
+
 .modalOverlay {
     position: fixed;
     top: 0;
@@ -10,10 +11,11 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
-}
-
-.modalContent {
-    background-color: #fff;
+  }
+  
+  .modalContent {
+    background-color: var(--card-bg);
+    color: var(--text-color);
     width: 90%;
     max-width: 900px;
     max-height: 90vh;
@@ -23,9 +25,10 @@
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
     position: relative;
     animation: fadeIn 0.3s ease-in-out;
-}
-
-.closeModal {
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .closeModal {
     position: absolute;
     top: 1rem;
     right: 1rem;
@@ -33,28 +36,28 @@
     border: none;
     font-size: 1.25rem;
     cursor: pointer;
-    color: #888;
+    color: var(--muted-text);
     transition: color 0.2s ease;
-}
-
-.closeModal:hover {
-    color: #333;
-}
-
-.h2 {
+  }
+  
+  .closeModal:hover {
+    color: var(--text-color);
+  }
+  
+  .h2 {
     font-size: 1.8rem;
-    color: #2c3e50;
+    color: var(--primary-button);
     margin-bottom: 1rem;
-}
-
-.attractionList {
+  }
+  
+  .attractionList {
     list-style: none;
     padding: 0;
     margin: 0;
-}
-
-.attractionItem {
-    background: #f9f9f9;
+  }
+  
+  .attractionItem {
+    background: var(--bg-color);
     border-radius: 8px;
     padding: 1rem;
     margin-bottom: 1rem;
@@ -64,53 +67,55 @@
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
-}
-
-.attractionItem strong {
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .attractionItem strong {
     font-size: 1.1rem;
     display: block;
     margin-bottom: 0.25rem;
-    color: #0072ce;
-}
-
-.attractionItem p {
+    color: var(--primary-button);
+  }
+  
+  .attractionItem p {
     margin: 0.25rem 0;
-    color: #555;
-}
-
-.attractionItem a {
-    color: #0070f3;
+    color: var(--muted-text);
+  }
+  
+  .attractionItem a {
+    color: var(--primary-button);
     text-decoration: underline;
     transition: color 0.2s ease;
-}
-
-.attractionItem a:hover {
-    color: #0051a8;
-}
-
-@keyframes fadeIn {
+  }
+  
+  .attractionItem a:hover {
+    color: var(--button-hover);
+  }
+  
+  @keyframes fadeIn {
     from {
-        opacity: 0;
-        transform: translateY(30px);
+      opacity: 0;
+      transform: translateY(30px);
     }
     to {
-        opacity: 1;
-        transform: translateY(0);
+      opacity: 1;
+      transform: translateY(0);
     }
-}
-
-@keyframes slideUp {
+  }
+  
+  @keyframes slideUp {
     from {
-        opacity: 0;
-        transform: translateY(20px);
+      opacity: 0;
+      transform: translateY(20px);
     }
     to {
-        opacity: 1;
-        transform: translateY(0);
+      opacity: 1;
+      transform: translateY(0);
     }
-}
-
-.removeBtn {
+  }
+  
+  .removeBtn {
     background: none;
     border: none;
     color: #f44336;
@@ -119,8 +124,11 @@
     margin-left: 12px;
     align-self: flex-start;
     transition: transform 0.2s;
-}
-
-.removeBtn:hover {
+  }
+  
+  .removeBtn:hover {
     transform: scale(1.1);
-}
+  }
+  
+
+  
