@@ -6,6 +6,7 @@ import { getToken } from '@/lib/authentication';
 import {useEffect, useState} from 'react';
 import { useRouter } from 'next/router';
 import {loadProfileByUsername} from "@/controller/profileController";
+import AttractionCard from '@/components/AttractionCard/AttractionCard';
 
 export default function ItineraryModal({ itinerary, onClose, onAttractionRemoved }) {
     const [localItinerary, setLocalItinerary] = useState(itinerary);
@@ -49,29 +50,24 @@ export default function ItineraryModal({ itinerary, onClose, onAttractionRemoved
                 <button className={styles.closeModal} onClick={onClose}>Close</button>
                 <h2>{localItinerary.name}</h2>
                 {localItinerary.attractions?.length > 0 ? (
-                    <ul className={styles.attractionList}>
-                        {localItinerary.attractions.map((a, i) => (
-                            <li key={i} className={styles.attractionItem}>
-                                <div>
-                                    <strong>{a.name}</strong>
-                                    {a.address && <p>{a.address}</p>}
-                                    {a.url && (
-                                        <a href={a.url} target="_blank" rel="noopener noreferrer">
-                                            More Info
-                                        </a>
-                                    )}
-                                </div>
-                                <button
-                                    className={styles.removeBtn}
-                                    onClick={() => handleRemove(a.id)}
-                                    disabled={loadingId === a.id}
-                                    title="Remove attraction"
-                                >
-                                    <FaTrash />
-                                </button>
-                            </li>
+                    <div className={styles.attractionsGrid}>
+                        {localItinerary.attractions.map((a) => (
+                            <AttractionCard
+                                key={a.id}
+                                attraction={a}
+                                actions={
+                                    <button
+                                        className={styles.removeBtn}
+                                        onClick={() => handleRemove(a.id)}
+                                        disabled={loadingId === a.id}
+                                        title="Remove attraction"
+                                    >
+                                        <FaTrash />
+                                    </button>
+                                }
+                            />
                         ))}
-                    </ul>
+                    </div>
                 ) : (
                     <p>No attractions saved to this itinerary.</p>
                 )}
