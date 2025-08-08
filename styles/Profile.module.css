@@ -161,6 +161,39 @@
   .editProfileButton:hover {
     background-color: #005dc1;
   }
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #e6f0ff;
+  border: none;
+  border-radius: 8px;
+  color: #0070f3;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 0.5rem 0.85rem;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease-in-out;
+}
+
+.backButton:hover {
+  background-color: #d0e7ff;
+  color: #005dc1;
+  transform: translateX(-2px);
+  box-shadow: 0 4px 12px rgba(0, 112, 243, 0.15);
+}
+
+.backIcon {
+  font-size: 1rem;
+}
+
+.backText {
+  font-size: 0.95rem;
+}
+
+
   
   
   /* DARK MODE OVERRIDES */
@@ -228,5 +261,17 @@
     .editProfileButton:hover {
       background-color: #1a75d1;
     }
+
+    .backButton {
+    background-color: #2a3c55;
+    color: #66ccff;
+    box-shadow: 0 2px 6px rgba(255, 255, 255, 0.05);
+  }
+
+  .backButton:hover {
+    background-color: #1f2e44;
+    color: #3399ff;
+    box-shadow: 0 4px 12px rgba(102, 204, 255, 0.15);
+  }
   }
   
