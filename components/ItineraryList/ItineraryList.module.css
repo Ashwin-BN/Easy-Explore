@@ -7,6 +7,8 @@
   
   .item {
     display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
     justify-content: space-between;
     align-items: center;
     background: var(--card-bg);
@@ -70,6 +72,8 @@
   
   .details {
     flex-grow: 1;
+    min-width: 200px;
+    margin-right: 1rem;
   }
   
   .details h3 {
@@ -94,6 +98,8 @@
   .actions {
     display: flex;
     gap: 0.8rem;
+    flex-wrap: wrap;
+    min-width: 150px;
   }
   
   .actions button {
@@ -129,7 +135,7 @@
     color: white;
     border: none;
     padding: 6px 10px;
-    margin-left: 10px;
+    margin-left: 0;
     border-radius: 6px;
     font-size: 0.9rem;
     cursor: pointer;
@@ -143,4 +149,22 @@
     background-color: #218838;
     transform: scale(1.03);
   }
-  
+  @media (max-width: 600px) {
+  .item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .details {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .actions {
+    justify-content: flex-start;
+  }
+
+  .details p.meta {
+    white-space: normal; /* Allow text wrapping on small screens */
+  }
+}

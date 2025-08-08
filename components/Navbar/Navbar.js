@@ -15,6 +15,8 @@ export default function Navbar() {
   const dropdownRef = useRef(null);
   const router = useRouter();
   const { darkMode, toggleTheme } = useTheme();
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -65,13 +67,23 @@ export default function Navbar() {
       <div className={styles.left}>
         <div className={styles.logo}>Easy Explore</div>
       </div>
+      <button
+        className={styles.hamburger}
+        onClick={() => {
+          setMobileNavOpen(!mobileNavOpen);
+          setShowMenu(false);
+        }}
+        aria-label="Toggle navigation"
+      >
+        ☰
+      </button>
 
       {/* Center: Navigation links */}
-      <div className={styles.right}>
+      <div className={`${styles.right} ${mobileNavOpen ? styles.mobileNavOpen : ''}`}>
       <ul className={styles.navLinks}>
-        <li><Link href="/">Home</Link></li>
-        <li><Link href="/search">Search</Link></li>
-        <li><Link href="/about">About Us</Link></li>
+        <li><Link href="/" onClick={() => setMobileNavOpen(false)}>Home</Link></li>
+        <li><Link href="/search" onClick={() => setMobileNavOpen(false)}>Search</Link></li>
+        <li><Link href="/about" onClick={() => setMobileNavOpen(false)}>About</Link></li>
 
         {!user ? (
           <>

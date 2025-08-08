@@ -218,3 +218,73 @@
     background-color: rgba(255, 255, 255, 0.15);
   }
   
+  .hamburger {
+  display: none;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  color: white;
+  margin-left: 1rem;
+  cursor: pointer;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+  }
+
+  .hamburger {
+    display: block;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .right {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 1rem;
+  }
+
+  .mobileNavOpen {
+    display: flex;
+  }
+
+  .navLinks {
+    flex-direction: column;
+    width: 100%;
+    padding: 0;
+    gap: 0.5rem;
+  }
+
+  .navLinks li {
+    width: 100%;
+  }
+
+  .navLinks li a {
+    width: 100%;
+    padding: 0.75rem 0;
+  }
+
+  .dropdownMenu {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 100%;
+    max-width: none;
+    box-shadow: none;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+  }
+
+  .themeToggleWrapper {
+    margin-top: 1rem;
+    width: 100%;
+  }
+}
