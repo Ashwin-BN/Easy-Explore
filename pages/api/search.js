@@ -1,5 +1,3 @@
-// pages/api/search.js
-
 export default async function handler(req, res) {
   const {
     country,
@@ -9,36 +7,45 @@ export default async function handler(req, res) {
     poiType = 'tourism.attraction',
     category,
     query,
-    lat: queryLat,
-    lon: queryLon,
+    lat: userLat,
+    lon: userLon,
   } = req.query;
 
+  // 1. Get geolocation based on query (like "CN Tower") or city fallback
   let lat, lon;
+  // Only build a location name if at least one of query/city/state/country is provided
+  const hasLocationInput = query || city || state || country;
 
-  if (queryLat && queryLon) {
-    // Use lat/lon from query if provided (e.g. from userLocation)
-    lat = parseFloat(queryLat);
-    lon = parseFloat(queryLon);
-  } else {
-    // 1. Get geolocation based on query (like "CN Tower") or city fallback
-    const geoLocationName =
-      query || (city && state && country ? `${city}, ${state}, ${country}` : null);
+  if (hasLocationInput) {
+    // Construct the geolocation name with available values
+    const geoLocationName = query || [city, state, country].filter(Boolean).join(', ');
 
-    if (!geoLocationName) {
-      return res.status(400).json({ error: 'No valid location provided' });
+    try {
+      const geoRes = await fetch(
+        `https://api.geoapify.com/v1/geocode/search?` +
+          `text=${encodeURIComponent(geoLocationName)}` +
+          `&limit=1&apiKey=${process.env.GEOAPIFY_KEY}`
+      );
+      const geoJson = await geoRes.json();
+      const feat = geoJson.features?.[0];
+
+      if (feat) {
+        lat = feat.properties.lat;
+        lon = feat.properties.lon;
+      }
+    } catch (err) {
+      console.error("Geolocation API failed:", err);
     }
+  }
 
-    const geoRes = await fetch(
-      `https://api.geoapify.com/v1/geocode/search?` +
-        `text=${encodeURIComponent(geoLocationName)}` +
-        `&limit=1&apiKey=${process.env.GEOAPIFY_KEY}`
-    );
-    const geoJson = await geoRes.json();
-    const feat = geoJson.features?.[0];
-    if (!feat) return res.status(404).json({ error: 'Location not found' });
-
-    lat = feat.properties.lat;
-    lon = feat.properties.lon;
+  // Fallback: If no lat/lon found and no location input was provided
+  if (!lat || !lon) {
+    if (userLat && userLon) {
+      lat = userLat;
+      lon = userLon;
+    } else {
+      return res.status(400).json({ error: 'No valid location or coordinates provided.' });
+    }
   }
 
   // 2. Get base POIs
