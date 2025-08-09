@@ -353,3 +353,24 @@ body.dark .moreInfoLink {
 body.dark .moreInfoLink:hover {
   color: #64b5f6;
 }
+
+@media (max-width: 768px) {
+  .resultsContainer {
+    flex-direction: column;
+    max-width: 100%;
+  }
+
+  .cardsColumn,
+  .mapColumn {
+    max-height: none; 
+    padding-right: 0;
+    width: 100%;
+    height: auto;
+  }
+
+  .mapWrapper {
+    position: relative;
+    height: 300px; 
+  }
+}
+
