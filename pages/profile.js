@@ -7,12 +7,16 @@ import { loadUserProfile, updateUserField } from '@/controller/profileController
 import ProfileEditModal from "@/components/ProfileEditModal/ProfileEditModal";
 import ItineraryModal from "@/components/ItineraryModal/ItineraryModal";
 import { showSuccess, showError } from '@/lib/toast';
+import ReviewStrip from '@/components/ReviewStrip/ReviewStrip';
+import { useRouter } from 'next/router';
 
 export default function Profile() {
+  const router = useRouter();
   const [user, setUser] = useState(null);
   const [itineraries, setItineraries] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedItinerary, setSelectedItinerary] = useState(null);
+  const [recentReviews, setRecentReviews] = useState([]); // ✅ already present
   const [formData, setFormData] = useState({
     userName: '',
     profilePicture: '',
@@ -30,6 +34,8 @@ export default function Profile() {
           console.warn("No profile returned. Skipping...");
           return;
         }
+        console.log('Profile payload:', profile);
+        console.log('Recent reviews:', profile?.recentReviews);
 
         setUser(profile);
         setFormData({
@@ -38,6 +44,9 @@ export default function Profile() {
           currentLocation: profile.currentLocation || { city: '', country: '' },
           visitedCities: profile.visitedCities || [],
         });
+
+        // ✅ pull recent reviews from API response (server should send `recentReviews`)
+        setRecentReviews(profile.recentReviews || profile.reviews || []);
 
         const itinerariesData = await loadUserItineraries();
         setItineraries(itinerariesData.filter(it => it.public));
@@ -128,12 +137,12 @@ export default function Profile() {
         </div>
 
         <div className={styles.infoSection}>
-            <button
-                className={styles.editProfileButton}
-                onClick={() => setShowEditModal(true)}
-            >
-              Edit Profile
-            </button>
+          <button
+              className={styles.editProfileButton}
+              onClick={() => setShowEditModal(true)}
+          >
+            Edit Profile
+          </button>
 
           <h3 className={styles.infoTitle}>Public Itineraries</h3>
           <div className={styles.itineraryGrid}>
@@ -153,10 +162,15 @@ export default function Profile() {
           </div>
         </div>
 
-          <VisitedPlaces
-              visited={formData.visitedCities}
-              onUpdate={(newVisited) => updateField('visitedCities', newVisited)}
-          />
+        <ReviewStrip
+            reviews={recentReviews}
+            onSeeAll={() => router.push('/myReviews')}
+        />
+
+        <VisitedPlaces
+            visited={formData.visitedCities}
+            onUpdate={(newVisited) => updateField('visitedCities', newVisited)}
+        />
 
         {showEditModal && (
             <ProfileEditModal
