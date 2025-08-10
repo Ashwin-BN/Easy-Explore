@@ -1,20 +1,38 @@
 import { getToken } from '@/lib/authentication';
 
-export async function loadUserProfile() {
-    if (typeof window === 'undefined') return null;
-    const token = getToken();
-    if (!token) throw new Error("User not authenticated");
+function normalizeProfileBundle(data) {
+    // If backend returns just the user object, normalize to a bundle
+    if (data && !data.user) {
+        return { user: data, itineraries: data.itineraries || [], recentReviews: data.recentReviews || [] };
+    }
+    return {
+        user: data?.user || null,
+        itineraries: data?.itineraries || [],
+        recentReviews: data?.recentReviews || []
+    };
+}
 
+export async function loadMyProfileBundle() {
+    const token = getToken();
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/profile`, {
         headers: { Authorization: `jwt ${token}` },
     });
-
     if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.message || "Failed to fetch user profile");
+        const text = await res.text();
+        throw new Error(text || 'Failed to fetch user profile');
     }
+    const raw = await res.json();
+    return normalizeProfileBundle(raw);
+}
 
-    return res.json();
+export async function loadUserProfile() {
+    const { user } = await loadMyProfileBundle();
+    return user;
+}
+
+export async function loadMyRecentReviews() {
+    const { recentReviews } = await loadMyProfileBundle();
+    return recentReviews;
 }
 
 export async function getPublicProfileBundle(username) {
