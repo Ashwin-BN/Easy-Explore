@@ -1,3 +1,4 @@
+// contoller/profileController.js
 import { getToken } from '@/lib/authentication';
 
 function normalizeProfileBundle(data) {
