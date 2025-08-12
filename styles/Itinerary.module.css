@@ -1,149 +1,97 @@
-.wrapper {
+   .wrapper {
     min-height: 100vh;
-    background: linear-gradient(to bottom right, #f0f4f8, #e3f0ff);
+    background: linear-gradient(to bottom right, var(--bg-grad-1), var(--bg-grad-2));
     padding: 60px 20px;
     font-family: 'Segoe UI', sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: #2c3e50;
-}
-
-.headerRow {
+    color: var(--text-color);
+  }
+  
+  .headerRow {
     width: 100%;
     max-width: 1200px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.5rem;
-}
-
-.title {
-    font-size: 2rem;
-    font-weight: 600;
-}
-
-.subheading {
-    font-size: 1.5rem;
-    margin-bottom: 1.2rem;
-}
-
-.createButton {
-    background-color: #0070f3;
+  }
+  
+  .title { font-size: 2rem; font-weight: 600; }
+  .subheading { font-size: 1.5rem; margin-bottom: 1.2rem; }
+  
+  /* Create button */
+  .createButton {
+    background-color: var(--accent);
     color: #fff;
     font-size: 1rem;
     padding: 0.6rem 1.2rem;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.createButton:hover {
-    background-color: #005bb5;
-}
-
-.pageContainer {
+    transition: filter 0.2s ease;
+  }
+  .createButton:hover { filter: brightness(0.92); }
+  
+  /* Main panel */
+  .pageContainer {
     width: 100%;
     max-width: 1200px;
-    background-color: white;
-    border: 1px solid #ddd;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 2rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     min-height: 200px;
-}
-
-.listContainer {
+    color: var(--text-color);
+  }
+  
+  .listContainer {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
-}
-
-.emptyState {
-    color: #2c3e50;
+  }
+  
+  .emptyState {
+    color: var(--muted-text);
     font-style: italic;
     font-size: 1.1rem;
-}
-
-.modalOverlay {
+  }
+  
+  /* Modal */
+  .modalOverlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background-color: rgba(0,0,0,0.4);
+    display: flex; align-items: center; justify-content: center;
     z-index: 1000;
-}
-
-.modalContent {
-    background-color: #ffffff;
+  }
+  
+  .modalContent {
+    background-color: var(--card-bg);
+    color: var(--text-color);
     padding: 2rem;
     border-radius: 12px;
-    max-width: 500px;
-    width: 90%;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    max-width: 500px; width: 90%;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
     z-index: 1001;
     animation: fadeInUp 0.3s ease;
-}
-
-.sectionDivider {
+  }
+  
+  .sectionDivider {
     border: none;
     height: 1px;
-    background-color: #ccc;
+    background-color: var(--border-color);
     margin: 2rem 0;
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(40px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* ----------------------------------
-   DARK MODE SUPPORT
----------------------------------- */
-@media (prefers-color-scheme: dark) {
-    .wrapper {
-        background: linear-gradient(to bottom right, #1e1e1e, #2a2a2a);
-        color: #f0f0f0;
-    }
-
-    .createButton {
-        background-color: #1e88e5;
-        color: white;
-    }
-
-    .createButton:hover {
-        background-color: #1565c0;
-    }
-
-    .pageContainer {
-        background-color: #2c2c2c;
-        border: 1px solid #444;
-        box-shadow: 0 2px 8px rgba(255, 255, 255, 0.05);
-    }
-
-    .emptyState {
-        color: #ccc;
-    }
-
-    .modalContent {
-        background-color: #333;
-        color: #f0f0f0;
-        box-shadow: 0 6px 18px rgba(255, 255, 255, 0.1);
-    }
-
-    .sectionDivider {
-        background-color: #555;
-    }
-}
+  }
+  
+  /* Animations */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  

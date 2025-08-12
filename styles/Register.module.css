@@ -1,198 +1,134 @@
-/* === LIGHT MODE (default) === */
 .formContainer {
-  max-width: 420px;
+  max-width: 480px;
   margin: 100px auto;
   padding: 32px 28px;
-  background: #fff;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
   border-radius: 14px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #222;
+  color: var(--text-color);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
   will-change: transform;
 }
-
 .formContainer:hover {
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.18);
   transform: translateY(-6px);
 }
 
-.header {
-  text-align: center;
-  margin-bottom: 28px;
-}
-
+/* Header */
+.header { text-align: center; margin-bottom: 24px; }
 .header h2 {
   font-size: 2.2rem;
-  color: #0070f3;
+  color: var(--accent);
   margin-bottom: 6px;
   font-weight: 700;
   letter-spacing: 0.02em;
 }
-
 .header p {
-  color: #555;
+  color: var(--muted-text);
   font-size: 1rem;
   font-weight: 500;
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
+/* Form layout */
+.form { display: flex; flex-direction: column; gap: 16px; }
+.formRow { display: flex; gap: 12px; }
+.formRow > * { flex: 1; }
 
-.formGroup {
-  display: flex;
-  flex-direction: column;
-}
-
+.formGroup { display: flex; flex-direction: column; }
 .formGroup label {
   margin-bottom: 6px;
   font-weight: 600;
-  color: #333;
+  color: var(--text-color);
 }
 
-.formGroup input[type="email"],
-.formGroup input[type="password"],
-.formGroup input[type="text"] {
+/* Inputs */
+.input,
+.formGroup input,
+.formGroup select {
   padding: 12px 14px;
-  border: 1.8px solid #bbb;
+  border: 1.8px solid color-mix(in oklab, var(--border-color) 85%, var(--text-color));
   border-radius: 8px;
   font-size: 1rem;
-  background: #f9f9f9;
-  color: #222;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
-}
-
-.formGroup input[type="email"]:focus,
-.formGroup input[type="password"]:focus,
-.formGroup input[type="text"]:focus {
-  border-color: #0070f3;
-  background: #fff;
+  background: var(--bg);
+  color: var(--text-color);
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
   outline: none;
-  box-shadow: 0 0 8px rgba(0, 112, 243, 0.3);
+}
+.input::placeholder,
+.formGroup input::placeholder { color: var(--muted-text); }
+
+.input:focus,
+.formGroup input:focus,
+.formGroup select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 30%, transparent);
 }
 
+/* Password helpers */
+.passwordRow { display: flex; gap: 12px; }
+.passwordToggle {
+  display: flex; align-items: center; gap: 8px;
+  margin-top: 8px; font-size: 0.95rem; color: var(--muted-text);
+  user-select: none;
+}
+.passwordChecklist {
+  margin-top: 10px; padding-left: 20px; font-size: 0.9rem; color: var(--muted-text);
+}
+.passwordChecklist li { margin-bottom: 6px; list-style: disc; }
+
+/* Submit button */
 .submitButton {
-  margin-top: 12px;
-  background-color: #0070f3 !important;
-  border: none !important;
-  padding: 14px 0 !important;
-  border-radius: 10px !important;
-  font-size: 1.1rem !important;
-  font-weight: 700 !important;
-  box-shadow: 0 6px 18px rgba(0, 112, 243, 0.3) !important;
-  transition: background-color 0.3s ease !important;
+  margin-top: 8px;
+  background-color: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 14px 0;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
   cursor: pointer;
+  transition: filter 0.2s ease;
 }
-
 .submitButton:hover,
-.submitButton:focus {
-  background-color: #005bb5 !important;
-  box-shadow: 0 8px 24px rgba(0, 91, 181, 0.5) !important;
-}
+.submitButton:focus { filter: brightness(0.92); }
+.submitButton:disabled { opacity: 0.6; cursor: not-allowed; }
 
+/* Inline link under form (e.g., “Already have an account? Log in”) */
+.inlineText { margin-top: 14px; text-align: center; color: var(--muted-text); }
+.inlineText a { color: var(--accent); text-decoration: underline; }
+.inlineText a:hover { color: var(--accent); text-decoration: none; }
+
+/* Error / info cards */
 .warningCard {
-  background-color: #e53e3e;
+  background-color: #e53e3e; /* same in both themes */
   color: #fff;
   border-radius: 8px;
-  padding: 16px 20px;
-  margin-bottom: 20px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
   font-weight: 600;
-  box-shadow: 0 4px 16px rgba(229, 62, 62, 0.4);
-  user-select: none;
+  box-shadow: 0 4px 16px rgba(229,62,62,0.35);
   border: none;
 }
-
-.passwordToggle {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 8px;
-  font-size: 0.95rem;
-  color: #444;
-  user-select: none;
+.infoCard {
+  background: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
 }
 
-.passwordChecklist {
-  margin-top: 10px;
-  padding-left: 20px;
-  font-size: 0.9rem;
+/* Small helper text under inputs */
+.help {
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: var(--muted-text);
 }
 
-.passwordChecklist li {
-  margin-bottom: 6px;
-  list-style: disc;
-}
-
-
-/* === DARK MODE === */
-@media (prefers-color-scheme: dark) {
-  .formContainer {
-    background: #1e1e2e;
-    color: #e0e0e0;
-    box-shadow: 0 8px 24px rgba(255, 255, 255, 0.05);
-  }
-
-  .formContainer:hover {
-    box-shadow: 0 16px 40px rgba(255, 255, 255, 0.08);
-  }
-
-  .header h2 {
-    color: #66ccff;
-  }
-
-  .header p {
-    color: #ccc;
-  }
-
-  .formGroup label {
-    color: #ddd;
-  }
-
-  .formGroup input[type="email"],
-  .formGroup input[type="password"],
-  .formGroup input[type="text"] {
-    background: #2b2b3d;
-    color: #e0e0e0;
-    border: 1.8px solid #555;
-  }
-
-  .formGroup input[type="email"]:focus,
-  .formGroup input[type="password"]:focus,
-  .formGroup input[type="text"]:focus {
-    background: #1e1e2e;
-    border-color: #66ccff;
-    box-shadow: 0 0 8px rgba(102, 204, 255, 0.3);
-  }
-
-  .submitButton {
-    background-color: #3399ff !important;
-    color: #fff !important;
-  }
-
-  .submitButton:hover,
-  .submitButton:focus {
-    background-color: #007acc !important;
-    box-shadow: 0 8px 24px rgba(51, 153, 255, 0.4) !important;
-  }
-
-  .warningCard {
-    background-color: #cc2b2b;
-    color: #fff;
-    box-shadow: 0 4px 16px rgba(204, 43, 43, 0.4);
-  }
-
-  .passwordToggle {
-    color: #ccc;
-  }
-
-  .passwordChecklist {
-    color: #ccc;
-  }
-
-  .passwordChecklist li::marker {
-    color: #888;
-  }
+/* Responsive */
+@media (max-width: 600px) {
+  .formRow, .passwordRow { flex-direction: column; }
 }

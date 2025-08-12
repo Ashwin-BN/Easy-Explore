@@ -1,7 +1,7 @@
 /* LIGHT MODE (default) */
 .wrapper {
   min-height: 100vh;
-  background: linear-gradient(to bottom right, #f0f4f8, #e3f0ff);
+  background: linear-gradient(to bottom right, var(--bg-grad-1), var(--bg-grad-2));
   padding: 60px 20px;
   font-family: 'Segoe UI', sans-serif;
   display: flex;
@@ -31,19 +31,19 @@
 .title {
   font-size: 3.5rem;
   margin-bottom: 10px;
-  color: #2c3e50;
+  color: var(--text-color);
 }
 
 .subtitle {
   font-size: 1.5rem;
   margin-bottom: 20px;
-  color: #555;
+  color: var(--muted-text);
 }
 
 .description {
   font-size: 1.1rem;
   margin-bottom: 30px;
-  color: #333;
+  color: var(--text-color);
   line-height: 1.6;
 }
 
@@ -64,7 +64,7 @@
 }
 
 .primaryButton {
-  background-color: #0070f3;
+  background-color: var(--accent);
   color: white;
   box-shadow: 0 4px 12px rgba(0, 112, 243, 0.2);
 }
@@ -75,8 +75,8 @@
 
 .secondaryButton {
   background-color: white;
-  color: #0070f3;
-  border: 2px solid #0070f3;
+  color: var(--accent);
+  border: 2px solid var(--accent);
 }
 
 .secondaryButton:hover {
@@ -112,42 +112,42 @@
   z-index: 0;
 }
 
-body.dark-mode .wrapper {
-  background: linear-gradient(to bottom right, #0e1014, #1c1e26);
+/* DARK MODE (toggle-based) */
+html[data-theme="dark"] .wrapper {
+  background: linear-gradient(to bottom right, var(--bg-grad-1), var(--bg-grad-2));
 }
 
-body.dark-mode .title {
-  color: #e5e7eb;
+html[data-theme="dark"] .title {
+  color: var(--text-color);
 }
 
-body.dark-mode .subtitle {
-  color: #a1a1aa;
+html[data-theme="dark"] .subtitle {
+  color: var(--muted-text);
 }
 
-body.dark-mode .description {
-  color: #cbd5e1;
+html[data-theme="dark"] .description {
+  color: var(--text-color);
 }
 
-body.dark-mode .primaryButton {
-  background-color: #2563eb;
+html[data-theme="dark"] .primaryButton {
+  background-color: var(--accent);
   color: white;
 }
 
-body.dark-mode .primaryButton:hover {
+html[data-theme="dark"] .primaryButton:hover {
   background-color: #1d4ed8;
 }
 
-body.dark-mode .secondaryButton {
+html[data-theme="dark"] .secondaryButton {
   background-color: transparent;
-  color: #60a5fa;
-  border: 2px solid #60a5fa;
+  color: var(--accent);
+  border: 2px solid var(--accent);
 }
 
-body.dark-mode .secondaryButton:hover {
+html[data-theme="dark"] .secondaryButton:hover {
   background-color: rgba(96, 165, 250, 0.1);
 }
 
-body.dark-mode .heroImage {
+html[data-theme="dark"] .heroImage {
   box-shadow: 0 10px 30px rgba(255, 255, 255, 0.05);
 }
-

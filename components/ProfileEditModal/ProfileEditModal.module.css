@@ -95,7 +95,6 @@
     text-align: center;
 }
 
-
 @media (prefers-color-scheme: dark) {
     .modal {
         background: #1e1e1e;

@@ -3,96 +3,67 @@
     flex-direction: column;
     gap: 1.2rem;
     font-size: 1rem;
-    color: #2c3e50;
-}
-
-.itineraryForm label {
+    color: var(--text-color);
+  }
+  
+  .itineraryForm label {
     display: flex;
     flex-direction: column;
     font-weight: 500;
-}
-
-.itineraryForm input[type="text"],
-.itineraryForm input[type="date"] {
+  }
+  
+  /* Inputs */
+  .itineraryForm input[type="text"],
+  .itineraryForm input[type="date"] {
     padding: 0.5rem 0.75rem;
     font-size: 1rem;
     margin-top: 0.3rem;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 6px;
-    background-color: white;
-    color: #000;
-}
-
-.dateRange {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-}
-
-.dateRange label {
-    flex: 1;
-}
-
-.formActions {
+    background-color: var(--bg);
+    color: var(--text-color);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  }
+  .itineraryForm input[type="text"]:focus,
+  .itineraryForm input[type="date"]:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 30%, transparent);
+  }
+  
+  .dateRange { display: flex; justify-content: space-between; gap: 1rem; }
+  .dateRange label { flex: 1; }
+  
+  /* Actions */
+  .formActions {
     display: flex;
     justify-content: flex-end;
     gap: 1rem;
-}
-
-.formActions button {
+  }
+  
+  .formActions button {
     padding: 0.6rem 1.2rem;
     font-size: 1rem;
-    border: none;
+    border: 1px solid transparent;
     border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.formActions button[type="submit"] {
-    background-color: #0070f3;
-    color: white;
-}
-
-.formActions button[type="submit"]:hover {
-    background-color: #005bb5;
-}
-
-.formActions button[type="button"] {
-    background-color: #f0f0f0;
-    color: #333;
-}
-
-.formActions button[type="button"]:hover {
-    background-color: #e0e0e0;
-}
-
-
-@media (prefers-color-scheme: dark) {
-    .itineraryForm {
-        color: #e0e0e0;
-    }
-
-    .itineraryForm input[type="text"],
-    .itineraryForm input[type="date"] {
-        background-color: #1e1e1e;
-        color: #f0f0f0;
-        border: 1px solid #555;
-    }
-
-    .formActions button[type="button"] {
-        background-color: #333;
-        color: #f0f0f0;
-    }
-
-    .formActions button[type="button"]:hover {
-        background-color: #444;
-    }
-
-    .formActions button[type="submit"] {
-        background-color: #0a84ff;
-    }
-
-    .formActions button[type="submit"]:hover {
-        background-color: #0066cc;
-    }
-}
+    transition: filter 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  }
+  
+  /* Submit (primary) */
+  .formActions button[type="submit"] {
+    background-color: var(--accent);
+    color: #fff;
+  }
+  .formActions button[type="submit"]:hover { filter: brightness(0.92); }
+  
+  /* Cancel (neutral) */
+  .formActions button[type="button"] {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border-color: var(--border-color);
+  }
+  .formActions button[type="button"]:hover {
+    background-color: var(--bg);
+  }
+  

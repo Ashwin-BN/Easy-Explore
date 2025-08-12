@@ -1,12 +1,10 @@
 // components/Navbar.js
-
 import styles from './Navbar.module.css';
 import Link from 'next/link';
 import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { loadUserProfile } from '@/controller/profileController';
 import { removeToken } from '@/lib/authentication';
-import { useTheme } from '@/context/ThemeContext';
 import DarkModeToggle from '../DarkModeToggle';
 
 export default function Navbar() {
@@ -14,9 +12,7 @@ export default function Navbar() {
   const [showMenu, setShowMenu] = useState(false);
   const dropdownRef = useRef(null);
   const router = useRouter();
-  const { darkMode, toggleTheme } = useTheme();
-  const [mobileNavOpen, setMobileNavOpen] = useState(false);
-
+  const [mobileNavOpen, setMobileNavOpen] = useState(false); // ✅ keep this
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -61,12 +57,14 @@ export default function Navbar() {
     setUser(null);
     router.push("/login");
   };
+
   return (
     <nav className={styles.navbar}>
       {/* Left side: Logo */}
       <div className={styles.left}>
         <div className={styles.logo}>Easy Explore</div>
       </div>
+
       <button
         className={styles.hamburger}
         onClick={() => {
@@ -80,51 +78,51 @@ export default function Navbar() {
 
       {/* Center: Navigation links */}
       <div className={`${styles.right} ${mobileNavOpen ? styles.mobileNavOpen : ''}`}>
-      <ul className={styles.navLinks}>
-        <li><Link href="/" onClick={() => setMobileNavOpen(false)}>Home</Link></li>
-        <li><Link href="/search" onClick={() => setMobileNavOpen(false)}>Search</Link></li>
-        <li><Link href="/about" onClick={() => setMobileNavOpen(false)}>About</Link></li>
+        <ul className={styles.navLinks}>
+          <li><Link href="/" onClick={() => setMobileNavOpen(false)}>Home</Link></li>
+          <li><Link href="/search" onClick={() => setMobileNavOpen(false)}>Search</Link></li>
+          <li><Link href="/about" onClick={() => setMobileNavOpen(false)}>About</Link></li>
 
-        {!user ? (
-          <>
-            <li><Link href="/login">Login</Link></li>
-            <li><Link href="/register">Sign Up</Link></li>
-          </>
-        ) : (
-          <li className={styles.dropdownContainer} ref={dropdownRef}>
-            <button
-              className={styles.usernameDropdown}
-              onClick={() => setShowMenu(!showMenu)}
-            >
-              👤 {user.userName} ▾
-            </button>
-            {showMenu && (
-              <ul className={styles.dropdownMenu}>
-                <li>
-                  <Link href="/profile" onClick={() => setShowMenu(false)}>
-                    <span className={styles.menuItem}>My Profile</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/savedAttractions" onClick={() => setShowMenu(false)}>
-                    <span className={styles.menuItem}>Saved Attractions</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/itinerary" onClick={() => setShowMenu(false)}>
-                    <span className={styles.menuItem}>My Itineraries</span>
-                  </Link>
-                </li>
-                <li>
-                  <button onClick={handleLogout} className={styles.logoutBtn}>
-                    Logout
-                  </button>
-                </li>
-              </ul>
-            )}
-          </li>
-        )}
-      </ul>
+          {!user ? (
+            <>
+              <li><Link href="/login">Login</Link></li>
+              <li><Link href="/register">Sign Up</Link></li>
+            </>
+          ) : (
+            <li className={styles.dropdownContainer} ref={dropdownRef}>
+              <button
+                className={styles.usernameDropdown}
+                onClick={() => setShowMenu(!showMenu)}
+              >
+                👤 {user.userName} ▾
+              </button>
+              {showMenu && (
+                <ul className={styles.dropdownMenu}>
+                  <li>
+                    <Link href="/profile" onClick={() => setShowMenu(false)}>
+                      <span className={styles.menuItem}>My Profile</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/savedAttractions" onClick={() => setShowMenu(false)}>
+                      <span className={styles.menuItem}>Saved Attractions</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/itinerary" onClick={() => setShowMenu(false)}>
+                      <span className={styles.menuItem}>My Itineraries</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <button onClick={handleLogout} className={styles.logoutBtn}>
+                      Logout
+                    </button>
+                  </li>
+                </ul>
+              )}
+            </li>
+          )}
+        </ul>
       </div>
 
       {/* Right side: Dark mode toggle */}

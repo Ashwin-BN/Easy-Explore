@@ -1,24 +1,25 @@
-/* Default (Light Mode) */
+/* Base styles (light/dark use CSS vars from globals.css) */
 .container {
   padding: 5rem;
-  background-color: #f7f7f7;
+  background-color: var(--bg-color);
   min-height: 100vh;
 }
 
 .card {
-  background-color: white;
+  background-color: var(--card-bg);
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: var(--card-shadow, 0 2px 8px rgba(0, 0, 0, 0.1));
   padding: 1.5rem;
   margin-bottom: 1.5rem;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
+  color: var(--text-color);
 }
 
 .header {
   margin-bottom: 1rem;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--border-color);
   padding-bottom: 0.5rem;
 }
 
@@ -33,26 +34,6 @@
 
 .listItem {
   padding: 0.75rem 0;
-  border-bottom: 1px solid #eee;
-  color: #000000;
-}
-
-/* 🌙 Dark Mode Overrides */
-body.dark .container {
-  background-color: #121212;
-}
-
-body.dark .card {
-  background-color: #1e1e1e;
-  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.05);
-  color: #f1f1f1;
-}
-
-body.dark .header {
-  border-bottom: 1px solid #444;
-}
-
-body.dark .listItem {
-  border-bottom: 1px solid #333;
-  color: #e0e0e0;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-color);
 }

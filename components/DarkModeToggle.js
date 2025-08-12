@@ -1,23 +1,22 @@
-import { useEffect, useState } from "react";
-import styles from "./DarkModeToggle.module.css";
+import { useTheme } from "../context/ThemeContext";
 
 export default function DarkModeToggle() {
-  const [darkMode, setDarkMode] = useState(false);
-
-  // When darkMode changes, update the <body> class
-  useEffect(() => {
-    if (darkMode) {
-      document.body.classList.add("dark-mode");
-    } else {
-      document.body.classList.remove("dark-mode");
-    }
-  }, [darkMode]);
+  const { isDark, toggleTheme } = useTheme();
 
   return (
-    <div className={styles.toggleContainer}>
-      <button onClick={() => setDarkMode(!darkMode)} className={styles.toggleButton}>
-        {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
-      </button>
-    </div>
+    <button
+      onClick={toggleTheme}
+      aria-label="Toggle dark mode"
+      style={{
+        padding: "8px 12px",
+        borderRadius: 8,
+        border: "1px solid var(--border-color)",
+        background: "var(--card-bg)",
+        color: "var(--text-color)",
+        cursor: "pointer"
+      }}
+    >
+      {isDark ? "🌙 Dark" : "☀️ Light"}
+    </button>
   );
 }

@@ -1,174 +1,105 @@
-.manager {
-  margin-top: 2.5rem;
-  border-top: 1px solid #e1e4e8;
-  padding-top: 1.5rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  max-width: auto;
-}
-
-.title {
-  font-weight: 600;
-  font-size: 1.4rem;
-  color: #24292e;
-  margin-bottom: 1rem;
-}
-
-.error {
-  color: #d93025;
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
-  background: #fdecea;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  border: 1px solid #d93025;
-}
-
-.collabList {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 1.5rem;
-}
-
-.collabItem {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.4rem 0;
-  border-bottom: 1px solid #f0f0f0;
-  transition: background-color 0.2s ease;
-}
-
-.collabItem:hover {
-  background-color: #f6f8fa;
-  border-radius: 4px;
-}
-
-.collabName {
-  font-weight: 500;
-  color: #0366d6;
-  font-size: 1rem;
-  word-break: break-word;
-}
-
-.removeBtn {
-  background-color: #d73a49;
-  border: none;
-  color: white;
-  padding: 6px 14px;
-  font-size: 0.875rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.removeBtn:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-.removeBtn:hover:not(:disabled) {
-  background-color: #b92c3e;
-}
-
-.addForm {
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-}
-
-.input {
-  flex: 1;
-  padding: 0.5rem 0.75rem;
-  font-size: 1rem;
-  border: 1px solid #d1d5da;
-  border-radius: 6px;
-  transition: border-color 0.3s ease;
-  background-color: white;
-  color: #24292e;
-}
-
-.input:focus {
-  outline: none;
-  border-color: #0366d6;
-  box-shadow: 0 0 5px rgba(3, 102, 214, 0.5);
-}
-
-.addBtn {
-  background-color: #2ea44f;
-  border: none;
-  color: white;
-  padding: 8px 18px;
-  font-size: 1rem;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.3s ease;
-}
-
-.addBtn:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-.addBtn:hover:not(:disabled) {
-  background-color: #22863a;
-}
-
-/* from view-profiles branch */
-.collabNameBtn {
-  background: none;
-  border: none;
-  color: #0070f3;
-  cursor: pointer;
-  font-size: 1rem;
-  padding: 0;
-  text-decoration: underline;
-}
-.collabNameBtn:hover {
-  color: #0051a8;
-}
-
-/* from main branch - DARK MODE SUPPORT */
-body.dark-mode .manager {
-  border-top: 1px solid #444c56;
-}
-
-body.dark-mode .title {
-  color: #f0f0f0;
-}
-
-body.dark-mode .error {
-  background: #3d1212;
-  color: #ff6f6f;
-  border-color: #8b1f1f;
-}
-
-body.dark-mode .collabItem {
-  border-bottom: 1px solid #333;
-}
-
-body.dark-mode .collabItem:hover {
-  background-color: #2c2c2c;
-}
-
-body.dark-mode .collabName {
-  color: #58a6ff;
-}
-
-body.dark-mode .input {
-  background-color: #1e1e1e;
-  color: #ddd;
-  border: 1px solid #444;
-}
-
-body.dark-mode .input:focus {
-  border-color: #58a6ff;
-  box-shadow: 0 0 5px rgba(88, 166, 255, 0.5);
-}
-
-body.dark-mode .collabNameBtn {
-  color: #58a6ff;
-}
-body.dark-mode .collabNameBtn:hover {
-  color: #79b8ff;
-}
+   .manager {
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--border-color);
+    padding-top: 1.5rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: auto;
+  }
+  
+  .title {
+    font-weight: 600;
+    font-size: 1.4rem;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+  }
+  
+  .error {
+    color: #d93025;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    background: #fdecea;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    border: 1px solid #d93025;
+  }
+  
+  .collabList { list-style: none; padding: 0; margin-bottom: 1.5rem; }
+  
+  .collabItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.2s ease;
+  }
+  .collabItem:hover {
+    background-color: var(--card-bg);
+    border-radius: 4px;
+  }
+  
+  .collabName {
+    font-weight: 500;
+    color: var(--accent);
+    font-size: 1rem;
+    word-break: break-word;
+  }
+  
+  /* actions */
+  .removeBtn {
+    background-color: #d73a49;
+    border: none;
+    color: #fff;
+    padding: 6px 14px;
+    font-size: 0.875rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: filter 0.2s ease;
+  }
+  .removeBtn:disabled { cursor: not-allowed; opacity: 0.6; }
+  .removeBtn:hover:not(:disabled) { filter: brightness(0.9); }
+  
+  .addForm { display: flex; gap: 0.75rem; align-items: center; }
+  
+  .input {
+    flex: 1;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background-color: var(--bg);
+    color: var(--text-color);
+  }
+  .input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 30%, transparent);
+  }
+  
+  .addBtn {
+    background-color: #2ea44f;
+    border: none;
+    color: #fff;
+    padding: 8px 18px;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: filter 0.2s ease;
+  }
+  .addBtn:disabled { cursor: not-allowed; opacity: 0.6; }
+  .addBtn:hover:not(:disabled) { filter: brightness(0.92); }
+  
+  /* view‑profiles link style */
+  .collabNameBtn {
+    background: none;
+    border: none;
+    color: var(--accent);
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0;
+    text-decoration: underline;
+  }
+  .collabNameBtn:hover { color: var(--accent); text-decoration: none; }
+  

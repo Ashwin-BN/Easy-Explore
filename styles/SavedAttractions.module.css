@@ -1,206 +1,96 @@
-/* LIGHT THEME (default styles) */
 .container {
-    min-height: 100vh;
-    background: linear-gradient(to bottom right, #f0f4f8, #e3f0ff);
-    padding: 60px 20px;
-    font-family: 'Segoe UI', sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .header {
-    margin-bottom: 30px;
-    animation: fadeIn 1s ease-in-out;
-    text-align: center;
-  }
-  
-  .title {
-    font-size: 3rem;
-    font-weight: bold;
-    color: #2c3e50;
-    margin-bottom: 10px;
-  }
-  
-  .subtitle {
-    font-size: 1.4rem;
-    color: #555;
-  }
-  
-  .resultsContainer {
-    display: flex;
-    width: 100%;
-    max-width: 1200px;
-    gap: 24px;
-    justify-content: center;
-    animation: slideUp 0.6s ease;
-  }
-  
-  .cardsColumn {
-    flex: 1;
-    max-width: 800px;
-    overflow-y: auto;
-    padding-right: 8px;
-    max-height: 75vh;
-  }
-  
-  .card {
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
-    margin-bottom: 20px;
-    transition: transform 0.2s ease;
-  }
-  
-  .card:hover {
-    transform: translateY(-5px);
-  }
-  
-  .cardImage {
-    width: 100%;
-    height: auto;
-    border-radius: 6px;
-    margin-bottom: 1rem;
-    object-fit: cover;
-  }
-  
-  .actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 1rem;
-  }
-  
-  .actionBtn {
-    border: none;
-    padding: 0.6rem 1rem;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.95rem;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .actionBtn:hover {
-    background-color: #b02a37;
-  }
-  
-  .selectDropdown {
-    padding: 0.5rem 0.75rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    outline: none;
-    margin-top: 0.5rem;
-    width: 100%;
-    max-width: 250px;
-    transition: border-color 0.3s ease;
-  }
-  
-  .selectDropdown:focus {
-    border-color: #0070f3;
-    box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.2);
-  }
-  
-  .removeBtn {
-    background-color: #dc3545;
-    color: white;
-  }
-  .removeBtn:hover {
-    background-color: #b02a37;
-  }
-  
-  .addBtn {
-    background-color: #198754;
-    color: white;
-  }
-  .addBtn:hover {
-    background-color: #146c43;
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  @keyframes slideUp {
-    from {
-      opacity: 0;
-      transform: translateY(60px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-/* DARK MODE (when <body class="dark"> is set) */
-
-body.dark .container {
-  background: linear-gradient(to bottom right, #1a1c22, #262933);
-  color: #e5e7eb;
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, var(--bg-grad-1), var(--bg-grad-2));
+  padding: 60px 20px;
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-body.dark .title {
-  color: #f3f4f6;
+/* Header */
+.header { margin-bottom: 30px; animation: fadeIn 1s ease-in-out; text-align: center; }
+.title   { font-size: 3rem; font-weight: bold; color: var(--text-color); margin-bottom: 10px; }
+.subtitle{ font-size: 1.4rem; color: var(--muted-text); }
+
+.resultsContainer {
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  gap: 24px;
+  justify-content: center;
+  animation: slideUp 0.6s ease;
 }
 
-body.dark .subtitle {
-  color: #a1a1aa;
+.cardsColumn {
+  flex: 1;
+  max-width: 800px;
+  overflow-y: auto;
+  padding-right: 8px;
+  max-height: 75vh;
 }
 
-body.dark .card {
-  background-color: #2c2f36;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  color: #f1f5f9;
+/* Card */
+.card {
+  background: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  padding: 1.5rem;
+  margin-bottom: 20px;
+  transition: transform 0.2s ease, background 0.2s ease;
 }
+.card:hover { transform: translateY(-5px); background: var(--bg); }
 
-body.dark .card:hover {
-  transform: translateY(-5px);
-}
-
-body.dark .cardImage {
+.cardImage {
+  width: 100%;
+  height: auto;
   border-radius: 6px;
+  margin-bottom: 1rem;
+  object-fit: cover;
 }
 
-body.dark .selectDropdown {
-  background-color: #1e1f24;
-  color: #f1f5f9;
-  border-color: #444;
+/* Actions row */
+.actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 1rem; }
+
+.actionBtn {
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: filter 0.2s ease, background-color 0.2s ease;
 }
 
-body.dark .selectDropdown:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
+.removeBtn { background-color: #dc3545; color: #fff; }
+.removeBtn:hover { filter: brightness(0.9); }
+
+.addBtn { background-color: #198754; color: #fff; }
+.addBtn:hover { filter: brightness(0.92); }
+
+/* Select dropdown */
+.selectDropdown {
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  outline: none;
+  margin-top: 0.5rem;
+  width: 100%;
+  max-width: 250px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  color: var(--text-color);
+  background: var(--bg);
+}
+.selectDropdown:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px color-mix(in oklab, var(--accent) 30%, transparent);
 }
 
-body.dark .removeBtn {
-  background-color: #e63946;
-  color: #fff;
-}
-
-body.dark .removeBtn:hover {
-  background-color: #c92a3b;
-}
-
-body.dark .addBtn {
-  background-color: #3ba55d;
-  color: #fff;
-}
-
-body.dark .addBtn:hover {
-  background-color: #2f855a;
-}
-
-body.dark .actionBtn:hover {
-  background-color: #3f3f46;
-}
+/* Animations */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-30px);} to { opacity: 1; transform: none; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(60px);}  to { opacity: 1; transform: none; } }

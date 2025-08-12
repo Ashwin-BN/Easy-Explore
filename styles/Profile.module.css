@@ -1,188 +1,192 @@
-/* LIGHT MODE (default styles) */
+/* === PROFILE PAGE (Light/Dark mode via ThemeContext) === */
+
 .container {
-    max-width: 1000px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background-color: #f9f9f9;
-    border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-    font-family: 'Segoe UI', sans-serif;
-  }
-  
-  .heading {
-    font-size: 2rem;
-    font-weight: 600;
-    text-align: center;
-    color: #111;
-    margin-bottom: 0.5rem;
-  }
-  
-  .profileHeader {
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-  
-  .divider {
-    border: none;
-    border-top: 1px solid #ccc;
-    margin: 1rem auto 2rem;
-    width: 80%;
-  }
-  
-  .pfpWrapper {
-    position: relative;
-    width: 160px;
-    height: 160px;
-    margin: 0 auto;
-    border-radius: 50%;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .profileImage {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-  }
-  
-  .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.35);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.2s ease-in-out;
-    cursor: pointer;
-  }
-  
-  .pfpWrapper:hover .overlay {
-    opacity: 1;
-  }
-  
-  .editIcon {
-    font-size: 1.5rem;
-    color: white;
-  }
-  
-  .userHeader {
-    text-align: center;
-    margin-top: 1rem;
-  }
-  
-  .displayName {
-    color: #0070f3;
-    margin: 0.25rem 0;
-    font-size: 1.5rem;
-  }
-  
-  .username, .locationText {
-    color: #666;
-    font-size: 1rem;
-  }
-  
-  .infoSection {
-    padding: 1.5rem 0;
-    border-top: 1px solid #ddd;
-    margin-top: 2rem;
-  }
-  
-  .infoTitle {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 0.5rem;
-    margin-top: 1.5rem;
-  }
-  
-  .infoText {
-    color: #444;
-    margin-bottom: 1rem;
-  }
-  
-  .placeholderText {
-    font-style: italic;
-    color: #888;
-    margin-bottom: 1rem;
-  }
-  
-  .visitedList {
-    list-style: none;
-    padding-left: 0;
-    margin-bottom: 1rem;
-  }
-  
-  .visitedItem {
-    margin-bottom: 0.3rem;
-    color: #444;
-  }
-  
-  .itineraryGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-  
-  .itineraryCard {
-    padding: 1rem;
-    background-color: #fff;
-    border: 1px solid #eee;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
-    color: #222;
-    font-weight: 500;
-    transition: 0.2s ease-in-out;
-    cursor: pointer;
-  }
-  
-  .itineraryCard:hover {
-    box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-    background-color: #f9f9f9;
-  }
-  
-  .editProfileButton {
-    margin-left: 1rem;
-    font-size: 0.85rem;
-    padding: 0.3rem 0.75rem;
-    border: none;
-    border-radius: 6px;
-    background-color: #0070f3;
-    color: white;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  
-  .editProfileButton:hover {
-    background-color: #005dc1;
-  }
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px var(--shadow);
+  font-family: 'Segoe UI', sans-serif;
+  color: var(--text-color);
+}
+
+.heading {
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+}
+
+.profileHeader {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 1rem auto 2rem;
+  width: 80%;
+}
+
+.pfpWrapper {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  margin: 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 2px 8px var(--shadow);
+}
+
+.profileImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.pfpWrapper:hover .overlay {
+  opacity: 1;
+}
+
+.editIcon {
+  font-size: 1.5rem;
+  color: white;
+}
+
+.userHeader {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.displayName {
+  color: var(--accent);
+  margin: 0.25rem 0;
+  font-size: 1.5rem;
+}
+
+.username,
+.locationText {
+  color: var(--muted-text);
+  font-size: 1rem;
+}
+
+.infoSection {
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--border-color);
+  margin-top: 2rem;
+}
+
+.infoTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.infoText {
+  color: var(--muted-text);
+  margin-bottom: 1rem;
+}
+
+.placeholderText {
+  font-style: italic;
+  color: var(--muted-text);
+  margin-bottom: 1rem;
+}
+
+.visitedList {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 1rem;
+}
+
+.visitedItem {
+  margin-bottom: 0.3rem;
+  color: var(--muted-text);
+}
+
+.itineraryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.itineraryCard {
+  padding: 1rem;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px var(--shadow);
+  color: var(--text-color);
+  font-weight: 500;
+  transition: 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.itineraryCard:hover {
+  box-shadow: 0 4px 10px var(--shadow-hover);
+  background-color: var(--bg);
+}
+
+.editProfileButton {
+  margin-left: 1rem;
+  font-size: 0.85rem;
+  padding: 0.3rem 0.75rem;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--accent);
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.editProfileButton:hover {
+  background-color: var(--accent-hover);
+}
+
 .backButton {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background-color: #e6f0ff;
+  background-color: var(--button-bg);
   border: none;
   border-radius: 8px;
-  color: #0070f3;
+  color: var(--accent);
   font-size: 0.95rem;
   font-weight: 500;
   padding: 0.5rem 0.85rem;
   margin-top: 0.5rem;
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 6px var(--shadow);
   transition: all 0.2s ease-in-out;
 }
 
 .backButton:hover {
-  background-color: #d0e7ff;
-  color: #005dc1;
+  background-color: var(--button-bg-hover);
+  color: var(--accent-hover);
   transform: translateX(-2px);
-  box-shadow: 0 4px 12px rgba(0, 112, 243, 0.15);
+  box-shadow: 0 4px 12px var(--shadow-hover);
 }
 
 .backIcon {
@@ -192,86 +196,3 @@
 .backText {
   font-size: 0.95rem;
 }
-
-
-  
-  
-  /* DARK MODE OVERRIDES */
-  @media (prefers-color-scheme: dark) {
-    .container {
-      background-color: #1e1e2a;
-      box-shadow: 0 2px 12px rgba(255, 255, 255, 0.05);
-    }
-  
-    .heading {
-      color: #f2f2f2;
-    }
-  
-    .divider {
-      border-top: 1px solid #444;
-    }
-  
-    .pfpWrapper {
-      box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
-    }
-  
-    .userHeader .displayName {
-      color: #66ccff;
-    }
-  
-    .username,
-    .locationText {
-      color: #aaa;
-    }
-  
-    .infoSection {
-      border-top: 1px solid #444;
-    }
-  
-    .infoTitle {
-      color: #ddd;
-    }
-  
-    .infoText,
-    .visitedItem {
-      color: #ccc;
-    }
-  
-    .placeholderText {
-      color: #888;
-    }
-  
-    .itineraryCard {
-      background-color: #2a2a3a;
-      border-color: #444;
-      color: #ddd;
-      box-shadow: 0 2px 4px rgba(255,255,255,0.05);
-    }
-  
-    .itineraryCard:hover {
-      background-color: #333;
-      box-shadow: 0 4px 10px rgba(255,255,255,0.08);
-    }
-  
-    .editProfileButton {
-      background-color: #3399ff;
-      color: white;
-    }
-  
-    .editProfileButton:hover {
-      background-color: #1a75d1;
-    }
-
-    .backButton {
-    background-color: #2a3c55;
-    color: #66ccff;
-    box-shadow: 0 2px 6px rgba(255, 255, 255, 0.05);
-  }
-
-  .backButton:hover {
-    background-color: #1f2e44;
-    color: #3399ff;
-    box-shadow: 0 4px 12px rgba(102, 204, 255, 0.15);
-  }
-  }
-  

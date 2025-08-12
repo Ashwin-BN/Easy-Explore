@@ -1,150 +1,87 @@
-
 /* --- Layout --- */
 .flexRow {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-bottom: 24px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
 }
 
-/* --- Shared input/select styles --- */
 .searchInput,
 .selectField {
-    height: 46px;
-    padding: 12px 16px;
-    font-size: 1rem;
-    background-color: white;
-    color: #2c3e50;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    box-sizing: border-box;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    outline: none;
+  height: 46px;
+  padding: 12px 16px;
+  font-size: 1rem;
+  background-color: var(--bg);
+  color: var(--text-color);
+  border: 1px solid color-mix(in oklab, var(--border-color) 85%, var(--text-color));
+  border-radius: 6px;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+.searchInput:focus,
+.selectField:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px color-mix(in oklab, var(--accent) 30%, transparent);
 }
 
 /* Placeholder */
-.searchInput::placeholder {
-    color: #888;
-    opacity: 1;
-}
+.searchInput::placeholder { color: var(--muted-text); opacity: 1; }
 
 /* Focus states */
 .searchInput:focus,
 .selectField:focus {
-    border-color: #0070f3;
-    box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.2);
+  border-color: var(--accent);
+  /* nice subtle ring using the accent */
+  box-shadow: 0 0 0 2px color-mix(in oklab, var(--accent) 30%, transparent);
 }
 
 /* --- Individual flex sizing --- */
-.searchInput {
-    min-width: 280px;
-    max-width: 420px;
-    flex: 2;
-}
-
-.selectField {
-    min-width: 160px;
-    max-width: 200px;
-    flex: 1;
-}
+.searchInput { min-width: 280px; max-width: 420px; flex: 2; }
+.selectField { min-width: 160px; max-width: 200px; flex: 1; }
 
 /* --- Button --- */
 .searchButton {
-    height: 46px;
-    padding: 0 20px;
-    margin-left: 8px;
-    background-color: #0070f3;
-    color: white;
-    font-size: 1rem;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
-}
-
-.searchButton:hover {
-    background-color: #005ec2;
-}
-
-/* --Dropdown Globals-- */
-.stdropdown-menu {
-    background-color: hotpink !important;
-}
-
-.stdropdown-menu .stdropdown-item span {
-    color: #000 !important;
-}
-
-/* --- Pagination buttons --- */
-.pageButton {
-    margin: 0 4px;
-    padding: 6px 12px;
-    font-size: 0.95rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: white;
-    color: #333;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-}
-
-.pageButton:hover {
-    background-color: #f0f0f0;
-    border-color: #0070f3;
-    color: #0070f3;
-}
-
-.activePage {
-    font-weight: bold;
-    background-color: #0070f3;
-    color: white;
-    border-color: #0070f3;
-}
-
-/* --- DARK MODE OVERRIDES --- */
-body.dark .searchInput,
-body.dark .selectField {
-  background-color: #2c2f36;
-  color: #f1f5f9;
-  border: 1px solid #444;
-}
-
-body.dark .searchInput::placeholder {
-  color: #aaa;
-}
-
-body.dark .searchInput:focus,
-body.dark .selectField:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
-}
-
-body.dark .searchButton {
-  background-color: #3b82f6;
+  height: 46px;
+  padding: 0 20px;
+  margin-left: 8px;
+  background-color: var(--accent);
   color: #fff;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: filter 0.2s ease-in-out;
 }
+.searchButton:hover { filter: brightness(0.92); }
 
-body.dark .searchButton:hover {
-  background-color: #2563eb;
+/* --Dropdown Globals (keep if you need them) -- */
+.stdropdown-menu { background-color: var(--card-bg) !important; }
+.stdropdown-menu .stdropdown-item span { color: var(--text-color) !important; }
+
+/* --- Pagination buttons (if reused here) --- */
+.pageButton {
+  margin: 0 4px;
+  padding: 6px 12px;
+  font-size: 0.95rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--bg);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
-
-body.dark .pageButton {
-  background-color: #1f1f2e;
-  color: #e5e7eb;
-  border: 1px solid #444;
+.pageButton:hover {
+  background-color: var(--card-bg);
+  border-color: var(--accent);
+  color: var(--accent);
 }
-
-body.dark .pageButton:hover {
-  background-color: #2c2f36;
-  border-color: #3b82f6;
-  color: #3b82f6;
-}
-
-body.dark .activePage {
-  background-color: #3b82f6;
-  color: white;
-  border-color: #3b82f6;
+.activePage {
+  font-weight: bold;
+  background-color: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
 }
