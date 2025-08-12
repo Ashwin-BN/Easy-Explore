@@ -89,7 +89,6 @@ html[data-theme="dark"] .card:hover {
   box-shadow: 0 6px 18px rgba(255,255,255,0.06);
 }
 
-/* --- Delightful hover & focus states for cards --- */
 .card {
   position: relative;
   border: 1px solid var(--border-color);
