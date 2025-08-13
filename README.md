@@ -217,12 +217,12 @@ The frontend is deployed on Vercel. To run locally against production backend:
 
 For questions or issues:
 
-* **Ashwin BN** — Full-stack Developer ([GitHub](https://github.com/Ashwin-BN))
-* **Alex Leung** — Frontend Collaborator ([GitHub](https://github.com/Alex-Leungg))
-* **Jeelkumar Patel** — Frontend Collaborator ([GitHub](https://github.com/jeelpatel22))
-* **Juan Moncayo** — Backend Collaborator ([GitHub](https://github.com/Juancinn))
-* **Suraj Sapkota** — Backend Collaborator ([GitHub](https://github.com/surajsapkota))
-
+* [**Ashwin BN**](https://github.com/Ashwin-BN)
+* [**Alex Leung**](https://github.com/Alex-Leungg)
+* [**Jeelkumar Patel**](https://github.com/jeelpatel22)
+* [**Juan Moncayo**](https://github.com/Juancinn)
+* [**Suraj Sapkota**](https://github.com/surajsapkota)
+  
 ---
 
 ## License
