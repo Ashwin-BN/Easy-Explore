@@ -170,11 +170,11 @@ Open a modern browser and navigate to the live site:
 
 If you have questions or encounter issues, contact the development team:
 
-* **Ashwin BN** — Full-stack Developer ([GitHub](https://github.com/Ashwin-BN))
-* **Alex Leung** — Frontend Collaborator ([GitHub](https://github.com/Alex-Leungg))
-* **Jeelkumar Patel** — Frontend Collaborator ([GitHub](https://github.com/jeelpatel22))
-* **Juan Moncayo** — Backend Collaborator ([GitHub](https://github.com/Juancinn))
-* **Suraj Sapkota** — Backend Collaborator ([GitHub](https://github.com/surajsapkota))
+* [**Ashwin BN**](https://github.com/Ashwin-BN)
+* [**Alex Leung**](https://github.com/Alex-Leungg)
+* [**Jeelkumar Patel**](https://github.com/jeelpatel22)
+* [**Juan Moncayo**](https://github.com/Juancinn)
+* [**Suraj Sapkota**](https://github.com/surajsapkota)
 
 ---
 
