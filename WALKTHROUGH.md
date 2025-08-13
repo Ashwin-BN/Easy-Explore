@@ -1,4 +1,4 @@
-# Easy Explore - User Walkthrough Guide
+# ![Easy Explore Logo](./doc/img/logo.png) Easy Explore - User Walkthrough Guide
 
 Welcome to **Easy Explore** — your ultimate travel companion! This guide provides a comprehensive step-by-step walkthrough for users to navigate the app, discover attractions, create itineraries, and collaborate with friends seamlessly.
 

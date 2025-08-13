@@ -1,4 +1,4 @@
-# Easy Explore - Frontend Application
+# ![Easy Explore Logo](./doc/img/logo.png) Easy Explore - Frontend Application
 
 [Live Demo](https://prj-566-ncc-team3.vercel.app)  
 [Backend API Repository](https://github.com/Ashwin-BN/PRJ566NCC-Team3-user-api)  
