@@ -227,7 +227,7 @@ For questions or issues:
 
 ## License
 
-MIT License © 2025 Easy Explore Team
+This project is licensed under the [MIT License](./LICENSE) © 2025 Easy Explore Team
 
 ---
 
