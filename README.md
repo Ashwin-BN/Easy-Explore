@@ -232,9 +232,3 @@ This project is licensed under the [MIT License](./LICENSE) © 2025 Easy Explore
 ---
 
 **Note:** For detailed step-by-step instructions, images, and user workflow, refer to the [Walkthrough Guide](./WALKTHROUGH.md).
-
-```
-
-Yes! I can create a **polished PDF version** that combines the README and WALKTHROUGH, including all screenshots, headings, and a professional layout—essentially a full user and project manual ready for submission or client delivery.
-
-Do you want it formatted with **step-by-step user instructions first, then project technical details**, or **combined throughout**?
