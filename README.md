@@ -1,6 +1,6 @@
 # ![Easy Explore Logo](./doc/img/logo.png) Easy Explore - Frontend Application
 
-[Live Demo](https://prj-566-ncc-team3.vercel.app)  
+[Easy Explore](https://prj-566-ncc-team3.vercel.app)  
 [Backend API Repository](https://github.com/Ashwin-BN/PRJ566NCC-Team3-user-api)  
 [User Walkthrough Guide](./WALKTHROUGH.md)
 
@@ -8,20 +8,19 @@
 
 ## Project Overview
 
-**Easy Explore** is a modern, responsive web platform that helps tourists and locals efficiently plan trips, discover attractions, and share itineraries. It combines location-based search, interactive maps, collaborative planning, and personalized recommendations to simplify travel experiences.
+**Easy Explore** is a modern, responsive web application designed to help both tourists and locals plan trips effortlessly, discover attractions, and share personalized itineraries. The platform integrates location-based search, interactive maps, collaborative planning tools, and smart recommendations to create a seamless travel planning experience.
 
-This project aligns with the **SRS (Software Requirements Specification)** goals:
+Key features include:
 
-- Personalized travel planning based on user preferences.
-- Advanced filters and itinerary optimization.
-- Real-time updates on attraction availability and hours.
-- Scalable and responsive web design for cross-device access.
+* **Personalized travel planning** tailored to user preferences.
+* **Advanced filters** to refine attraction searches and optimize itineraries.
+* **Scalable, responsive design** ensuring smooth performance across devices.
 
 ---
 
 ## Features
 
-- Location-based search with filters (keywords, categories, proximity, budget)
+- Location-based search with filters (keywords, categories, proximity, location)
 - Interactive map with custom pins for attractions
 - User authentication and profile management via backend API
 - Save favorite attractions and build travel itineraries
