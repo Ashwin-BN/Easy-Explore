@@ -40,14 +40,15 @@ Open a modern browser and navigate to the live site:
 2. Enter your **Username**, **Email**, and **Password**.
 3. Confirm your details and click **Register**.
 
+> ![Register Page Screenshot](./doc/img/signUp.png)
+> *Figure 2: User Registration Page*
+
+
 **Logging In:**
 
 1. Click **Login**.
 2. Enter your credentials and click **Sign In**.
 3. You will be redirected to your dashboard upon successful authentication.
-
-> ![Register Page Screenshot](./doc/img/signUp.png)
-> *Figure 2: User Registration Page*
 
 > ![Login Page Screenshot](./doc/img/logIn.png)
 > *Figure 3: User Login Page*
@@ -62,6 +63,8 @@ Open a modern browser and navigate to the live site:
 > ![Search Bar Screenshot](./doc/img/search.png)
 > *Figure 4: Search Bar with Filters*
 
+
+
 * Search results appear as a **list** and on an **interactive map**, allowing you to visually explore nearby attractions.
 
 > ![Search Results Screenshot](./doc/img/searchResult.png)
@@ -71,12 +74,11 @@ Open a modern browser and navigate to the live site:
 
 ## 4. Viewing Attraction Details
 
-* Click any attraction card to view detailed information:
+* Click any attraction card to view detailed information if available:
 
   * Description and overview
   * High-quality images
   * Location and address
-  * Operating hours
   * User reviews and ratings
 
 > ![Attraction Details Screenshot](./doc/img/attractionCard.png)
@@ -115,7 +117,6 @@ Open a modern browser and navigate to the live site:
 * Collaborators can:
 
   * View and edit the itinerary
-  * Add comments
   * Suggest changes in real-time
 
 > ![Add Collaborator Screenshot](./doc/img/addColaborator.png)
