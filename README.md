@@ -1,6 +1,6 @@
 # ![Easy Explore Logo](./doc/img/logo.png) Easy Explore - Frontend Application
 
-[Easy Explore](https://prj-566-ncc-team3.vercel.app)  
+[Easy Explore](https://easyexplore.vercel.app)  
 [Backend API Repository](https://github.com/Ashwin-BN/PRJ566NCC-Team3-user-api)  
 [User Walkthrough Guide](./WALKTHROUGH.md)
 
@@ -53,14 +53,14 @@ Key features include:
 
 ### Running the Deployed App
 
-Visit: [https://prj-566-ncc-team3.vercel.app](https://prj-566-ncc-team3.vercel.app)
+Visit: [https://prj-566-ncc-team3.vercel.app](https://easyexplore.vercel.app)
 
 ### Development Setup (Local)
 
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/Ashwin-BN/PRJ566NCC-Team3.git
+git clone https://github.com/Ashwin-BN/Easy-Explore.git
 cd PRJ566NCC-Team3
 ````
 
