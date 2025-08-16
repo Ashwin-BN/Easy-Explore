@@ -22,7 +22,7 @@ Welcome to **Easy Explore** — your ultimate travel companion! This guide provi
 ## 1. Accessing the App
 
 Open a modern browser and navigate to the live site:
-[https://prj-566-ncc-team3.vercel.app](https://prj-566-ncc-team3.vercel.app)
+[https://easyexplore.vercel.app](https://easyexplore.vercel.app)
 
 * The homepage provides a clear entry point to search and explore attractions.
 * Responsive design ensures usability across devices (desktop, tablet, mobile).
